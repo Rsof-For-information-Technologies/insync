@@ -87,7 +87,7 @@ export default function ForgotPasswordForm() {
                         </div>
                     </form>
                 </div>
-                <Text className="mt-6 text-center text-[15px] leading-loose text-gray-500 md:mt-7 lg:mt-9 lg:text-base">
+                <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
                     {t('footer.text1')}{" "}
                     <Link
                         href={`/${locale}${routes.auth.login}`}

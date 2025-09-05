@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PiArrowRightBold } from "react-icons/pi";
-import { Password, Input } from "rizzui";
+import { Password, Input, Text } from "rizzui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useMedia from "react-use/lib/useMedia";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -14,6 +14,8 @@ import { UserRegisterForm } from "@/utils/api";
 import { Params } from "@/types/params";
 import cn from '@/utils/class-names'
 import { useTranslations } from 'next-intl'
+import Link from "next/link";
+import { locale } from "dayjs";
 
 const initialValues = {
     firstName: "",
@@ -155,6 +157,15 @@ function SignupForm() {
                     <PiArrowRightBold className={cn("ms-2 mt-0.5 h-5 w-5", params.locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
                 </FormStatusButton>
             </div>
+            <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
+                Already have an account?{' '}
+                <Link
+                    href={`/${locale}${routes.auth.login}`}
+                    className="font-semibold text-[var(--default-text-color)] transition-colors hover:text-[var(--default-text-hover)] "
+                >
+                Sign In
+                </Link>
+            </Text>
         </form>
     );
 }

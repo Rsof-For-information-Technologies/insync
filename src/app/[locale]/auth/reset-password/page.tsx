@@ -1,4 +1,3 @@
-import AuthWrapper from "@/app/shared/auth-layout/auth-wrapper-four";
 import { T_SearchParams } from "@/types/searchParams";
 import { serverAxiosInstance } from "@/utils/axios.instance";
 import { logoutOnCookieExpire } from "@/utils/logoutOnCookieExpire";
@@ -7,6 +6,9 @@ import { Metadata } from "next";
 import ResetPasswordForm from "./resetPasswordForm";
 import { Params } from "@/types/params";
 import { getTranslations } from "next-intl/server";
+import UnderlineShape from "@/components/shape/underline";
+import Image from "next/image";
+import AuthWrapperOne from "@/app/shared/auth-layout/auth-wrapper-one";
 
 type QueryParams = T_SearchParams & {
     token: string
@@ -42,38 +44,30 @@ export default async function Page({
 }) {
     const t = await getTranslations("ResetPasswordPage");
     return (
-        <AuthWrapper
+        <AuthWrapperOne
             title={
                 <>
-                    {t('title.line1')} <br /> {t('title.line2')}
+                    <span className="relative inline-block">
+                        {t('title.line1')} <br /> {t('title.line2')}
+                        <UnderlineShape className="absolute -bottom-2 start-0 h-2.5 w-24 text-blue md:w-28 xl:-bottom-1.5 xl:w-36" />
+                    </span>{' '}
                 </>
             }
-            isSignIn
+            bannerTitle="The simplest way to manage your workspace."
             isSocialLoginActive={false}
+            pageImage={
+                <div className="relative mx-auto aspect-[3.6/3.3] w-[100%] xl:w-[100%]">
+                    <Image
+                        src={"/insync-chatbot.webp"}
+                        alt="Sign Up Thumbnail"
+                        fill
+                        priority
+                        className="object-cover "
+                    />
+                </div>
+            }
         >
-            <div className="mx-auto w-full max-w-md py-12 md:max-w-lg lg:max-w-xl 2xl:pb-8 2xl:pt-2">
-                <ResetPasswordForm email={"email" as string} />
-            </div>
-        </AuthWrapper>
+            <ResetPasswordForm email={"email" as string} />
+        </AuthWrapperOne>
     )
-
-    // const res = await getUserEmail(searchParams, params);
-    // if (!res)
-    //     return
-
-    // const { email, error } = res
-    // if (error) {
-    //     if ((error?.response?.status ?? 0) >= 400 && (error?.response?.status ?? 0) < 500) {
-    //         return <TextErrorCard message="Token has expired" />
-    //     }
-    //     if ((error?.response?.status ?? 0) >= 500) {
-    //         return <TextErrorCard message="Internal server error" />
-    //     }
-    // }
-    // else {
-    //     return (
-    //         <ResetPasswordForm email={email as string} />
-    //     )
-    // }
-
 }
