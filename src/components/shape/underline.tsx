@@ -4,6 +4,7 @@ export default function UnderlineShape({
   return (
     <svg
       viewBox="0 0 147 10"
+      className="w-full md:w-28 xl:w-36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}

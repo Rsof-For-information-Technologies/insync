@@ -115,7 +115,7 @@ function AuthHeader() {
     <header className="flex items-center justify-between p-4 lg:px-16 lg:py-6 2xl:px-24">
       <Link href={'/'}>
         <Image
-          src={"/insync-logo.png"}
+          src={"/insync-logo-02.png"}
           alt="Sadef Logo"
           height={200}
           width={200}
