@@ -60,43 +60,35 @@ export default function ForgotPasswordForm() {
     };
 
     return (
-        <div className="flex w-full flex-col justify-between">
-            <div className="flex w-full flex-col justify-center px-5">
-                <div className="mx-auto w-full max-w-md pb-12 md:max-w-lg lg:max-w-xl 2xl:pb-8 2xl:pt-2">
-                    <form action={() => handleSubmit(onSubmit)()}>
-                        <div className="space-y-6">
-                            <Input
-                                type="email"
-                                size="lg"
-                                label={t('form.email')}
-                                placeholder={t('form.emailPlaceholder')}
-                                className="[&>label>span]:font-medium"
-                                error={errors.email?.message}
-                                {...register("email")}
-                            />
-                            <p className="text-red-500 text-sm">
-                                {(errors as any)?.message?.message}
-                            </p>
-                            <FormStatusButton
-                                className="group w-full @xl:w-full dark:bg-[#090909] dark:text-white hover:dark:bg-black "
-                                type="submit"
-                                size={isMedium ? 'lg' : 'xl'}>
-                                <span>{t('form.resetButton')}</span>
-                                <PiArrowRightBold className={cn("ms-2 mt-0.5 h-5 w-5", params.locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
-                            </FormStatusButton>
-                        </div>
-                    </form>
-                </div>
-                <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
-                    {t('footer.text1')}{" "}
-                    <Link
-                        href={`/${locale}${routes.auth.login}`}
-                        className="font-semibold text-gray-700 transition-colors hover:text-primary"
-                    >
-                        {t('footer.text2')}
-                    </Link>
-                </Text>
+        <form action={() => handleSubmit(onSubmit)()}>
+            <div className="space-y-5">
+                <Input
+                    type="email"
+                    size="lg"
+                    label={t('form.email')}
+                    placeholder={t('form.emailPlaceholder')}
+                    className="[&>label>span]:font-medium"
+                    error={errors.email?.message}
+                    {...register("email")}
+                />
+                <p className="text-red-500 text-sm"> {(errors as any)?.message?.message} </p>
+                <FormStatusButton
+                    className="group w-full @xl:w-full dark:bg-[#090909] dark:text-white hover:dark:bg-black "
+                    type="submit"
+                    size={isMedium ? 'lg' : 'xl'}>
+                    <span>{t('form.resetButton')}</span>
+                    <PiArrowRightBold className={cn("ms-2 mt-0.5 h-5 w-5", params.locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
+                </FormStatusButton>
             </div>
-        </div>
+            <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
+                {t('footer.text1')}{" "}
+                <Link
+                    href={`/${locale}${routes.auth.login}`}
+                    className="font-semibold text-gray-700 transition-colors hover:text-primary"
+                >
+                    {t('footer.text2')}
+                </Link>
+            </Text>
+        </form>
     );
 }

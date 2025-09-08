@@ -2,7 +2,7 @@
 import { useDrawerStore } from '@/app/shared/drawer-views/use-drawer';
 import { routes } from '@/config/routes';
 import Header from '@/layouts/header';
-import Sidebar from '@/layouts/sideBar/sidebar';
+import SidebarClientWrapper from '@/layouts/sideBar/sidebar-client-wrapper';
 import { Params } from '@/types/params';
 import { useParams, usePathname } from 'next/navigation';
 import { Suspense } from 'react';
@@ -21,7 +21,7 @@ export default function HydrogenLayout({
     <main className={`flex min-h-screen flex-grow ${isAuthPage ? "pt-[80px]" : "pt-[80px]"}`}>
 
       <Suspense>
-        <Sidebar className="fixed hidden xl:block dark:bg-gray-50" />
+        <SidebarClientWrapper className="fixed hidden xl:block dark:bg-gray-50" />
       </Suspense>
 
       <div className={`flex w-full flex-col flex-1 ${isOpen && (screenWidth as number) > 1280 ? "xl:ms-[270px]" : ""}`} >

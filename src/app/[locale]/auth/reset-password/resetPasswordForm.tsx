@@ -80,12 +80,11 @@ function ResetPasswordForm({ email }: { email: string }) {
     };
 
     return (
-        <div className="flex w-full flex-col justify-between">
+        <form action={() => handleSubmit(submitForm)()}>
             <p className="text-center mb-10">
                 {t('description.line1', { email })}
             </p>
-            <form action={() => handleSubmit(submitForm)()}>
-                <div className="space-y-6">
+            <div className="space-y-5">
                 <Password
                     label={t('newPassword')}
                     id="newPassword"
@@ -114,11 +113,9 @@ function ResetPasswordForm({ email }: { email: string }) {
                     <span>{t('resetButton')}</span>
                     <PiArrowRightBold className={cn("ms-2 mt-0.5 h-5 w-5", params.locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
                 </FormStatusButton>
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
     );
 }
 
 export default ResetPasswordForm;
-

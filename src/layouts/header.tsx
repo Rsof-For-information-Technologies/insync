@@ -2,17 +2,18 @@
 
 import { useDrawerStore } from "@/app/shared/drawer-views/use-drawer";
 import { useIsMounted } from "@/hooks/useIsMounted";
-import Sidebar from "@/layouts/sideBar/sidebar";
 import cn from "@/utils/class-names";
 import { Suspense } from "react";
 import useWindowScroll from "react-use/lib/useWindowScroll";
 import HamburgerButton from "./header-parts/hamburger-button";
 import HeaderMenuRight from "./header-parts/header-menu-right";
 import { useUserStore } from "@/store/user.store";
+import Sidebar from "./sideBar/sidebar";
+import { useTranslations } from "next-intl";
 
 export default function Header({ className }: { className?: string; }) {
   const isMounted = useIsMounted();
-
+  const t = useTranslations();
   const { userInfo } = useUserStore()
 
   const windowScroll = useWindowScroll();
@@ -38,7 +39,7 @@ export default function Header({ className }: { className?: string; }) {
             userInfo &&
             <HamburgerButton
               view={<Suspense>
-                <Sidebar className="static w-full 2xl:w-full" />
+                <Sidebar className="static w-full 2xl:w-full" t={t} />
               </Suspense>}
             />
           }
