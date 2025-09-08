@@ -15,7 +15,6 @@ import { Params } from "@/types/params";
 import cn from '@/utils/class-names'
 import { useTranslations } from 'next-intl'
 import Link from "next/link";
-import { locale } from "dayjs";
 
 const initialValues = {
     firstName: "",
@@ -160,7 +159,7 @@ function SignupForm() {
             <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
                 Already have an account?{' '}
                 <Link
-                    href={`/${locale}${routes.auth.login}`}
+                    href={`/${params.locale}${routes.auth.login}`}
                     className="font-semibold text-[var(--default-text-color)] transition-colors hover:text-[var(--default-text-hover)] "
                 >
                 Sign In

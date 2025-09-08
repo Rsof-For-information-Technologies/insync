@@ -16,7 +16,6 @@ import { PiArrowRightBold } from 'react-icons/pi'
 import useMedia from 'react-use/lib/useMedia'
 import { Checkbox, Input, Password, Text } from 'rizzui'
 import cn from '@/utils/class-names'
-import { locale } from 'dayjs'
 
 const initialValues = {
     email: "",
@@ -138,7 +137,7 @@ function LoginForm() {
             <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
                 Don’t have an account?{' '}
                 <Link
-                    href={`/${locale}${routes.auth.signup}`}
+                    href={`/${params.locale}${routes.auth.signup}`}
                     className="font-semibold text-[var(--default-text-color)] transition-colors hover:text-[var(--default-text-hover)] "
                 >
                 Sign Up
