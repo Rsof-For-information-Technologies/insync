@@ -1,19 +1,19 @@
 "use client";
 import { FormStatusButton } from "@/components/formStatusButton";
 import { routes } from "@/config/routes";
+import { Params } from "@/types/params";
+import { UserForgotPasswordForm } from "@/utils/api";
+import cn from '@/utils/class-names';
 import { ForgetPassword, forgetPasswordValidator } from "@/validators/forgetPassword.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PiArrowRightBold } from 'react-icons/pi'
+import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { PiArrowRightBold } from 'react-icons/pi';
 import useMedia from "react-use/lib/useMedia";
 import { Input, Text } from "rizzui";
 import { toast } from "sonner";
-import { UserForgotPasswordForm } from "@/utils/api";
-import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
-import { Params } from "@/types/params";
-import cn from '@/utils/class-names'
 
 const initialValues = {
     email: "",
@@ -23,7 +23,6 @@ export default function ForgotPasswordForm() {
     const isMedium = useMedia("(max-width: 1200px)", false);
     const t = useTranslations("ForgotPasswordPage");
     const { locale } = useParams<Params>();
-    const params = useParams();
 
     const { register, handleSubmit, formState: { errors }, setError, reset, } = useForm<ForgetPassword>({
         resolver: zodResolver(forgetPasswordValidator),
@@ -77,7 +76,7 @@ export default function ForgotPasswordForm() {
                     type="submit"
                     size={isMedium ? 'lg' : 'xl'}>
                     <span>{t('form.resetButton')}</span>
-                    <PiArrowRightBold className={cn("ms-2 mt-0.5 h-5 w-5", params.locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
+                    <PiArrowRightBold className={cn("ms-2 mt-0.5 h-5 w-5", locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
                 </FormStatusButton>
             </div>
             <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">

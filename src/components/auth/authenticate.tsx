@@ -1,12 +1,12 @@
 "use client"
+import { routes } from '@/config/routes'
+import { useIsMounted } from '@/hooks/useIsMounted'
 import { useUserStore } from '@/store/user.store'
+import { Params } from '@/types/params'
+import { User } from '@/types/user'
+import { getLocalStorage } from '@/utils/localStorage'
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
-import { useIsMounted } from '@/hooks/useIsMounted'
-import { routes } from '@/config/routes'
-import { getLocalStorage } from '@/utils/localStorage';
-import { User } from '@/types/user'
-import { Params } from '@/types/params'
 
 type T_Authenticate = {
     children: React.ReactNode;
@@ -24,7 +24,7 @@ function Authenticate({ children, }: T_Authenticate) {
 
     const pathName = usePathname()
 
-    const params = useParams<Params>();
+    const { locale } = useParams<Params>();
 
     useEffect(() => {
         setUserInfo(getLocalStorage("user-info") as User)
@@ -39,10 +39,10 @@ function Authenticate({ children, }: T_Authenticate) {
 
             queryParams.set("navigate_to", pathName);
 
-            router.push(`/${params.locale}${routes.auth.login}?${queryParams}`);
+            router.push(`/${locale}${routes.auth.login}?${queryParams}`);
 
         }
-    }, [userInfo, router, mounted, params.locale, pathName, searchParams])
+    }, [userInfo, router, mounted, locale, pathName, searchParams])
 
 
     if (userInfo) {

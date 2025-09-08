@@ -3,6 +3,7 @@ import { FormStatusButton } from '@/components/formStatusButton'
 import { routes } from '@/config/routes'
 import { Params } from '@/types/params'
 import { UserLoginForm } from '@/utils/api'
+import cn from '@/utils/class-names'
 import { setCookie } from '@/utils/cookieStorage'
 import { removeLocalStorage, setLocalStorage } from '@/utils/localStorage'
 import { Login, login } from '@/validators/login.validator'
@@ -15,8 +16,6 @@ import { useForm } from 'react-hook-form'
 import { PiArrowRightBold } from 'react-icons/pi'
 import useMedia from 'react-use/lib/useMedia'
 import { Checkbox, Input, Password, Text } from 'rizzui'
-import cn from '@/utils/class-names'
-import { locale } from 'dayjs'
 
 const initialValues = {
     email: "",
@@ -27,7 +26,7 @@ const initialValues = {
 function LoginForm() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const params = useParams<Params>()
+    const { locale } = useParams<Params>()
     const [serverError, setServerError] = useState<string | null>(null);
     const isMedium = useMedia('(max-width: 1200px)', false);
     const t = useTranslations("SignInPage.form");
@@ -54,7 +53,7 @@ function LoginForm() {
                 if (searchParams.get("navigate_to"))
                     router.push(`${searchParams.get("navigate_to")}`)
                 else {
-                    router.push(`/${params.locale}${routes.dashboard}`)
+                    router.push(`/${locale}${routes.dashboard}`)
                 }
 
             } else {
@@ -79,9 +78,9 @@ function LoginForm() {
             removeLocalStorage("user-info");
             // setUserInfo()
             urlSearchParams.delete("logout");
-            router.push(`/${params.locale}${routes.auth.login}?${urlSearchParams}`)
+            router.push(`/${locale}${routes.auth.login}?${urlSearchParams}`)
         }
-    }, [logout, router, params.locale, searchParams])
+    }, [logout, router, locale, searchParams])
 
     return (
         <form action={() => handleSubmit(onSubmit)()}>
@@ -115,7 +114,7 @@ function LoginForm() {
                         className="[&>label>span]:font-medium"
                     />
                     <Link
-                        href={`/${params.locale}${routes.auth.forgotPassword}`}
+                        href={`/${locale}${routes.auth.forgotPassword}`}
                         className="h-auto p-0 text-sm font-semibold text-gray-700 underline transition-colors hover:text-primary hover:no-underline"
                     >
                         {t('forgotPassword')}
@@ -132,7 +131,7 @@ function LoginForm() {
                     type="submit"
                     size={isMedium ? 'lg' : 'lg'}>
                     <span>{t('loginBtn')}</span>
-                    <PiArrowRightBold className={cn("ms-2 mt-0.5 h-5 w-5", params.locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
+                    <PiArrowRightBold className={cn("ms-2 mt-0.5 h-5 w-5", locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
                 </FormStatusButton>
             </div>
             <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
@@ -141,7 +140,7 @@ function LoginForm() {
                     href={`/${locale}${routes.auth.signup}`}
                     className="font-semibold text-[var(--default-text-color)] transition-colors hover:text-[var(--default-text-hover)] "
                 >
-                Sign Up
+                    Sign Up
                 </Link>
             </Text>
         </form>

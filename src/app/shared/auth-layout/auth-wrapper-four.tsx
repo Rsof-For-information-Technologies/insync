@@ -1,18 +1,17 @@
 'use client';
 
-import { siteConfig } from '@/config/site.config';
+import { routes } from '@/config/routes';
+import { Params } from '@/types/params';
 import cn from '@/utils/class-names';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { BsFacebook } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
+import { PiArrowLineRight, PiUserCirclePlus } from 'react-icons/pi';
 import { Button, Title } from 'rizzui';
 import OrSeparation from './or-separation';
-import { PiArrowLineRight } from 'react-icons/pi';
-import { PiUserCirclePlus } from 'react-icons/pi';
-import { routes } from '@/config/routes';
-import { useTranslations } from 'next-intl';
 
 function AuthNavLink({
   href,
@@ -109,7 +108,7 @@ export default function AuthWrapper({
 }
 
 function AuthHeader() {
-  const params = useParams();
+  const { locale } = useParams<Params>();
   const t = useTranslations('AuthHeader');
   return (
     <header className="flex items-center justify-between p-4 lg:px-16 lg:py-6 2xl:px-24">
@@ -124,11 +123,11 @@ function AuthHeader() {
         />
       </Link>
       <div className="flex items-center space-x-2 md:space-x-4">
-        <AuthNavLink href={`/${params.locale}${routes.auth.login}`}>
-          <PiArrowLineRight className={cn("h-4 w-4", params.locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
+        <AuthNavLink href={`/${locale}${routes.auth.login}`}>
+          <PiArrowLineRight className={cn("h-4 w-4", locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
           <span>{t('login')}</span>
         </AuthNavLink>
-        <AuthNavLink href={`/${params.locale}${routes.auth.signup}`}>
+        <AuthNavLink href={`/${locale}${routes.auth.signup}`}>
           <PiUserCirclePlus className="h-5 !w-5" />
           <span>{t('signup')}</span>
         </AuthNavLink>

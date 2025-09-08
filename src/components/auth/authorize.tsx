@@ -29,7 +29,7 @@ function Authorize({ children, allowedRoles, navigate = false }: T_Authorize) {
     const [hasAccess, setHasAccess] = useState<boolean>(true);
     const isMounted = useIsMounted()
     const router = useRouter();
-    const params = useParams<Params>();
+    const { locale } = useParams<Params>();
 
     useEffect(() => {
         if (!userInfo)
@@ -48,10 +48,10 @@ function Authorize({ children, allowedRoles, navigate = false }: T_Authorize) {
 
     useEffect(() => {
         if (!hasAccess && userInfo && navigate) {
-            const authorizedUrl = findFirstAuthorizedUrl(params.locale);
+            const authorizedUrl = findFirstAuthorizedUrl(locale);
             router.push(authorizedUrl);
         }
-    }, [userInfo, hasAccess, router, navigate, params]);
+    }, [userInfo, hasAccess, router, navigate, locale]);
 
     if (!isMounted)
         return null;

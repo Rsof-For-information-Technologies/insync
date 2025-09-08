@@ -1,19 +1,19 @@
 "use client";
-import { Title, Text, Button, Popover } from "rizzui";
-import cn from "@/utils/class-names";
+import { ShadcnAvatar, ShadcnAvatarFallback } from "@/components/shadCn/ui/avatar";
 import { routes } from "@/config/routes";
+import { useUserStore } from "@/store/user.store";
+import { Params } from "@/types/params";
+import cn from "@/utils/class-names";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useUserStore } from "@/store/user.store";
-import { ShadcnAvatar, ShadcnAvatarFallback } from "@/components/shadCn/ui/avatar";
-import { Params } from "@/types/params";
 import { PiLockKey, PiSignOut } from "react-icons/pi";
-import { useTranslations } from "next-intl";
+import { Button, Popover, Text, Title } from "rizzui";
 
 function DropdownMenu() {
   const { logOutUser, userInfo } = useUserStore();
-  const params = useParams<Params>()
+  const { locale } = useParams<Params>()
   const router = useRouter();
   const t = useTranslations("ProfileMenu");
   return (
@@ -30,7 +30,7 @@ function DropdownMenu() {
           </ShadcnAvatarFallback>
         </ShadcnAvatar>
 
-        <Link href={`/${params.locale}${routes.profile}`} className="ms-3">
+        <Link href={`/${locale}${routes.profile}`} className="ms-3">
           <Title as="h6" className="font-semibold max-w-42 break-words">
             {userInfo?.firstName + " " + userInfo?.lastName}
           </Title>
@@ -43,10 +43,10 @@ function DropdownMenu() {
           className="h-auto w-full justify-start p-0 font-medium text-gray-700 outline-none focus-within:text-gray-600 hover:text-gray-900 focus-visible:ring-0"
           variant="text"
           onClick={() => {
-            router.push(`/${params.locale}${routes.profile.changePassword}`);
+            router.push(`/${locale}${routes.profile.changePassword}`);
           }}
         >
-          <PiLockKey className={cn("h-5 w-5", params.locale === 'ar' ? "ml-2 mr-0" : "mr-2")} />
+          <PiLockKey className={cn("h-5 w-5", locale === 'ar' ? "ml-2 mr-0" : "mr-2")} />
           {t('changePassword')}
         </Button>
       </div>
@@ -56,10 +56,10 @@ function DropdownMenu() {
           variant="text"
           onClick={() => {
             logOutUser(true);
-            router.push(`/${params.locale}${routes.auth.login}`);
+            router.push(`/${locale}${routes.auth.login}`);
           }}
         >
-          <PiSignOut className={cn("h-5 w-5", params.locale === 'ar' ? "ml-2 mr-0" : "mr-2")} />
+          <PiSignOut className={cn("h-5 w-5", locale === 'ar' ? "ml-2 mr-0" : "mr-2")} />
           {t('signOut')}
         </Button>
       </div>
@@ -107,7 +107,7 @@ export default function ProfileMenu({
 
           {!!username && (
             <span className="username hidden text-gray-200 md:inline-flex dark:text-gray-700">
-              Hi, Andry
+              Hi, Mohsin
             </span>
           )}
         </Button>

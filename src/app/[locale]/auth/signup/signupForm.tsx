@@ -1,21 +1,20 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { FormStatusButton } from "@/components/formStatusButton";
+import { routes } from "@/config/routes";
+import { Params } from "@/types/params";
+import { UserRegisterForm } from "@/utils/api";
+import cn from '@/utils/class-names';
+import { removeLocalStorage, setLocalStorage } from "@/utils/localStorage";
+import { Signup, signup } from "@/validators/signup.validator";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from 'next-intl';
+import Link from "next/link";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PiArrowRightBold } from "react-icons/pi";
-import { Password, Input, Text } from "rizzui";
-import { zodResolver } from "@hookform/resolvers/zod";
 import useMedia from "react-use/lib/useMedia";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { routes } from "@/config/routes";
-import { removeLocalStorage, setLocalStorage } from "@/utils/localStorage";
-import { FormStatusButton } from "@/components/formStatusButton";
-import { Signup, signup } from "@/validators/signup.validator";
-import { UserRegisterForm } from "@/utils/api";
-import { Params } from "@/types/params";
-import cn from '@/utils/class-names'
-import { useTranslations } from 'next-intl'
-import Link from "next/link";
-import { locale } from "dayjs";
+import { Input, Password, Text } from "rizzui";
 
 const initialValues = {
     firstName: "",
@@ -29,7 +28,7 @@ const initialValues = {
 function SignupForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const params = useParams<Params>();
+    const { locale } = useParams<Params>();
     const [serverError, setServerError] = useState<string | null>(null);
     const isMedium = useMedia("(max-width: 1200px)", false);
     const t = useTranslations('SignUpPage.form');
@@ -43,7 +42,7 @@ function SignupForm() {
             const data = await UserRegisterForm(state);
             if (data.succeeded) {
                 setLocalStorage("user-info", data);
-                router.push(`/${params.locale}${routes.auth.login}`);
+                router.push(`/${locale}${routes.auth.login}`);
             } else {
                 setServerError(data.message);
             }
@@ -69,7 +68,7 @@ function SignupForm() {
             const urlSearchParams = new URLSearchParams(searchParams.toString());
             removeLocalStorage("user-info");
             urlSearchParams.delete("logout");
-            router.push(`/${params.locale}${routes.auth.signup}?${urlSearchParams}`);
+            router.push(`/${locale}${routes.auth.signup}?${urlSearchParams}`);
         }
     }, [logout, router, searchParams]);
 
@@ -154,7 +153,7 @@ function SignupForm() {
                     type="submit"
                     size={isMedium ? "lg" : "lg"}>
                     <span>{t('signupBtn')}</span>
-                    <PiArrowRightBold className={cn("ms-2 mt-0.5 h-5 w-5", params.locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
+                    <PiArrowRightBold className={cn("ms-2 mt-0.5 h-5 w-5", locale === 'ar' ? 'rotate-180' : 'rotate-0')} />
                 </FormStatusButton>
             </div>
             <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
@@ -163,7 +162,7 @@ function SignupForm() {
                     href={`/${locale}${routes.auth.login}`}
                     className="font-semibold text-[var(--default-text-color)] transition-colors hover:text-[var(--default-text-hover)] "
                 >
-                Sign In
+                    Sign In
                 </Link>
             </Text>
         </form>
