@@ -46,4 +46,3 @@ async function Signup() {
 }
 
 export default Signup;
-
