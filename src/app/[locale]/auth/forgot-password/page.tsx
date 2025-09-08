@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description: "Reset your password",
 };
 
+
 export default async function ForgotPassword() {
   const t = await getTranslations("ForgotPasswordPage.title");
 
