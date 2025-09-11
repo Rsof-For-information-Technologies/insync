@@ -1,8 +1,8 @@
 import { getLocalStorage } from '@/utils/localStorage';
 import { User } from '@/types/user';
 import { routes } from '@/config/routes';
-import { UserRole } from '@/types/userRoles';
 import { Params } from '@/types/params';
+import { UserRole } from '@/types/userRoles';
 
 export const findFirstAuthorizedUrl = (locale: Params["locale"]) => {
     const userInfo = getLocalStorage('user-info') as User | null;

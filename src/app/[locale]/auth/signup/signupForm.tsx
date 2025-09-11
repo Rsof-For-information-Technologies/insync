@@ -1,11 +1,11 @@
 "use client";
+import { registerUser } from "@/apiCalls/auth/authApi";
 import { FormStatusButton } from "@/components/formStatusButton";
 import { routes } from "@/config/routes";
 import { Params } from "@/types/params";
-import { UserRegisterForm } from "@/utils/api";
 import cn from '@/utils/class-names';
-import { removeLocalStorage, setLocalStorage } from "@/utils/localStorage";
-import { Signup, signup } from "@/validators/signup.validator";
+import { removeLocalStorage } from "@/utils/localStorage";
+import { SignupSchema, signupValidator } from "@/validators/auth/signup.validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from 'next-intl';
 import Link from "next/link";
@@ -22,7 +22,7 @@ const initialValues = {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "",
+    company: "",
 };
 
 function SignupForm() {
@@ -32,19 +32,27 @@ function SignupForm() {
     const [serverError, setServerError] = useState<string | null>(null);
     const isMedium = useMedia("(max-width: 1200px)", false);
     const t = useTranslations('SignUpPage.form');
-    const { register, handleSubmit, formState: { errors }, setError, } = useForm<Signup>({
-        resolver: zodResolver(signup),
+    const { register, handleSubmit, formState: { errors }, setError, } = useForm<SignupSchema>({
+        resolver: zodResolver(signupValidator),
         defaultValues: { ...initialValues },
     });
 
-    const onSubmit = async (state: Signup) => {
+    const onSubmit = async (state: SignupSchema) => {
         try {
-            const data = await UserRegisterForm(state);
-            if (data.succeeded) {
-                setLocalStorage("user-info", data);
+            const response = await registerUser({
+                email: state.email,
+                password: state.password,
+                confirmPassword: state.confirmPassword,
+                firstName: state.firstName,
+                lastName: state.lastName,
+                company: state.company,
+            });
+            if (response.isSuccess) {
+                setServerError(null);
                 router.push(`/${locale}${routes.auth.login}`);
             } else {
-                setServerError(data.message);
+                const firstError = response.errors?.[0] ?? "Registration failed";
+                setServerError(firstError);
             }
 
         } catch (error) {
@@ -129,14 +137,14 @@ function SignupForm() {
                     {...register("confirmPassword")}
                 />
                 <Input
-                    label={t('role')}
-                    id="role"
-                    placeholder={t('rolePlaceholder')}
+                    label={t('company')}
+                    id="company"
+                    placeholder={t('companyPlaceholder')}
                     size="lg"
                     className="[&>label>span]:font-medium"
                     inputClassName="text-sm"
-                    error={errors.role?.message}
-                    {...register("role")}
+                    error={errors.company?.message}
+                    {...register("company")}
                 />
                 <p className="text-red-500 text-sm">
                     {(errors as any)?.message?.message}

@@ -1,12 +1,12 @@
 "use client"
+import { loginUser } from '@/apiCalls/auth/authApi'
 import { FormStatusButton } from '@/components/formStatusButton'
 import { routes } from '@/config/routes'
 import { Params } from '@/types/params'
-import { UserLoginForm } from '@/utils/api'
 import cn from '@/utils/class-names'
 import { setCookie } from '@/utils/cookieStorage'
 import { removeLocalStorage, setLocalStorage } from '@/utils/localStorage'
-import { Login, login } from '@/validators/login.validator'
+import { LoginSchema, loginValidator } from '@/validators/auth/login.validator'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -31,24 +31,25 @@ function LoginForm() {
     const isMedium = useMedia('(max-width: 1200px)', false);
     const t = useTranslations("SignInPage.form");
 
-    const { register, handleSubmit, formState: { errors }, setError, } = useForm<Login>({
-        resolver: zodResolver(login),
+    const { register, handleSubmit, formState: { errors }, setError, } = useForm<LoginSchema>({
+        resolver: zodResolver(loginValidator),
         defaultValues: { ...initialValues }
     })
 
-    const onSubmit = async (state: Login) => {
+    const onSubmit = async (state: LoginSchema) => {
         try {
-            const response = await UserLoginForm(state);
-            if (response.succeeded) {
+            const response = await loginUser({ email: state.email, password: state.password });
+            if (response.isSuccess) {
                 setLocalStorage("user-info", {
-                    id: response.data.id,
+                    userId: response.data.userId,
                     firstName: response.data.firstName,
                     lastName: response.data.lastName,
                     email: response.data.email,
-                    role: response.data.role,
+                    role: "Admin",
+                    roles: response.data.roles,
+                    tenandId: response.data.tenandId,
                 });
                 setCookie("access_token", response.data.token)
-                setCookie("refresh_token", response.data.refreshToken)
 
                 if (searchParams.get("navigate_to"))
                     router.push(`${searchParams.get("navigate_to")}`)
@@ -57,7 +58,8 @@ function LoginForm() {
                 }
 
             } else {
-                setServerError(response.message);
+                const firstError = response.errors?.[0] ?? "Authentication failed";
+                setServerError(firstError);
             }
 
         } catch (error) {

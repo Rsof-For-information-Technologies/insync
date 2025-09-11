@@ -24,8 +24,6 @@ async function Login() {
                 </>
             }
             bannerTitle="The simplest way to manage your workspace."
-            // bannerDescription="Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-            // amet sint velit officia consequat duis."
             isSocialLoginActive={false}
             pageImage={
                 <div className="relative mx-auto aspect-[3.6/3.3] w-[100%] xl:w-[100%]">

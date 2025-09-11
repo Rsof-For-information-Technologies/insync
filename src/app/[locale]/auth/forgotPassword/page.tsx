@@ -1,31 +1,31 @@
-import React from "react";
 import { Metadata } from "next";
-import SignupForm from "./signupForm";
+import ForgotPasswordForm from "./forgotPasswordForm";
 import { getTranslations } from "next-intl/server";
-import AuthWrapperOne from "@/app/shared/auth-layout/auth-wrapper-one";
 import UnderlineShape from "@/components/shape/underline";
+import AuthWrapperOne from "@/app/shared/auth-layout/auth-wrapper-one";
 import Image from "next/image";
 
+
 export const metadata: Metadata = {
-  title: "Signup",
-  description: "Signup to access site",
+  title: "Forgot Password",
+  description: "Reset your password",
 };
 
-async function Signup() {
-  const t = await getTranslations("SignUpPage");
+
+export default async function ForgotPassword() {
+  const t = await getTranslations("ForgotPasswordPage.title");
+
   return (
     <AuthWrapperOne
       title={
         <>
           <span className="relative inline-block">
-            {t("title.line1")} <br /> {t("title.line2")}
+            {t("line1")} <br className="hidden sm:inline-block" /> {t("line2")}
             <UnderlineShape className="absolute start-0 h-2.5 w-full text-blue md:w-28 xl:-bottom-1.5 xl:w-36" />
           </span>{" "}
         </>
       }
       bannerTitle="The simplest way to manage your workspace."
-      // bannerDescription="Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-      // amet sint velit officia consequat duis."
       isSocialLoginActive={false}
       pageImage={
         <div className="relative mx-auto aspect-[3.6/3.3] w-[100%] xl:w-[100%]">
@@ -39,9 +39,7 @@ async function Signup() {
         </div>
       }
     >
-      <SignupForm />
+      <ForgotPasswordForm />
     </AuthWrapperOne>
   );
 }
-
-export default Signup;

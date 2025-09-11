@@ -8,4 +8,4 @@ export const forgetPasswordValidator = z.object({
         .max(50, "Email must not exceed 50 characters."),
 });
 
-export type ForgetPassword = z.infer<typeof forgetPasswordValidator>
+export type ForgetPasswordSchema = z.infer<typeof forgetPasswordValidator>

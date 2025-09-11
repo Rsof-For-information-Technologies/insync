@@ -38,8 +38,8 @@
             "passwordPlaceholder": "Enter your password",
             "confirmPassword": "Confirm Password",
             "confirmPasswordPlaceholder": "Confirm your password",
-            "role": "Role",
-            "rolePlaceholder": "Select role",
+            "company": "Company",
+            "companyPlaceholder": "Select Company",
             "signupBtn": "Sign Up"
         }
     },

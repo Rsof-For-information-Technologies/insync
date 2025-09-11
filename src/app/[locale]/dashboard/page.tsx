@@ -1,8 +1,8 @@
 import Authenticate from "@/components/auth/authenticate";
 import Authorize from "@/components/auth/authorize";
-import { UserRole } from "@/types/userRoles";
 import { Title } from "rizzui";
 import { useTranslations } from "next-intl";
+import { UserRole } from "@/types/userRoles";
 
 const Dashboard = () => {
     const t = useTranslations('Dashboard')
@@ -23,4 +23,3 @@ const Dashboard = () => {
 }
 
 export default Dashboard;
-

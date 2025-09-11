@@ -1,31 +1,41 @@
 "use client";
 
+import { resetPassword as resetPasswordApi } from '@/apiCalls/auth/authApi';
 import { FormStatusButton } from '@/components/formStatusButton';
 import { routes } from '@/config/routes';
 import { Params } from '@/types/params';
-import { UserResetPasswordForm } from '@/utils/api';
 import cn from '@/utils/class-names';
-import { ResetPassword, resetPasswordValidator } from '@/validators/resetPassword.schema';
+import { ResetPassword, resetPasswordValidator } from '@/validators/auth/resetPassword';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { PiArrowRightBold } from 'react-icons/pi';
 import useMedia from "react-use/lib/useMedia";
 import { Password } from 'rizzui';
 import { toast } from 'sonner';
+import { useEffect, useState } from 'react';
 
 const initialValues = {
     newPassword: "",
-    confirmNewPassword: "",
+    confirmPassword: "",
 };
 
 function ResetPasswordForm({ email }: { email: string }) {
     const isMedium = useMedia('(max-width: 1200px)', false);
     const router = useRouter();
-    const searchParams = useSearchParams();
     const { locale } = useParams<Params>();
     const t = useTranslations("ResetPasswordPage.form");
+
+    const [token, setToken] = useState<string>("");
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const rawSearch = window.location.search;
+            const match = rawSearch.match(/token=([^&]+)/);
+            setToken(match ? match[1] : "");
+        }
+    }, []);
 
     const { register, formState: { errors }, reset, setError, handleSubmit } = useForm<ResetPassword>({
         resolver: zodResolver(resetPasswordValidator),
@@ -34,34 +44,33 @@ function ResetPasswordForm({ email }: { email: string }) {
 
     const submitForm = async (state: ResetPassword) => {
         try {
-            const resetToken = searchParams.get("token");
-            const email = searchParams.get("email");
-
-            if (!email) {
+             if (!email) {
                 toast.error("Reset email not found.");
                 return;
             }
 
-            if (!resetToken) {
+            if (!token) {
                 toast.error("Reset token not found.");
                 return;
             }
 
             const payload = {
                 email,
-                resetToken,
+                token,
                 newPassword: state.newPassword,
-                confirmNewPassword: state.confirmNewPassword,
+                confirmPassword: state.confirmPassword,
             };
 
-            const data = await UserResetPasswordForm(payload);
+            const data = await resetPasswordApi(payload);
 
-            if (data?.succeeded) {
-                toast.success(data.message || "Password reset successfully");
+            if (data?.isSuccess) {
+                const msg = data.successes?.[0] || "Password reset successfully";
+                toast.success(msg);
                 reset();
                 router.push(`/${locale}${routes.auth.login}`);
             } else {
-                toast.error(data?.message || "Something went wrong!");
+                const msg = data.errors?.[0] || "Something went wrong!";
+                toast.error(msg);
             }
         } catch (error: any) {
             console.log(error);
@@ -97,13 +106,13 @@ function ResetPasswordForm({ email }: { email: string }) {
                 />
                 <Password
                     label={t('confirmPassword')}
-                    id="confirmNewPassword"
+                    id="confirmPassword"
                     placeholder={t('confirmPasswordPlaceholder')}
                     size="lg"
                     className="[&>label>span]:font-medium"
                     inputClassName="text-sm"
-                    error={errors.confirmNewPassword?.message}
-                    {...register("confirmNewPassword")}
+                    error={errors.confirmPassword?.message}
+                    {...register("confirmPassword")}
                 />
                 <p className="text-red-500 text-sm">{(errors as any)?.message?.message}</p>
                 <FormStatusButton
@@ -119,4 +128,3 @@ function ResetPasswordForm({ email }: { email: string }) {
 }
 
 export default ResetPasswordForm;
-

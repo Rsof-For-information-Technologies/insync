@@ -14,28 +14,12 @@ type QueryParams = T_SearchParams & {
     token: string
 }
 
-type UserEmail = {
-    email: string
-}
-
 export const metadata: Metadata = {
     title: "Reset Password",
+    description: "Reset your password",
 };
 
-const getUserEmail = async (searchParams: QueryParams, params: Params) => {
-    try {
-        const { data } = await serverAxiosInstance.get<UserEmail>('/api/user/verify/reset-token?token=' + searchParams.token)
-        return { email: data.email }
-    } catch (error) {
-        const deleted = logoutOnCookieExpire(error, params)
-        if (!deleted)
-            return undefined
-        console.log('error occurred while fetching user email')
-        return { error: error as AxiosError }
-    }
-}
-
-export default async function Page({
+export default async function ResetPassword({
     searchParams,
     params,
 }: {
@@ -43,6 +27,7 @@ export default async function Page({
     params: Params
 }) {
     const t = await getTranslations("ResetPasswordPage");
+
     return (
         <AuthWrapperOne
             title={

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Password } from "rizzui";
-import { UserUpdatePassword } from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { ChangePasswordSchema, changePasswordSchema } from "@/validators/updatePaseword.schema";
 import HorizontalFormBlockWrapper from "@/app/shared/modal-views/horiozontal-block";
@@ -12,6 +11,7 @@ import { useUserStore } from "@/store/user.store";
 import { toast } from "sonner";
 import { PiArrowLeft } from "react-icons/pi";
 import { useTranslations } from "next-intl";
+import { UserUpdatePassword } from "@/apiCalls/auth/authApi";
 
 export default function PasswordSettingsView() {
   const t = useTranslations("ProfilePages.changePasswordPage");

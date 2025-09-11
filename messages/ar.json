@@ -38,8 +38,8 @@
             "passwordPlaceholder": "أدخل كلمة المرور",
             "confirmPassword": "تأكيد كلمة المرور",
             "confirmPasswordPlaceholder": "تأكيد كلمة المرور",
-            "role": "الدور",
-            "rolePlaceholder": "اختر الدور",
+            "company": "الدور",
+            "companyPlaceholder": "اختر الدور",
             "signupBtn": "تسجيل الإنضمام"
         }
     },

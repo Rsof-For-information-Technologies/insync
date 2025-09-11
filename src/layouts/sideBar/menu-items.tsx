@@ -1,8 +1,8 @@
 import { routes } from '@/config/routes';
 import { FaFolderOpen} from "react-icons/fa";
-import { UserRole } from "@/types/userRoles";
 import { User } from "@/types/user";
 import { JSX } from "react";
+import { UserRole } from '@/types/userRoles';
 
 // Note: do not add href in the label object, it is rendering as label
 export type MenuItemDropdownItem = {

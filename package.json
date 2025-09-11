@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "clean": "rimraf -g \"{node_modules,.next,.cache}\"",
-    "dev": "next dev -p 3010",
+    "dev": "next dev -p 5173",
     "build": "next build",
-    "start": "next start -p 3010",
+    "start": "next start -p 5173",
     "lint": "next lint"
   },
   "dependencies": {

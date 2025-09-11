@@ -1,10 +1,10 @@
 "use client";
+import { forgotPassword } from "@/apiCalls/auth/authApi";
 import { FormStatusButton } from "@/components/formStatusButton";
 import { routes } from "@/config/routes";
 import { Params } from "@/types/params";
-import { UserForgotPasswordForm } from "@/utils/api";
 import cn from '@/utils/class-names';
-import { ForgetPassword, forgetPasswordValidator } from "@/validators/forgetPassword.schema";
+import { ForgetPasswordSchema, forgetPasswordValidator } from "@/validators/auth/forgotPassword";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -24,27 +24,24 @@ export default function ForgotPasswordForm() {
     const t = useTranslations("ForgotPasswordPage");
     const { locale } = useParams<Params>();
 
-    const { register, handleSubmit, formState: { errors }, setError, reset, } = useForm<ForgetPassword>({
+    const { register, handleSubmit, formState: { errors }, setError, reset, } = useForm<ForgetPasswordSchema>({
         resolver: zodResolver(forgetPasswordValidator),
         defaultValues: { ...initialValues },
     });
 
-    const onSubmit = async (state: ForgetPassword) => {
+    const onSubmit = async (state: ForgetPasswordSchema) => {
         try {
-            const payload = {
-                email: state.email,
-                clientUrl: "http://localhost:3010/auth/reset-password",
-            };
-            const data = await UserForgotPasswordForm(payload);
+            const payload = { email: state.email };
+            const data = await forgotPassword(payload);
 
-            console.log(data);
-
-            if (!data.succeeded) {
-                toast.error(data.message || "Something went wrong");
+            if (!data.isSuccess) {
+                const msg = data.errors?.[0] || "Something went wrong";
+                toast.error(msg);
                 return;
             }
 
-            toast.success(data.message || "Reset link sent successfully to the email");
+            const successMsg = data.successes?.[0] || "Reset link sent successfully to the email";
+            toast.success(successMsg);
             reset();
         } catch (error) {
             if (
