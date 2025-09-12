@@ -3,8 +3,8 @@ import type { LoginRequest, LoginResponse } from '@/types/auth/login';
 import type { SignupRequest, SignupResponse } from '@/types/auth/signup';
 import type { ForgotPasswordRequest, ForgotPasswordResponse } from '@/types/auth/forgotPassword';
 import type { ResetPasswordRequest, ResetPasswordResponse } from '@/types/auth/resetPassword';
-import { UpdatePasswordResponse } from '@/types/updatePassword';
-import { ChangePasswordSchema } from '@/validators/updatePaseword.schema';
+import type { ChangePasswordRequest, ChangePasswordResponse } from '@/types/profile/changePassword';
+import { ChangePasswordSchema } from '@/validators/profile/updatePassword';
 
 // New registration API for User Management
 export const registerUser = async (payload: SignupRequest): Promise<SignupResponse> => {
@@ -52,12 +52,13 @@ export const resetPassword = async (payload: ResetPasswordRequest): Promise<Rese
   }
 };
 
-export const UserUpdatePassword = async (data: ChangePasswordSchema): Promise<UpdatePasswordResponse> => {
+// New UserManagement change password API
+export const changePassword = async (payload: ChangePasswordRequest): Promise<ChangePasswordResponse> => {
   const api = apiCall();
   try {
-    const response = await api.put<UpdatePasswordResponse>('/api/v1/user/update-password', data);
+    const response = await api.post<ChangePasswordResponse>('/api/v1/UserManagement/change-password', payload);
     return response.data;
-  } catch (error: any) {
+  } catch (error) {
     throw error;
   }
 };

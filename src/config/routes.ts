@@ -104,7 +104,7 @@ export const routes = {
   },
   profile: {
     editProfile: "/profile/edit-profile",
-    changePassword: "/profile/change-password",
+    changePassword: "/profile/changePassword",
   },
   user: {
     list: "/user",

@@ -21,7 +21,7 @@ const checkAuthorize = (userInfo: User | undefined, allowedRoles: UserRole[]) =>
         return false;
     }
 
-    return allowedRoles.includes(userInfo.role);
+    return allowedRoles.includes(userInfo.role as UserRole);
 }
 
 function Authorize({ children, allowedRoles, navigate = false }: T_Authorize) {

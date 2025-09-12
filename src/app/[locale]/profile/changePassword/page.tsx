@@ -4,20 +4,23 @@ import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Password } from "rizzui";
-import { useRouter } from "next/navigation";
-import { ChangePasswordSchema, changePasswordSchema } from "@/validators/updatePaseword.schema";
+import { useParams, useRouter } from "next/navigation";
+import { ChangePasswordSchema, changePasswordValidator } from "@/validators/profile/updatePassword";
 import HorizontalFormBlockWrapper from "@/app/shared/modal-views/horiozontal-block";
 import { useUserStore } from "@/store/user.store";
 import { toast } from "sonner";
 import { PiArrowLeft } from "react-icons/pi";
 import { useTranslations } from "next-intl";
-import { UserUpdatePassword } from "@/apiCalls/auth/authApi";
+import { changePassword } from "@/apiCalls/auth/authApi";
+import { Params } from "@/types/params";
+import { routes } from "@/config/routes";
 
 export default function PasswordSettingsView() {
   const t = useTranslations("ProfilePages.changePasswordPage");
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const { userInfo } = useUserStore();
+  const { locale } = useParams<Params>()
 
   const {
     register,
@@ -27,40 +30,41 @@ export default function PasswordSettingsView() {
     reset,
     formState: { errors },
   } = useForm<ChangePasswordSchema>({
-    resolver: zodResolver(changePasswordSchema),
+    resolver: zodResolver(changePasswordValidator),
     defaultValues: {
       userId: "",
-      oldPassword: "",
+      currentPassword: "",
       newPassword: "",
-      confirmNewPassword: "",
     },
   });
 
   useEffect(() => {
-    if (userInfo?.id) {
-      setValue("userId", userInfo.id);
+    if (userInfo?.userId) {
+      setValue("userId", userInfo.userId);
     }
   }, [userInfo]);
 
   const onSubmit = async (data: ChangePasswordSchema) => {
-    if (!userInfo?.id) {
+    if (!userInfo?.userId) {
       toast.error("User information not loaded. Please refresh the page.");
       return;
     }
 
     try {
       setLoading(true);
-      const response = await UserUpdatePassword({
+      const response = await changePassword({
         userId: data.userId,
-        oldPassword: data.oldPassword,
+        currentPassword: data.currentPassword,
         newPassword: data.newPassword,
-        confirmNewPassword: data.confirmNewPassword,
       });
 
-      if (response.succeeded) {
-        toast.success(response.message);
+      if (response.isSuccess) {
+        const msg = response.successes?.[0] || t('success');
+        toast.success(msg);
+        router.push(`/${locale}${routes.dashboard}`);
       } else {
-        toast.error(response.message);
+        const msg = response.errors?.[0] || t('error');
+        toast.error(msg);
         reset();
       }
     } catch (error: any) {
@@ -74,7 +78,7 @@ export default function PasswordSettingsView() {
     }
   };
 
-  if (!userInfo?.id) {
+  if (!userInfo?.userId) {
     return (
       <div className="flex items-center justify-center p-8">
         <div className="text-center">
@@ -98,11 +102,11 @@ export default function PasswordSettingsView() {
       </button>
       <div className="flex flex-col py-6">
         <div>
-            <h1 className="mb-4 text-2xl font-semibold">{t('title')}</h1>
-            <p className="mb-6 text-gray-600">{t('description')}</p>
+          <h1 className="mb-4 text-2xl font-semibold">{t('title')}</h1>
+          <p className="mb-6 text-gray-600">{t('description')}</p>
         </div>
       </div>
-      <div className="bg-gray-50 rounded-lg shadow-md p-6 dark:bg-gray-100">
+      <div className="bg-gray-50 rounded-lg shadow-sm p-6 dark:bg-gray-100 w-full max-w-2xl mx-auto">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="@container"
@@ -115,9 +119,9 @@ export default function PasswordSettingsView() {
             >
               <Password
                 id="current-password"
-                {...register("oldPassword")}
+                {...register("currentPassword")}
                 placeholder={t('form.currentPasswordPlaceholder')}
-                error={errors.oldPassword?.message}
+                error={errors.currentPassword?.message}
               />
             </HorizontalFormBlockWrapper>
 
@@ -139,24 +143,6 @@ export default function PasswordSettingsView() {
               />
             </HorizontalFormBlockWrapper>
 
-            <HorizontalFormBlockWrapper
-              title={t('form.confirmPassword')}
-              titleClassName="text-base font-medium"
-            >
-              <Controller
-                control={control}
-                name="confirmNewPassword"
-                render={({ field }) => (
-                  <Password
-                    {...field}
-                    id="confirm-password"
-                    placeholder={t('form.confirmPasswordPlaceholder')}
-                    error={errors.confirmNewPassword?.message}
-                  />
-                )}
-              />
-            </HorizontalFormBlockWrapper>
-
             <div className="mt-6 flex w-auto items-center justify-end gap-3">
               <Button
                 id="cancel-password-change"
@@ -172,7 +158,7 @@ export default function PasswordSettingsView() {
                 type="submit"
                 variant="solid"
                 isLoading={isLoading}
-                disabled={isLoading || !userInfo?.id}
+                disabled={isLoading || !userInfo.userId}
               >
                 {t('btn.updatePassword')}
               </Button>
