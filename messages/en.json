@@ -76,6 +76,7 @@
     },
     "SideMenu": {
         "dashboard": "Dashboard",
+        "chatbot": "Chatbot",
         "property": {
             "title": "Property",
             "submenu": {
@@ -232,6 +233,10 @@
             },
             "noDataAvailable": "No data available"
         }
+    },
+    "Chatbot":{
+        "nodeTitle" : "User Input",
+        "nodeName": "Text Node"
     },
     "tableFooter": {
         "pages": "Pages",

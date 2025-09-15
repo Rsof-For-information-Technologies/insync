@@ -69,7 +69,7 @@ export const routes = {
   //   scan: "/batch-scan",
   //   sessionHistory: "/session-history",
   // },
-
+  chatbot: "/chatbot",
   blog:{
     list: "/blogs",
     create: "/blogs/create",

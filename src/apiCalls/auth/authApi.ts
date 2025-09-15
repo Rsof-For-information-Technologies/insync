@@ -57,7 +57,7 @@ export const UserUpdatePassword = async (data: ChangePasswordSchema): Promise<Up
   try {
     const response = await api.put<UpdatePasswordResponse>('/api/v1/user/update-password', data);
     return response.data;
-  } catch (error: any) {
+  } catch (error) {
     throw error;
   }
 };

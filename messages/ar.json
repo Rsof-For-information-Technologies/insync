@@ -76,6 +76,7 @@
     },
     "SideMenu": {
         "dashboard": "لوحة التحكم",
+         "chatbot": "الدردشة الآلية",
         "property": {
             "title": "العقارات",
             "submenu": {
@@ -232,6 +233,10 @@
             },
             "noDataAvailable": "لا يوجد بيانات"
         }
+    },
+      "Chatbot":{
+        "nodeTitle" :"مدخل المستخدم",
+        "nodeName": "نص العقدة"
     },
     "tableFooter": {
         "pages": "الصفحات",
