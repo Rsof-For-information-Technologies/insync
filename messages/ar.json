@@ -76,6 +76,7 @@
     },
     "SideMenu": {
         "dashboard": "لوحة التحكم",
+        "chatbot": "الدردشة الآلية",
         "tenant": {
             "title": "مستأجر",
             "submenu": {
@@ -90,6 +91,10 @@
     "Dashboard": {
         "title": "لوحة التحكم",
         "description": "مرحبًا بك في لوحة التحكم لموقع إدارة إنسينك"
+    },
+    "Chatbot": {
+        "nodeTitle": "مدخل المستخدم",
+        "nodeName": "نص العقدة"
     },
     "tableFooter": {
         "pages": "الصفحات",

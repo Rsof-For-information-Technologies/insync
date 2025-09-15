@@ -65,7 +65,7 @@ export default function Sidebar({
       <SimpleBar className="h-[calc(100%-80px)]">
         <div className="mt-4 pb-3 3xl:mt-6">
           {userInfo
-            ? MenuItems(locale || "en", userInfo).map((item, index) => {
+            ? MenuItems(locale || "en").map((item, index) => {
               const isActive = pathname === (item?.href as string);
               const pathnameExistInDropdowns = item?.dropdownItems?.filter(
                 (dropdownItem) => dropdownItem.href === pathname

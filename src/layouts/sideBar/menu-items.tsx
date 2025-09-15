@@ -1,6 +1,5 @@
 import { routes } from '@/config/routes';
 import { FaFolderOpen} from "react-icons/fa";
-import { User } from "@/types/user";
 import { JSX } from "react";
 import { UserRole } from '@/types/userRoles';
 import { BsBuilding } from 'react-icons/bs';
@@ -23,7 +22,7 @@ export type MenuItem = {
   dropdownItems?: MenuItemDropdownItem[];
 }
 
-export function MenuItems(locale: string, user: User): MenuItem[] {
+export function MenuItems(locale: string): MenuItem[] {
 
   return (
     [
@@ -32,6 +31,12 @@ export function MenuItems(locale: string, user: User): MenuItem[] {
         href: `/${locale}${routes.dashboard}`,
         icon: <FaFolderOpen />,
         allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+      },
+      {
+        translationKey: "chatbot",
+        href: `/${locale}${routes.chatbot}`,
+        icon: <BsBuilding />,
+        allowedRoles: [UserRole.SuperAdmin,  UserRole.Admin],
       },
       {
         translationKey: "tenant.title",

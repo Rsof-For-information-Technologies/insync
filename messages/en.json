@@ -76,6 +76,7 @@
     },
     "SideMenu": {
         "dashboard": "Dashboard",
+        "chatbot": "Chatbot",
         "tenant": {
             "title": "Tenant",
             "submenu": {
@@ -90,6 +91,10 @@
     "Dashboard": {
         "title": "Dashboard",
         "description": "Welcome to the dashboard of Insync Admin Site"
+    },
+    "Chatbot":{
+        "nodeTitle" : "User Input",
+        "nodeName": "Text Node"
     },
     "tableFooter": {
         "pages": "Pages",

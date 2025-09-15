@@ -1,5 +1,6 @@
 export const routes = {
   dashboard: "/dashboard",
+  chatbot: "/chatbot",
 
   tenant:{
     list: "/tenant",
