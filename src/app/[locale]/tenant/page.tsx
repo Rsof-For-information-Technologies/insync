@@ -10,14 +10,17 @@ import { getTranslations } from "next-intl/server";
 import Header from "../(components)/CommonHeader";
 import StatsOverview from "./(components)/statsOverview";
 import { getTenantColumns } from "@/app/shared/table-list/tenantColumns";
+import { routes } from "@/config/routes";
+import { Params } from "@/types/params";
 
 export const metadata: Metadata = {
   title: "Tenant Management",
 };
 
-export default async function TenantTablePage() {
+export default async function TenantTablePage({ params }: { params: Params }) {
   const t = await getTranslations('TenantPages.tenantListPage')
   const tenants: Tenant[] = await getAllTenants();
+  const { locale } = params;
 
   return (
     <Authenticate >
@@ -29,6 +32,7 @@ export default async function TenantTablePage() {
             description={t('description')}
             icon={<Plus size={18} />}
             btnText={t('navigateCreateTenant.createTenantBtn')}
+            href={`/${locale}${routes.tenant.create}`}
           />
 
           {/* Stats Overview */}

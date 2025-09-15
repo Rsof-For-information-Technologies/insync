@@ -1,6 +1,6 @@
 {
     "landingPage": {
-        "title": "مرحبًا بكم في موقع إدارة صادف"
+        "title": "مرحبًا بكم في موقع إدارة إنسينك"
     },
     "AuthHeader": {
         "login": "تسجيل الدخول",
@@ -9,7 +9,7 @@
     "SignInPage": {
         "title": {
             "line1": "مرحبًا بعودتك!",
-            "line2": "سجل الدخول باستخدام بياناتك."
+            "line2": "سجّل الدخول باستخدام بيانات اعتمادك."
         },
         "form": {
             "email": "البريد الإلكتروني",
@@ -18,35 +18,35 @@
             "passwordPlaceholder": "أدخل كلمة المرور",
             "submit": "تسجيل الدخول",
             "rememberMe": "تذكرني",
-            "forgotPassword": "نسيت كلمة المرور",
+            "forgotPassword": "هل نسيت كلمة المرور؟",
             "loginBtn": "تسجيل الدخول"
         }
     },
     "SignUpPage": {
         "title": {
             "line1": "مرحبًا!",
-            "line2": "انضم إلينا اليوم! احصل على الفوائد الخاصة وابقى على اطلاع على التحديثات."
+            "line2": "انضم إلينا اليوم! احصل على مزايا خاصة وابقَ على اطلاع."
         },
         "form": {
             "firstName": "الاسم الأول",
             "firstNamePlaceholder": "أدخل اسمك الأول",
-            "lastName": "الاسم الأخير",
-            "lastNamePlaceholder": "أدخل اسمك الأخير",
+            "lastName": "اسم العائلة",
+            "lastNamePlaceholder": "أدخل اسم عائلتك",
             "email": "البريد الإلكتروني",
             "emailPlaceholder": "أدخل بريدك الإلكتروني",
             "password": "كلمة المرور",
             "passwordPlaceholder": "أدخل كلمة المرور",
             "confirmPassword": "تأكيد كلمة المرور",
-            "confirmPasswordPlaceholder": "تأكيد كلمة المرور",
-            "company": "الدور",
-            "companyPlaceholder": "اختر الدور",
-            "signupBtn": "تسجيل الإنضمام"
+            "confirmPasswordPlaceholder": "أكد كلمة المرور",
+            "company": "الشركة",
+            "companyPlaceholder": "اختر الشركة",
+            "signupBtn": "إنشاء حساب"
         }
     },
     "ForgotPasswordPage": {
         "title": {
-            "line1": "هل تواجه مشكلة في تسجيل الدخول؟",
-            "line2": "إعادة تعيين كلمة المرور."
+            "line1": "هل تواجه صعوبة في تسجيل الدخول؟",
+            "line2": "أعد تعيين كلمة المرور الخاصة بك."
         },
         "form": {
             "email": "البريد الإلكتروني",
@@ -61,26 +61,26 @@
     "ResetPasswordPage": {
         "title": {
             "line1": "إعادة تعيين كلمة المرور",
-            "line2": "أدخل كلمة المرور الجديدة."
+            "line2": "أدخل كلمة مرورك الجديدة."
         },
         "form": {
             "newPassword": "كلمة المرور الجديدة",
             "newPasswordPlaceholder": "أدخل كلمة المرور الجديدة",
             "confirmPassword": "تأكيد كلمة المرور",
-            "confirmPasswordPlaceholder": "تأكيد كلمة المرور",
+            "confirmPasswordPlaceholder": "أكد كلمة المرور",
             "resetButton": "إعادة تعيين كلمة المرور",
             "description": {
-                "line1": "أدخل كلمة المرور الجديدة."
+                "line1": "أدخل كلمة مرور جديدة لحسابك."
             }
         }
     },
     "SideMenu": {
         "dashboard": "لوحة التحكم",
         "tenant": {
-            "title": "مستأجر",
+            "title": "المستأجر",
             "submenu": {
-                "list": "قائمة مستأجر",
-                "add": "إضافة عقار"
+                "list": "قائمة المستأجرين",
+                "add": "إضافة مستأجر"
             }
         }
     },
@@ -103,48 +103,72 @@
     },
     "TenantPages": {
         "tenantListPage": {
-            "title": "قائمة الطلبات",
-            "description": "يعرض قائمة الطلبات جميع الطلبات المتاحة مع التفاصيل الرئيسية للتصفح السهل.",
+            "title": "صفحة قائمة المستأجرين",
+            "description": "تعرض صفحة قائمة المستأجرين جميع طلبات المستأجر المتاحة مع التفاصيل الأساسية لسهولة التصفح.",
             "navigateCreateTenant": {
-                "createTenantBtn": "إنشاء طلب"
+                "createTenantBtn": "إنشاء مستأجر"
             },
             "tenantTable": {
-                "title": "جدول الطلبات",
-                "searchPlaceholder": "ابحث عن طلب...",
+                "title": "جدول المستأجرين",
+                "searchPlaceholder": "ابحث عن مستأجر...",
                 "tenantHeader": {
-                    "id": "الرقم",
-                    "leadId": "رقم الطلب",
-                    "description": "الوصف",
-                    "status": "الحالة",
-                    "createdAt": "تاريخ الطلب",
+                    "tenantId": "معرّف المستأجر",
+                    "name": "الاسم",
+                    "domain": "النطاق",
+                    "createdAt": "تاريخ الإنشاء",
                     "isActive": "نشط",
-                    "published": "منشئ",
                     "draft": "مسودة",
                     "actions": "الإجراءات",
-                    "editTooltip": "تعديل طلب الصيانة",
-                    "viewTooltip": "عرض طلب الصيانة",
+                    "viewTooltip": "عرض تفاصيل المستأجر",
                     "tenantDelete": {
-                        "title": "حذف طلب الصيانة",
-                        "description": "هل أنت متأكد أنك تريد حذف هذا #{id} طلب الصيانة؟"
+                        "title": "حذف طلب المستأجر",
+                        "description": "هل أنت متأكد أنك تريد حذف طلب المستأجر ذو المعرّف #{id}؟"
                     },
                     "tenantToast": {
                         "statusUpdated": "تم تحديث الحالة بنجاح",
-                        "statusUpdateFailed": "فشل تحديث الحالة"
+                        "statusUpdateFailed": "فشل في تحديث الحالة"
                     }
                 }
+            },
+            "statsOverview": {
+                "totalTenants": "إجمالي المستأجرين",
+                "activeTenants": "المستأجرون النشطون",
+                "inActiveTenants": "المستأجرون غير النشطين",
+                "mostRecentCreated": "الأحدث إنشاءً"
             }
         },
         "tenantDetailPage": {
-            "title": "Tenant List Page",
-            "description": "The Tenant List Page displays all available Tenant requests with key details for easy browsing."
+            "title": "صفحة تفاصيل المستأجر",
+            "description": "تعرض صفحة تفاصيل المستأجر جميع طلبات المستأجر المتاحة مع التفاصيل الأساسية لسهولة التصفح.",
+            "tenantDetails": {
+                "title": "تفاصيل المستأجر",
+                "id": "معرّف المستأجر",
+                "name": "الاسم",
+                "status": "الحالة",
+                "createdAt": "تاريخ الإنشاء",
+                "updatedAt": "تاريخ التحديث"
+            }
+        },
+        "createTenantPage": {
+            "title": "إنشاء مستأجر",
+            "description": "صفحة إنشاء مستأجر",
+            "form": {
+                "name": "الاسم",
+                "namePlaceholder": "أدخل اسم المستأجر",
+                "domain": "النطاق",
+                "domainPlaceholder": "أدخل النطاق",
+                "btn": {
+                    "createBtn": "إنشاء"
+                }
+            }
         }
     },
     "ProfilePages": {
         "changePasswordPage": {
-            "title": "تغيير كلمة المرور",
-            "description": "يسمح هذا الصفحة بتغيير كلمة المرور.",
+            "title": "صفحة تغيير كلمة المرور",
+            "description": "تتيح لك صفحة تغيير كلمة المرور تعديل كلمة المرور الخاصة بك.",
             "navigateBack": {
-                "back": "الرجوع"
+                "back": "رجوع"
             },
             "loading": "جاري تغيير كلمة المرور...",
             "form": {
@@ -153,11 +177,11 @@
                 "newPassword": "كلمة المرور الجديدة",
                 "newPasswordPlaceholder": "أدخل كلمة المرور الجديدة",
                 "confirmPassword": "تأكيد كلمة المرور الجديدة",
-                "confirmPasswordPlaceholder": "أدخل كلمة المرور الجديدة"
+                "confirmPasswordPlaceholder": "أكد كلمة المرور الجديدة"
             },
             "btn": {
                 "cancel": "إلغاء",
-                "updating": "جاري تحديث كلمة المرور...",
+                "updating": "جاري التحديث...",
                 "updatePassword": "تحديث كلمة المرور"
             }
         }

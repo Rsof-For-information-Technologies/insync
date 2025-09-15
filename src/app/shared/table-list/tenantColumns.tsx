@@ -2,14 +2,14 @@
 
 import DeletePopover from '@/app/shared/delete-popover';
 import EyeIcon from '@/components/icons/eye';
-import PencilIcon from '@/components/icons/pencil';
 import DateCell from '@/components/ui/date-cell';
 import { HeaderCell } from '@/components/ui/table';
 import { routes } from '@/config/routes';
 import { Building, Calendar, Globe, Users } from 'lucide-react';
 import Link from 'next/link';
-import { ActionIcon, Badge, Text, Tooltip } from 'rizzui';
+import { ActionIcon, Text, Tooltip } from 'rizzui';
 import { TenantSwitch } from './(components)/tenantSwitch';
+import { useTranslations } from 'next-intl';
 
 export type TenantColumnsParams = {
     sortConfig?: any;
@@ -24,9 +24,11 @@ export const getTenantColumns = ({
     onDeleteItem,
     onHeaderCellClick,
     locale,
-}: TenantColumnsParams) => [
+}: TenantColumnsParams) => {
+    const t = useTranslations('TenantPages.tenantListPage.tenantTable.tenantHeader');
+    return [
         {
-            title: <HeaderCell title="Tenant ID" />,
+            title: <HeaderCell title={t('tenantId')} />,
             dataIndex: 'id',
             key: 'id',
             width: 220,
@@ -42,7 +44,7 @@ export const getTenantColumns = ({
         {
             title: (
                 <HeaderCell
-                    title="Name"
+                    title={t('name')}
                     sortable
                     ascending={
                         sortConfig?.direction === 'asc' && sortConfig?.key === 'name'
@@ -63,7 +65,7 @@ export const getTenantColumns = ({
             ),
         },
         {
-            title: <HeaderCell title="Domain" />,
+            title: <HeaderCell title={t('domain')} />,
             dataIndex: 'domain',
             key: 'domain',
             width: 200,
@@ -79,7 +81,7 @@ export const getTenantColumns = ({
         {
             title: (
                 <HeaderCell
-                    title="Created"
+                    title={t('createdAt')}
                     sortable
                     ascending={
                         sortConfig?.direction === 'asc' && sortConfig?.key === 'createdAt'
@@ -111,7 +113,7 @@ export const getTenantColumns = ({
         //     ),
         // },
         {
-            title: <HeaderCell title="Actions" className="justify-end" />,
+            title: <HeaderCell title={t('actions')} className="justify-end" />,
             dataIndex: 'action',
             key: 'action',
             width: 220,
@@ -120,7 +122,7 @@ export const getTenantColumns = ({
                     <TenantSwitch row={row} />
                     <Tooltip
                         size="sm"
-                        content={'View Tenant'}
+                        content={t('viewTooltip')}
                         placement="top"
                         color="invert"
                     >
@@ -152,12 +154,13 @@ export const getTenantColumns = ({
                             </ActionIcon>
                         </Link>
                     </Tooltip> */}
-                    <DeletePopover
-                        title={`Delete the tenant`}
-                        description={`Are you sure you want to delete tenant #${row.id}? This action cannot be undone.`}
+                    {/* <DeletePopover
+                        title={t('tenantDelete.title')}
+                        description={t('tenantDelete.description', { id: row.id })}
                         onDelete={() => onDeleteItem(row.id)}
-                    />
+                    /> */}
                 </div>
             ),
         },
-    ];
+    ]
+}
