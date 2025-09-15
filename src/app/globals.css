@@ -480,3 +480,9 @@ input[type="number"] {
   color: #1d4ed8;
   text-decoration: underline;
 }
+
+.custon-switch {
+  label {
+    margin: 0;
+  }
+}

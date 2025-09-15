@@ -14,6 +14,10 @@ import { useTranslations } from "next-intl";
 import { changePassword } from "@/apiCalls/auth/authApi";
 import { Params } from "@/types/params";
 import { routes } from "@/config/routes";
+import Header from "../../(components)/CommonHeader";
+import Authenticate from "@/components/auth/authenticate";
+import Authorize from "@/components/auth/authorize";
+import { UserRole } from "@/types/userRoles";
 
 export default function PasswordSettingsView() {
   const t = useTranslations("ProfilePages.changePasswordPage");
@@ -90,82 +94,77 @@ export default function PasswordSettingsView() {
   }
 
   return (
-    <>
-      <button
-        className="text-gray-600 hover:text-gray-900"
-        onClick={() => router.back()}
-      >
-        <span className="flex items-center gap-2">
-          <PiArrowLeft className="h-5 w-5" />
-          {t('back')}
-        </span>
-      </button>
-      <div className="flex flex-col py-6">
-        <div>
-          <h1 className="mb-4 text-2xl font-semibold">{t('title')}</h1>
-          <p className="mb-6 text-gray-600">{t('description')}</p>
-        </div>
-      </div>
-      <div className="bg-gray-50 rounded-lg shadow-sm p-6 dark:bg-gray-100 w-full max-w-2xl mx-auto">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="@container"
-          id="password-change-form"
-        >
-          <div className="mx-auto w-full max-w-screen-sm">
-            <HorizontalFormBlockWrapper
-              title={t('form.currentPassword')}
-              titleClassName="text-base font-medium"
+    <Authenticate>
+      <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
+        <div className="flex flex-col space-y-6">
+          <Header
+            title={t('title')}
+            description={t('description')}
+            icon={<PiArrowLeft size={18} />}
+            btnText={t('navigateBack.back')}
+          />
+          <div className="bg-gray-50 rounded-lg shadow-sm p-6 dark:bg-gray-100 w-full max-w-2xl mx-auto">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="@container"
+              id="password-change-form"
             >
-              <Password
-                id="current-password"
-                {...register("currentPassword")}
-                placeholder={t('form.currentPasswordPlaceholder')}
-                error={errors.currentPassword?.message}
-              />
-            </HorizontalFormBlockWrapper>
-
-            <HorizontalFormBlockWrapper
-              title={t('form.newPassword')}
-              titleClassName="text-base font-medium"
-            >
-              <Controller
-                control={control}
-                name="newPassword"
-                render={({ field }) => (
+              <div className="mx-auto w-full max-w-screen-sm">
+                <HorizontalFormBlockWrapper
+                  title={t('form.currentPassword')}
+                  titleClassName="text-base font-medium"
+                >
                   <Password
-                    {...field}
-                    id="new-password"
-                    placeholder={t('form.newPasswordPlaceholder')}
-                    error={errors.newPassword?.message}
+                    id="current-password"
+                    {...register("currentPassword")}
+                    placeholder={t('form.currentPasswordPlaceholder')}
+                    error={errors.currentPassword?.message}
                   />
-                )}
-              />
-            </HorizontalFormBlockWrapper>
+                </HorizontalFormBlockWrapper>
 
-            <div className="mt-6 flex w-auto items-center justify-end gap-3">
-              <Button
-                id="cancel-password-change"
-                type="button"
-                variant="outline"
-                onClick={() => reset()}
-                disabled={isLoading}
-              >
-                {t('btn.cancel')}
-              </Button>
-              <Button
-                id="submit-password-change"
-                type="submit"
-                variant="solid"
-                isLoading={isLoading}
-                disabled={isLoading || !userInfo.userId}
-              >
-                {t('btn.updatePassword')}
-              </Button>
-            </div>
+                <HorizontalFormBlockWrapper
+                  title={t('form.newPassword')}
+                  titleClassName="text-base font-medium"
+                >
+                  <Controller
+                    control={control}
+                    name="newPassword"
+                    render={({ field }) => (
+                      <Password
+                        {...field}
+                        id="new-password"
+                        placeholder={t('form.newPasswordPlaceholder')}
+                        error={errors.newPassword?.message}
+                      />
+                    )}
+                  />
+                </HorizontalFormBlockWrapper>
+
+                <div className="mt-6 flex w-auto items-center justify-end gap-3">
+                  <Button
+                    id="cancel-password-change"
+                    type="button"
+                    variant="outline"
+                    onClick={() => reset()}
+                    disabled={isLoading}
+                  >
+                    {t('btn.cancel')}
+                  </Button>
+                  <Button
+                    id="submit-password-change"
+                    type="submit"
+                    variant="solid"
+                    isLoading={isLoading}
+                    disabled={isLoading || !userInfo.userId}
+                  >
+                    {t('btn.updatePassword')}
+                  </Button>
+                </div>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    </>
+        </div>
+      </Authorize>
+    </Authenticate>
   );
 }

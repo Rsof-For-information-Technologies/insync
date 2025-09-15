@@ -4,7 +4,6 @@ import type { SignupRequest, SignupResponse } from '@/types/auth/signup';
 import type { ForgotPasswordRequest, ForgotPasswordResponse } from '@/types/auth/forgotPassword';
 import type { ResetPasswordRequest, ResetPasswordResponse } from '@/types/auth/resetPassword';
 import type { ChangePasswordRequest, ChangePasswordResponse } from '@/types/profile/changePassword';
-import { ChangePasswordSchema } from '@/validators/profile/updatePassword';
 
 // New registration API for User Management
 export const registerUser = async (payload: SignupRequest): Promise<SignupResponse> => {
