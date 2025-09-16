@@ -83,6 +83,13 @@
                 "list": "قائمة المستأجرين",
                 "add": "إضافة مستأجر"
             }
+        },
+        "organization": {
+            "title": "المنظمة",
+            "submenu": {
+                "list": "قائمة المنظمات",
+                "add": "إضافة منظمة"
+            }
         }
     },
     "loading": {
@@ -165,6 +172,59 @@
                 "btn": {
                     "createBtn": "إنشاء"
                 }
+            }
+        }
+    },
+    "OrganizationPages": {
+        "organizationListPage": {
+            "title": "صفحة قائمة المنظمات",
+            "description": "تعرض صفحة قائمة المنظمات جميع طلبات المنظمات المتاحة مع التفاصيل الأساسية لسهولة التصفح.",
+            "navigateCreateOrganization": {
+                "createOrganizationBtn": "إنشاء منظمة"
+            },
+            "organizationTable": {
+                "title": "جدول المنظمات",
+                "searchPlaceholder": "ابحث عن منظمة...",
+                "organizationHeader": {
+                    "organizationId": "معرّف المنظمة",
+                    "name": "الاسم",
+                    "email": "البريد الإلكتروني",
+                    "phone": "الهاتف",
+                    "country": "الدولة",
+                    "industryType": "نوع الصناعة",
+                    "createdAt": "تاريخ الإنشاء",
+                    "isActive": "نشط",
+                    "active": "نشط",
+                    "draft": "غير نشط",
+                    "actions": "الإجراءات",
+                    "viewTooltip": "عرض تفاصيل المنظمة",
+                    "organizationDelete": {
+                        "title": "حذف طلب المنظمة",
+                        "description": "هل أنت متأكد أنك تريد حذف طلب المنظمة ذو المعرّف #{id}؟"
+                    },
+                    "organizationToast": {
+                        "statusUpdated": "تم تحديث الحالة بنجاح",
+                        "statusUpdateFailed": "فشل في تحديث الحالة"
+                    }
+                }
+            }
+        },
+        "organizationDetailPage": {
+            "title": "صفحة تفاصيل المنظمة",
+            "description": "تعرض صفحة تفاصيل المنظمة المعلومات الخاصة بالمنظمة المحددة.",
+            "active": "نشط",
+            "inactive": "غير نشط",
+            "organizationDetails": {
+                "title": "تفاصيل المنظمة",
+                "id": "معرّف المنظمة",
+                "tenantId": "معرّف المستأجر",
+                "name": "الاسم",
+                "email": "البريد الإلكتروني",
+                "phone": "الهاتف",
+                "country": "الدولة",
+                "status": "الحالة",
+                "createdAt": "تاريخ الإنشاء",
+                "updatedAt": "تاريخ التحديث"
             }
         }
     },

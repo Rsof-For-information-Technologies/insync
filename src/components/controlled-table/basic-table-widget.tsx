@@ -54,7 +54,7 @@ export default function BasicTableWidget({
   title,
   data = [],
   getColumns,
-  pageSize = 7,
+  pageSize = 10,
   setPageSize,
   enablePagination,
   variant = 'modern',
@@ -62,7 +62,7 @@ export default function BasicTableWidget({
   paginatorClassName,
   noGutter,
   sticky,
-  scroll = { x: 1300 },
+  scroll = { x: 1600 },
   className,
   searchPlaceholder = 'Search...',
 }: BasicTableWidgetProps) {
