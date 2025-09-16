@@ -1,10 +1,12 @@
 import type { Tenant } from "@/types/tenant/getAllTenant";
 import { Building, CreditCard, Package, Users } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 interface StatsOverviewProps {
   data: Tenant[];
 }
 
-export default function StatsOverview({ data }: StatsOverviewProps) {
+export default async function StatsOverview({ data }: StatsOverviewProps) {
+  const t = await getTranslations('TenantPages.tenantListPage.statsOverview')
   const totalTenants = data.length;
   const activeTenants = data.filter((t) => t.isActive).length;
   const inactiveTenants = data.filter((t) => !t.isActive).length;
@@ -22,7 +24,7 @@ export default function StatsOverview({ data }: StatsOverviewProps) {
           <span className="text-sm font-medium text-blue-600 dark:text-blue-400">+12%</span>
         </div>
         <p className="text-2xl font-bold text-gray-800 dark:text-white">{totalTenants}</p>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">Total Tenants</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{t('totalTenants')}</p>
       </div>
 
       <div className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 p-5 rounded-xl border border-green-200 dark:border-green-700/50 shadow-sm">
@@ -33,7 +35,7 @@ export default function StatsOverview({ data }: StatsOverviewProps) {
           <span className="text-sm font-medium text-green-600 dark:text-green-400">+8%</span>
         </div>
         <p className="text-2xl font-bold text-gray-800 dark:text-white">{activeTenants}</p>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">Active Tenants</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{t('activeTenants')}</p>
       </div>
 
       <div className="bg-gradient-to-r from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30 p-5 rounded-xl border border-amber-200 dark:border-amber-700/50 shadow-sm">
@@ -44,7 +46,7 @@ export default function StatsOverview({ data }: StatsOverviewProps) {
           <span className="text-sm font-medium text-amber-600 dark:text-amber-400">-3%</span>
         </div>
         <p className="text-2xl font-bold text-gray-800 dark:text-white">{inactiveTenants}</p>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">Inactive Tenants</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{t('inActiveTenants')}</p>
       </div>
 
       <div className="bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 p-5 rounded-xl border border-purple-200 dark:border-purple-700/50 shadow-sm">
@@ -55,7 +57,7 @@ export default function StatsOverview({ data }: StatsOverviewProps) {
           <span className="text-sm font-medium text-purple-600 dark:text-purple-400">+5%</span>
         </div>
         <p className="text-2xl font-bold text-gray-800 dark:text-white">{recentCreated ? new Date(recentCreated).toLocaleDateString() : '-'}</p>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">Most Recent Created</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{t('mostRecentCreated')}</p>
       </div>
     </div>
   );

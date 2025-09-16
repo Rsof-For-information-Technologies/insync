@@ -2,6 +2,7 @@ import { apiCall } from '@/config/api';
 import type { GetAllTenantsResponse } from '@/types/tenant/getAllTenant';
 import type { TenantById } from '@/types/tenant/getTenantById';
 import type { UpdateTenantRequest, UpdateTenantResponse } from '@/types/tenant/updateTenant';
+import type { CreateTenantRequest, CreateTenantResponse } from '@/types/tenant/createTenant';
 
 // Get all tenants (client-side)
 export const getAllTenants = async (): Promise<GetAllTenantsResponse> => {
@@ -30,6 +31,17 @@ export const updateTenant = async (payload: UpdateTenantRequest): Promise<Update
   const api = apiCall();
   try {
     const { data } = await api.put<UpdateTenantResponse>('/TenantModel/Update', payload);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Create tenant (client-side)
+export const createTenant = async (payload: CreateTenantRequest): Promise<CreateTenantResponse> => {
+  const api = apiCall();
+  try {
+    const { data } = await api.post<CreateTenantResponse>('/TenantModel/Create', payload);
     return data;
   } catch (error) {
     throw error;
