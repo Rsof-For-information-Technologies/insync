@@ -83,7 +83,8 @@
                 "list": "Tenant List",
                 "add": "Add Tenant"
             }
-        }
+        },
+        "channel": "Channels"
     },
     "loading": {
         "title": "Loading..."
@@ -92,9 +93,14 @@
         "title": "Dashboard",
         "description": "Welcome to the dashboard of Insync Admin Site"
     },
-    "Chatbot":{
-        "nodeTitle" : "User Input",
+    "Chatbot": {
+        "title": "Chatbots",
+        "nodeTitle": "User Input",
         "nodeName": "Text Node"
+    },
+    "Channel": {
+        "title": "Channels",
+        "description": "Connected Channels"
     },
     "tableFooter": {
         "pages": "Pages",

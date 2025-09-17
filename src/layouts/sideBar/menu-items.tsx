@@ -1,8 +1,10 @@
 import { routes } from '@/config/routes';
-import { FaFolderOpen} from "react-icons/fa";
+import { FaFolderOpen } from "react-icons/fa";
+import { User } from "@/types/user";
 import { JSX } from "react";
 import { UserRole } from '@/types/userRoles';
 import { BsBuilding } from 'react-icons/bs';
+import { ImPowerCord } from "react-icons/im";
 
 // Note: do not add href in the label object, it is rendering as label
 export type MenuItemDropdownItem = {
@@ -51,6 +53,12 @@ export function MenuItems(locale: string): MenuItem[] {
             allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
           }
         ]
+      },
+      {
+        translationKey: "channel",
+        href: `/${locale}${routes.channel}`,
+        icon: <ImPowerCord />,
+        allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
       },
     ]
   )
