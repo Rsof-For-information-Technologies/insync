@@ -83,6 +83,13 @@
                 "list": "Tenant List",
                 "add": "Add Tenant"
             }
+        },
+        "organization": {
+            "title": "Organization",
+            "submenu": {
+                "list": "Organization List",
+                "add": "Add Organization"
+            }
         }
     },
     "loading": {
@@ -165,6 +172,59 @@
                 "btn": {
                     "createBtn": "Create"
                 }
+            }
+        }
+    },
+    "OrganizationPages": {
+        "organizationListPage": {
+            "title": "Organization List Page",
+            "description": "The Organization List Page displays all available Organization requests with key details for easy browsing.",
+            "navigateCreateOrganization": {
+                "createOrganizationBtn": "Create Organization"
+            },
+            "organizationTable": {
+                "title": "Organization Table",
+                "searchPlaceholder": "Search Organization...",
+                "organizationHeader": {
+                    "organizationId": "Organization ID",
+                    "name": "Name",
+                    "email": "Email",
+                    "phone": "Phone",
+                    "country": "Country",
+                    "industryType": "Industry Type",
+                    "createdAt": "Created At",
+                    "isActive": "Active",
+                    "active": "Active",
+                    "draft": "Inactive",
+                    "actions": "Actions",
+                    "viewTooltip": "View Organization details",
+                    "organizationDelete": {
+                        "title": "Delete the Organization Request",
+                        "description": "Are you sure you want to delete this #{id} Organization request?"
+                    },
+                    "organizationToast": {
+                        "statusUpdated": "Status updated successfully",
+                        "statusUpdateFailed": "Failed to update status"
+                    }
+                }
+            }
+        },
+        "organizationDetailPage": {
+            "title": "Organization Details Page",
+            "description": "The Organization Details Page displays the selected Organization information.",
+            "active": "Active",
+            "inactive": "Inactive",
+            "organizationDetails": {
+                "title": "Organization Details",
+                "id": "Organization ID",
+                "tenantId": "Tenant ID",
+                "name": "Name",
+                "email": "Email",
+                "phone": "Phone",
+                "country": "Country",
+                "status": "Status",
+                "createdAt": "Created at",
+                "updatedAt": "Updated at"
             }
         }
     },

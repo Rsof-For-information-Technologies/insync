@@ -9,6 +9,13 @@ export const routes = {
     editTenant: (tenantId: string) => `/tenant/${tenantId}/update`,
   },
 
+  organization:{
+    list: "/organization",
+    create: "/organization/create",
+    organizationDetails: (organizationId: string) => `/organization/${organizationId}`,
+    editOrganization: (organizationId: string) => `/organization/${organizationId}/update`,
+  },
+
   auth:{
     login: "/auth/login",
     signup: "/auth/signup",

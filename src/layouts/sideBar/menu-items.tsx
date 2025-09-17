@@ -3,6 +3,7 @@ import { FaFolderOpen} from "react-icons/fa";
 import { JSX } from "react";
 import { UserRole } from '@/types/userRoles';
 import { BsBuilding } from 'react-icons/bs';
+import { RiOrganizationChart } from "react-icons/ri";
 
 // Note: do not add href in the label object, it is rendering as label
 export type MenuItemDropdownItem = {
@@ -47,6 +48,20 @@ export function MenuItems(locale: string): MenuItem[] {
           {
             translationKey: "tenant.submenu.list",
             href: `/${locale}${routes.tenant.list}`,
+            badge: '',
+            allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+          }
+        ]
+      },
+      {
+        translationKey: "organization.title",
+        href: `#`,
+        icon: <RiOrganizationChart />,
+        allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+        dropdownItems: [
+          {
+            translationKey: "organization.submenu.list",
+            href: `/${locale}${routes.organization.list}`,
             badge: '',
             allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
           }
