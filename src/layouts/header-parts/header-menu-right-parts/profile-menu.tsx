@@ -20,11 +20,6 @@ function DropdownMenu() {
     <div className="w-64 text-left rtl:text-right">
       <div className="flex items-center border-b border-gray-300 px-5 pb-5 pt-6">
         <ShadcnAvatar className="!h-9 w-9 sm:!h-10 sm:!w-10">
-          {/* <ShadcnAvatarImage
-            src={userInfo?.profileImage
-              ? `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/image/${userInfo?.profileImage}`
-              : ""}
-          /> */}
           <ShadcnAvatarFallback>
             {userInfo?.firstName?.charAt(0)}{userInfo?.lastName?.charAt(0)}
           </ShadcnAvatarFallback>
@@ -94,11 +89,6 @@ export default function ProfileMenu({
           )}
         >
           <ShadcnAvatar className="!h-9 w-9 sm:!h-10 sm:!w-10">
-            {/* <ShadcnAvatarImage
-              src={userInfo?.profileImage
-                ? `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/image/${userInfo?.profileImage}`
-                : ""}
-            /> */}
             <ShadcnAvatarFallback>
               {userInfo?.firstName?.charAt(0)}{userInfo?.lastName?.charAt(0)}
             </ShadcnAvatarFallback>

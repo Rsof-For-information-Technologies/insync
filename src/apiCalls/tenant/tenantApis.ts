@@ -1,12 +1,12 @@
-import { apiCall } from '@/config/api';
+import { tenantApiCall } from '@/config/api';
+import type { CreateTenantRequest, CreateTenantResponse } from '@/types/tenant/createTenant';
 import type { GetAllTenantsResponse } from '@/types/tenant/getAllTenant';
 import type { TenantById } from '@/types/tenant/getTenantById';
 import type { UpdateTenantRequest, UpdateTenantResponse } from '@/types/tenant/updateTenant';
-import type { CreateTenantRequest, CreateTenantResponse } from '@/types/tenant/createTenant';
 
 // Get all tenants (client-side)
 export const getAllTenants = async (): Promise<GetAllTenantsResponse> => {
-  const api = apiCall();
+  const api = tenantApiCall();
   try {
     const { data } = await api.get<GetAllTenantsResponse>('/TenantModel/GetAll');
     return data;
@@ -17,7 +17,7 @@ export const getAllTenants = async (): Promise<GetAllTenantsResponse> => {
 
 // Get tenant by id (client-side)
 export const getTenantById = async (id: string): Promise<TenantById> => {
-  const api = apiCall();
+  const api = tenantApiCall();
   try {
     const { data } = await api.get<TenantById>(`/TenantModel/Get/${id}`);
     return data;
@@ -28,7 +28,7 @@ export const getTenantById = async (id: string): Promise<TenantById> => {
 
 // Update tenant status (client-side)
 export const updateTenant = async (payload: UpdateTenantRequest): Promise<UpdateTenantResponse> => {
-  const api = apiCall();
+  const api = tenantApiCall();
   try {
     const { data } = await api.put<UpdateTenantResponse>('/TenantModel/Update', payload);
     return data;
@@ -39,7 +39,7 @@ export const updateTenant = async (payload: UpdateTenantRequest): Promise<Update
 
 // Create tenant (client-side)
 export const createTenant = async (payload: CreateTenantRequest): Promise<CreateTenantResponse> => {
-  const api = apiCall();
+  const api = tenantApiCall();
   try {
     const { data } = await api.post<CreateTenantResponse>('/TenantModel/Create', payload);
     return data;
