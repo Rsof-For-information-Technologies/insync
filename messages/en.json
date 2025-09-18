@@ -165,6 +165,25 @@
                 "status": "Status",
                 "createdAt": "Created at",
                 "updatedAt": "Updated at"
+            },
+            "organizationTable": {
+                "title": "Tenant Organization Table",
+                "searchPlaceholder": "Search Organization...",
+                "organizationHeader": {
+                    "organizationId": "Organization ID",
+                    "name": "Name",
+                    "email": "Email",
+                    "phone": "Phone",
+                    "country": "Country",
+                    "industryType": "Industry Type",
+                    "createdAt": "Created At",
+                    "isActive": "Active",
+                    "active": "Active",
+                    "inactive": "Inactive",
+                    "draft": "Draft",
+                    "actions": "Actions",
+                    "viewTooltip": "View Organization details"
+                }
             }
         },
         "createTenantPage": {
@@ -223,6 +242,7 @@
             "organizationDetails": {
                 "title": "Organization Details",
                 "id": "Organization ID",
+                "industryType": "Industry Type",
                 "tenantId": "Tenant ID",
                 "name": "Name",
                 "email": "Email",

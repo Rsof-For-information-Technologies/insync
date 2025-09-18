@@ -165,6 +165,25 @@
                 "status": "الحالة",
                 "createdAt": "تاريخ الإنشاء",
                 "updatedAt": "تاريخ التحديث"
+            },
+            "organizationTable": {
+                "title": "جدول منظمات المستأجر",
+                "searchPlaceholder": "ابحث عن منظمة...",
+                "organizationHeader": {
+                    "organizationId": "معرّف المنظمة",
+                    "name": "الاسم",
+                    "email": "البريد الإلكتروني",
+                    "phone": "الهاتف",
+                    "country": "الدولة",
+                    "industryType": "نوع الصناعة",
+                    "createdAt": "تاريخ الإنشاء",
+                    "isActive": "نشط",
+                    "active": "نشط",
+                    "inactive": "غير نشط",
+                    "draft": "مسودة",
+                    "actions": "الإجراءات",
+                    "viewTooltip": "عرض تفاصيل المنظمة"
+                }
             }
         },
         "createTenantPage": {
@@ -223,6 +242,7 @@
             "organizationDetails": {
                 "title": "تفاصيل المنظمة",
                 "id": "معرّف المنظمة",
+                "industryType": "نوع الصناعة",
                 "tenantId": "معرّف المستأجر",
                 "name": "الاسم",
                 "email": "البريد الإلكتروني",
