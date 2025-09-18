@@ -1,9 +1,7 @@
 "use client";
-
 import React, { useEffect } from "react";
 import { registerChannel } from "@/apiCalls/channel/channelapi";
-import type { CreateChannelRequest, CreateChannelResponse } from "@/types/channel/createChannel";
-
+import type { CreateChannelRequest, CreateChannelResponse, SessionInfoResponse, SdkResponse } from "@/types/channel/createChannel";
 declare global {
   interface Window {
     fbAsyncInit: () => void;
@@ -76,42 +74,32 @@ const EmbeddedSignup: React.FC<EmbeddedSignupProps> = ({ appId, configId }) => {
     window.FB.login(
       (response: FacebookLoginStatus) => {
         console.log("FB login response:", response);
-
-        const sdkResponse = document.getElementById("sdk-response");
-        if (sdkResponse) {
-          sdkResponse.textContent = JSON.stringify(response, null, 2);
-        }
-
         (async () => {
           const code = response.authResponse?.code ?? "";
           if (!code) return;
-
+          const sdkResponse = response as unknown as SdkResponse;
+          const sessionInfoRes = await fetch(`/api/get-session-info?code=${code}`);
+          const sessionInfo: SessionInfoResponse = await sessionInfoRes.json();
           const payload: CreateChannelRequest = {
             organizationID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
             tenantID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            phoneNumberId: "string",
-            wabaId: "string",
-            businessId: "string",
-            businessType: "string",
-            wabaUserId: "string",
-            expiresIn: String(response.authResponse?.expiresIn ?? ""),
-            code,
-            status: response.status,
-            token: response.authResponse?.accessToken ?? "",
+            phoneNumberId: sessionInfo.data.phone_number_id,
+            wabaId: sessionInfo.data.waba_id,
+            businessId: sessionInfo.data.business_id,
+            businessType: sessionInfo.type,
+            wabaUserId: sdkResponse.authResponse.userID ?? "",
+            expiresIn: String(sdkResponse.authResponse.expiresIn ?? ""),
+            code: sdkResponse.authResponse.code,
+            status: sdkResponse.status,
+            token: sdkResponse.authResponse.accessToken ?? ""
           };
-
           try {
             const apiRes: CreateChannelResponse = await registerChannel(payload);
-            const apiResponse = document.getElementById("api-response");
-            if (apiResponse) {
-              apiResponse.textContent = JSON.stringify(apiRes, null, 2);
-            }
+            console.log("API response:", apiRes);
           } catch (err: unknown) {
-            const apiResponse = document.getElementById("api-response");
-            const message = err instanceof Error ? err.message : "Request failed";
-            if (apiResponse) {
-              apiResponse.textContent = JSON.stringify({ error: message }, null, 2);
-            }
+            const message =
+              err instanceof Error ? err.message : "Request failed";
+            console.error("API error:", message);
           }
         })();
       },
@@ -119,9 +107,8 @@ const EmbeddedSignup: React.FC<EmbeddedSignupProps> = ({ appId, configId }) => {
         config_id: configId,
         response_type: "code",
         override_default_response_type: true,
-        scope:
-          "whatsapp_business_management, whatsapp_business_messaging",
-        extras: { version: "v3" },
+        scope: "whatsapp_business_management, whatsapp_business_messaging",
+        extras: { version: "v3" }
       }
     );
   };
@@ -130,26 +117,10 @@ const EmbeddedSignup: React.FC<EmbeddedSignupProps> = ({ appId, configId }) => {
     <div>
       <button
         onClick={handleSignup}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold"
+        className="px-[20px] py-[10px] bg-black text-white rounded-lg  font-semibold"
       >
         Add Channel
       </button>
-
-      <div className="mt-4">
-        <p className="font-semibold">SDK Response:</p>
-        <pre
-          id="sdk-response"
-          className="bg-gray-100 p-2 rounded text-sm overflow-x-auto"
-        ></pre>
-      </div>
-
-      <div className="mt-4">
-        <p className="font-semibold">API Response:</p>
-        <pre
-          id="api-response"
-          className="bg-gray-100 p-2 rounded text-sm overflow-x-auto"
-        ></pre>
-      </div>
     </div>
   );
 };

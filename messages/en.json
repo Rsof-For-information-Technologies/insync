@@ -100,10 +100,11 @@
         "title": "Dashboard",
         "description": "Welcome to the dashboard of Insync Admin Site"
     },
-    "Chatbot": {
-        "title": "Chatbots",
-        "nodeTitle": "User Input",
-        "nodeName": "Text Node"
+    "Chatbot":{
+        "title":"Chatbots",
+        "nodeTitle" : "User Input",
+        "nodeName": "Text Node",
+        "createButton":" Create Chatbot"
     },
     "Channel": {
         "title": "Channels",
