@@ -103,7 +103,8 @@
     "Chatbot": {
         "title":"روبوتات الدردشة",
         "nodeTitle": "مدخل المستخدم",
-        "nodeName": "نص العقدة"
+        "nodeName": "نص العقدة",
+        "createButton":" إنشاء روبوت دردشة"
     },
     "Channel": {
         "title": "القنوات",

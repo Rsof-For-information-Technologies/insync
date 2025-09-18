@@ -40,3 +40,23 @@ export interface CreateChannelResponse {
   message: string;
   data: ChannelData;
 }
+export interface SessionInfoResponse {
+  data: {
+    phone_number_id: string;
+    waba_id: string;
+    business_id: string;
+  };
+  type: string;
+  event: string;
+  version: string;
+}
+export interface SdkResponse {
+  authResponse: {
+    userID: string | null;
+    expiresIn: number | null;
+    code: string;
+    accessToken?: string;
+  };
+  status: string;
+}
+
