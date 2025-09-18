@@ -1,26 +1,32 @@
+import { getAllOrganizationsByTenantId, getTenantById } from "@/apiCalls/tenant/tenantApis";
+import { getOrganizationByTenantIdColumns } from "@/app/shared/table-list/organizationByTenantIdColumns";
 import Authenticate from "@/components/auth/authenticate";
 import Authorize from "@/components/auth/authorize";
+import BasicTableWidget from "@/components/controlled-table/basic-table-widget";
+import type { TenantById } from "@/types/tenant/getTenantById";
 import { UserRole } from "@/types/userRoles";
-import { ArrowLeft, Building, Calendar, Clock, Hash, RefreshCw } from "lucide-react";
+import { Building, Calendar, Clock, Hash, RefreshCw } from "lucide-react";
+import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import CollapsibleSection from "../../(components)/CollapsibleSection";
 import Header from "../../(components)/CommonHeader";
-import { getTenantById } from "@/apiCalls/tenant/tenantApis";
-import type { TenantById } from "@/types/tenant/getTenantById";
+
+export const metadata: Metadata = {
+  title: "Tenant Management",
+};
 
 export default async function DetailsTenant({ params }: { params: { tenantId: string } }) {
     const t = await getTranslations('TenantPages.tenantDetailPage')
+    const res = await getAllOrganizationsByTenantId( { tenantId: params.tenantId } );
+    const getOrganizations = res.data;
     const { tenantId } = params;
-
     const tenant: TenantById = await getTenantById(tenantId);
 
     return (
         <Authenticate >
             <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
                 <div className="flex flex-col space-y-6">
-                    {/* Header Section */}
                     <Header title={t('title')} description={t('description')} />
-
                     <CollapsibleSection title={t('tenantDetails.title')} defaultOpen>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border border-gray-200 dark:border-gray-200">
@@ -86,6 +92,20 @@ export default async function DetailsTenant({ params }: { params: { tenantId: st
                             </div>
                         </div>
                     </CollapsibleSection>
+                </div>
+                <div className="flex flex-col space-y-6 mt-4">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <BasicTableWidget
+                        title={t('organizationTable.title')}
+                        variant="minimal"
+                        data={getOrganizations}
+                        // @ts-ignore
+                        getColumns={getOrganizationByTenantIdColumns}
+                        enablePagination
+                        searchPlaceholder={t('organizationTable.searchPlaceholder')}
+                        className="min-h-[480px] [&_.widget-card-header]:items-center [&_.widget-card-header_h5]:font-medium"
+                        />
+                    </div>
                 </div>
             </Authorize>
         </Authenticate>

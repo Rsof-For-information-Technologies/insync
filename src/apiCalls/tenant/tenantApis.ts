@@ -1,4 +1,5 @@
 import { tenantApiCall } from '@/config/api';
+import { OrganizationByTenantIdRequest, OrganizationByTenantIdResponse } from '@/types/organization/getOrganizationByTenantId';
 import type { CreateTenantRequest, CreateTenantResponse } from '@/types/tenant/createTenant';
 import type { GetAllTenantsResponse } from '@/types/tenant/getAllTenant';
 import type { TenantById } from '@/types/tenant/getTenantById';
@@ -42,6 +43,17 @@ export const createTenant = async (payload: CreateTenantRequest): Promise<Create
   const api = tenantApiCall();
   try {
     const { data } = await api.post<CreateTenantResponse>('/TenantModel/Create', payload);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Get all organizations by tenant ID (client-side)
+export const getAllOrganizationsByTenantId = async (payload: OrganizationByTenantIdRequest): Promise<OrganizationByTenantIdResponse> => {
+  const api = tenantApiCall();
+  try {
+    const { data } = await api.get<OrganizationByTenantIdResponse>(`/OrganizationModel/GetByTenantId/${payload.tenantId}`);
     return data;
   } catch (error) {
     throw error;

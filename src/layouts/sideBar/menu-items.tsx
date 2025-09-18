@@ -1,9 +1,8 @@
 import { routes } from '@/config/routes';
 import { FaFolderOpen } from "react-icons/fa";
-import { User } from "@/types/user";
 import { JSX } from "react";
 import { UserRole } from '@/types/userRoles';
-import { BsBuilding } from 'react-icons/bs';
+import { BsBuilding, BsChatDots } from 'react-icons/bs';
 import { ImPowerCord } from "react-icons/im";
 import { RiOrganizationChart } from "react-icons/ri";
 
@@ -34,12 +33,6 @@ export function MenuItems(locale: string): MenuItem[] {
         href: `/${locale}${routes.dashboard}`,
         icon: <FaFolderOpen />,
         allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
-      },
-      {
-        translationKey: "chatbot",
-        href: `/${locale}${routes.chatbot}`,
-        icon: <BsBuilding />,
-        allowedRoles: [UserRole.SuperAdmin,  UserRole.Admin],
       },
       {
         translationKey: "tenant.title",
@@ -74,6 +67,19 @@ export function MenuItems(locale: string): MenuItem[] {
             allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
           }
         ]
+      },
+      {
+        translationKey: "chatbot",
+        href: `/${locale}${routes.chatbot}`,
+        icon: <BsChatDots />,
+        allowedRoles: [UserRole.SuperAdmin,  UserRole.Admin],
+      },
+
+      {
+        translationKey: "channel",
+        href: `/${locale}${routes.channel}`,
+        icon: <ImPowerCord />,
+        allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
       },
     ]
   )

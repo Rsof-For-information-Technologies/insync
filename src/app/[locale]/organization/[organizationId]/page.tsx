@@ -45,6 +45,16 @@ export default async function DetailsOrganization({ params }: { params: { organi
 
                             <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border border-gray-200 dark:border-gray-200">
                                 <div className="flex items-center gap-3 mb-4">
+                                    <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                        <Hash size={20} className="text-gray-600 dark:text-gray-300" />
+                                    </div>
+                                    <h6 className="font-semibold text-gray-800 dark:text-white">{t('organizationDetails.industryType')}</h6>
+                                </div>
+                                <p className="text-lg font-mono text-gray-700 dark:text-gray-600 pl-11">{organization.industryType}</p>
+                            </div>
+
+                            <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border border-gray-200 dark:border-gray-200">
+                                <div className="flex items-center gap-3 mb-4">
                                     <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
                                         <Building size={20} className="text-blue-600 dark:text-blue-400" />
                                     </div>

@@ -1,30 +1,27 @@
 'use client';
 
-import DeletePopover from '@/app/shared/delete-popover';
 import EyeIcon from '@/components/icons/eye';
 import DateCell from '@/components/ui/date-cell';
 import { HeaderCell } from '@/components/ui/table';
 import { routes } from '@/config/routes';
-import { Building, Calendar, Globe, PencilIcon, Phone, Mail, Flag } from 'lucide-react';
+import { Building, Calendar, Flag, Globe, Mail, Phone } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { ActionIcon, Text, Tooltip } from 'rizzui';
-import { useTranslations } from 'next-intl';
 
-export type OrganizationColumnsParams = {
+export type OrganizationByTenantIdColumnsParams = {
     sortConfig?: any;
-    onDeleteItem: (id: string) => void;
     onHeaderCellClick: (value: string) => void;
     onChecked?: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void;
     locale: string;
 };
 
-export const getOrganizationColumns = ({
+export const getOrganizationByTenantIdColumns = ({
     sortConfig,
-    onDeleteItem,
     onHeaderCellClick,
     locale,
-}: OrganizationColumnsParams) => {
-    const t = useTranslations('OrganizationPages.organizationListPage.organizationTable.organizationHeader');
+}: OrganizationByTenantIdColumnsParams) => {
+    const t = useTranslations('TenantPages.tenantDetailPage.organizationTable.organizationHeader');
     return [
         {
             title: <HeaderCell title={t('organizationId')} />,
@@ -149,7 +146,7 @@ export const getOrganizationColumns = ({
             width: 140,
             render: (value: boolean) => (
                 <span className={value ? 'text-green-600' : 'text-red-600'}>
-                    {value ? t('active') : t('draft')}
+                    {value ? t('active') : t('inactive')}
                 </span>
             ),
         },
@@ -177,28 +174,6 @@ export const getOrganizationColumns = ({
                             </ActionIcon>
                         </Link>
                     </Tooltip>
-                    <Tooltip
-                        size="sm"
-                        content={'Edit Organization'}
-                        placement="top"
-                        color="invert"
-                    >
-                        <Link href={`/${locale}${routes.organization.editOrganization(row.id)}`}>
-                            <ActionIcon
-                                as="span"
-                                size="sm"
-                                variant="outline"
-                                className="hover:bg-blue-50 dark:hover:bg-blue-900/30 border-blue-300 dark:border-blue-700 hover:border-blue-400"
-                            >
-                                <PencilIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                            </ActionIcon>
-                        </Link>
-                    </Tooltip>
-                    <DeletePopover
-                        title={t('organizationDelete.title')}
-                        description={t('organizationDelete.description', { id: row.id })}
-                        onDelete={() => onDeleteItem(row.id)}
-                    />
                 </div>
             ),
         },
