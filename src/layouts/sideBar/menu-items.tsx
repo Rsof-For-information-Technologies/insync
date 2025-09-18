@@ -49,12 +49,6 @@ export function MenuItems(locale: string): MenuItem[] {
         ]
       },
       {
-        translationKey: "channel",
-        href: `/${locale}${routes.channel}`,
-        icon: <ImPowerCord />,
-        allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
-      },
-      {
         translationKey: "organization.title",
         href: `#`,
         icon: <RiOrganizationChart />,
@@ -74,7 +68,6 @@ export function MenuItems(locale: string): MenuItem[] {
         icon: <BsChatDots />,
         allowedRoles: [UserRole.SuperAdmin,  UserRole.Admin],
       },
-
       {
         translationKey: "channel",
         href: `/${locale}${routes.channel}`,
