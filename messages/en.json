@@ -253,6 +253,29 @@
                 "createdAt": "Created at",
                 "updatedAt": "Updated at"
             }
+        },
+        "createOrganizationPage": {
+            "title": "Create Organization",
+            "description": "Create Organization",
+            "form":{
+                "tenant": "Tenant",
+                "tenantPlaceholder": "Select Tenant",
+                "name": "Name",
+                "namePlaceholder": "Enter Organization Name",
+                "email": "Email",
+                "emailPlaceholder": "Enter Email",
+                "phone": "Phone",
+                "phonePlaceholder": "Enter Phone Number",
+                "country": "Country",
+                "countryPlaceholder": "Select Country",
+                "industryType": "Industry Type",
+                "industryTypePlaceholder": "Select Industry Type",
+                "tenantId": "Tenant ID",
+                "tenantIdPlaceholder": "Enter Tenant ID",
+                "btn": {
+                    "createBtn": "Create"
+                }
+            }
         }
     },
     "ProfilePages": {

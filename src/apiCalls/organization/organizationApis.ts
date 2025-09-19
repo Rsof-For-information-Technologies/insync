@@ -1,6 +1,17 @@
 import { tenantApiCall } from '@/config/api';
+import { CreateOrganizationRequest, CreateOrganizationResponse } from '@/types/organization/createOrganization';
 import type { GetAllOrganizationResponse } from '@/types/organization/getAllOrganization';
 import type { OrganizationByIdRequest } from '@/types/organization/getOrganizationById';
+
+export const createOrganization = async (payload: CreateOrganizationRequest): Promise<CreateOrganizationResponse> => {
+  const api = tenantApiCall();
+  try {
+    const { data } = await api.post<CreateOrganizationResponse>('/OrganizationModel/Create', payload);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 // Get all organizations (client-side)
 export const getAllOrganizations = async (): Promise<GetAllOrganizationResponse> => {
