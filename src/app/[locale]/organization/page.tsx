@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default async function OrganizationTablePage({ params }: { params: Params }) {
   const t = await getTranslations('OrganizationPages.organizationListPage')
-  const organizations: Organization[] = await getAllOrganizations();
+  const organizations = await getAllOrganizations();
   const { locale } = params;
   const columns = getOrganizationColumns
 
@@ -42,7 +42,6 @@ export default async function OrganizationTablePage({ params }: { params: Params
               title={t('organizationTable.title')}
               variant="minimal"
               data={organizations}
-              // @ts-ignore
               getColumns={columns}
               enablePagination
               searchPlaceholder={t('organizationTable.searchPlaceholder')}

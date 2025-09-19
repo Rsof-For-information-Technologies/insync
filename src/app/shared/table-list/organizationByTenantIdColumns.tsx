@@ -12,7 +12,7 @@ import { ActionIcon, Text, Tooltip } from 'rizzui';
 export type OrganizationByTenantIdColumnsParams = {
     sortConfig?: any;
     onHeaderCellClick: (value: string) => void;
-    onChecked?: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void;
+    onChecked?: (id: string) => void;
     locale: string;
 };
 
