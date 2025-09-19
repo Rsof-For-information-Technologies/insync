@@ -34,29 +34,56 @@ export interface ChannelData {
   id: string;
 }
 
-// Wrapper response for create channel API
 export interface CreateChannelResponse {
   succeeded: boolean;
   message: string;
   data: ChannelData;
 }
+
+export interface SdkResponse {
+  authResponse: {
+    code: string;
+    userID: string | null;
+    accessToken: string;
+    expiresIn: number;
+    signedRequest: string;
+  };
+  status: string;
+}
+
 export interface SessionInfoResponse {
   data: {
     phone_number_id: string;
     waba_id: string;
     business_id: string;
+    current_step?: string;
+    error_message?: string;
   };
   type: string;
-  event: string;
+  event: "FINISH" | "CANCEL" | "ERROR";
   version: string;
 }
-export interface SdkResponse {
-  authResponse: {
-    userID: string | null;
-    expiresIn: number | null;
-    code: string;
-    accessToken?: string;
-  };
-  status: string;
-}
 
+
+declare global {
+  interface Window {
+    fbAsyncInit: () => void;
+    FB: {
+      init: (config: {
+        appId: string;
+        autoLogAppEvents: boolean;
+        xfbml: boolean;
+        version: string;
+      }) => void;
+      login: (
+        callback: (response: SdkResponse) => void,
+        options?: {
+          config_id: string;
+          response_type: string;
+          override_default_response_type: boolean;
+          extras: Record<string, unknown>;
+        }
+      ) => void;
+    };
+  }
+}
