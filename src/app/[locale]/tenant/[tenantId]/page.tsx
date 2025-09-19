@@ -17,10 +17,11 @@ export const metadata: Metadata = {
 
 export default async function DetailsTenant({ params }: { params: { tenantId: string } }) {
     const t = await getTranslations('TenantPages.tenantDetailPage')
-    const res = await getAllOrganizationsByTenantId( { tenantId: params.tenantId } );
+    const res = await getAllOrganizationsByTenantId({ tenantId: params.tenantId });
     const getOrganizations = res.data;
     const { tenantId } = params;
     const tenant: TenantById = await getTenantById(tenantId);
+    const columns = getOrganizationByTenantIdColumns;
 
     return (
         <Authenticate >
@@ -96,14 +97,13 @@ export default async function DetailsTenant({ params }: { params: { tenantId: st
                 <div className="flex flex-col space-y-6 mt-4">
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
                         <BasicTableWidget
-                        title={t('organizationTable.title')}
-                        variant="minimal"
-                        data={getOrganizations}
-                        // @ts-ignore
-                        getColumns={getOrganizationByTenantIdColumns}
-                        enablePagination
-                        searchPlaceholder={t('organizationTable.searchPlaceholder')}
-                        className="min-h-[480px] [&_.widget-card-header]:items-center [&_.widget-card-header_h5]:font-medium"
+                            title={t('organizationTable.title')}
+                            variant="minimal"
+                            data={getOrganizations}
+                            getColumns={columns}
+                            enablePagination
+                            searchPlaceholder={t('organizationTable.searchPlaceholder')}
+                            className="min-h-[480px] [&_.widget-card-header]:items-center [&_.widget-card-header_h5]:font-medium"
                         />
                     </div>
                 </div>

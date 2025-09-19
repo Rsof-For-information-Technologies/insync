@@ -253,6 +253,29 @@
                 "createdAt": "تاريخ الإنشاء",
                 "updatedAt": "تاريخ التحديث"
             }
+        },
+        "createOrganizationPage": {
+            "title": "إنشاء منظمة",
+            "description": "صفحة إنشاء منظمة",
+            "form": {
+                "tenant": "المستأجر",
+                "tenantPlaceholder": "اختر المستأجر",
+                "name": "الاسم",
+                "namePlaceholder": "أدخل اسم المنظمة",
+                "email": "البريد الإلكتروني",
+                "emailPlaceholder": "أدخل بريدك الإلكتروني",
+                "phone": "الهاتف",
+                "phonePlaceholder": "أدخل رقم الهاتف",
+                "country": "الدولة",
+                "countryPlaceholder": "اختر الدولة",
+                "industryType": "نوع الصناعة",
+                "industryTypePlaceholder": "اختر نوع الصناعة",
+                "tenantId": "معرّف المستأجر",
+                "tenantIdPlaceholder": "أدخل معرّف المستأجر",
+                "btn": {
+                    "createBtn": "إنشاء"
+                }
+            }
         }
     },
     "ProfilePages": {
