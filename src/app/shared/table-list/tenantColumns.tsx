@@ -15,7 +15,7 @@ export type TenantColumnsParams = {
     sortConfig?: any;
     onDeleteItem: (id: string) => void;
     onHeaderCellClick: (value: string) => void;
-    onChecked?: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void;
+    onChecked?: (id: string) => void;
     locale: string;
 };
 

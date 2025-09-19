@@ -21,6 +21,7 @@ export default async function TenantTablePage({ params }: { params: Params }) {
   const t = await getTranslations('TenantPages.tenantListPage')
   const tenants: Tenant[] = await getAllTenants();
   const { locale } = params;
+  const columns = getTenantColumns;
 
   return (
     <Authenticate >
@@ -44,8 +45,7 @@ export default async function TenantTablePage({ params }: { params: Params }) {
               title={t('tenantTable.title')}
               variant="minimal"
               data={tenants}
-              // @ts-ignore
-              getColumns={getTenantColumns}
+              getColumns={columns}
               enablePagination
               searchPlaceholder={t('tenantTable.searchPlaceholder')}
               className="min-h-[480px] [&_.widget-card-header]:items-center [&_.widget-card-header_h5]:font-medium"

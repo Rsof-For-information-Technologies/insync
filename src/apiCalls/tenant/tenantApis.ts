@@ -50,10 +50,10 @@ export const createTenant = async (payload: CreateTenantRequest): Promise<Create
 };
 
 // Get all organizations by tenant ID (client-side)
-export const getAllOrganizationsByTenantId = async (payload: OrganizationByTenantIdRequest): Promise<OrganizationByTenantIdResponse> => {
+export const getAllOrganizationsByTenantId = async ( payload: OrganizationByTenantIdRequest ): Promise<OrganizationByTenantIdResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.get<OrganizationByTenantIdResponse>(`/OrganizationModel/GetByTenantId/${payload.tenantId}`);
+    const { data } = await api.get<OrganizationByTenantIdResponse>( `/OrganizationModel/GetByTenantId/tenant/${payload.tenantId}` );
     return data;
   } catch (error) {
     throw error;

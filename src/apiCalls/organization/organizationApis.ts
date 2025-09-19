@@ -6,8 +6,8 @@ import type { OrganizationByIdRequest } from '@/types/organization/getOrganizati
 export const getAllOrganizations = async (): Promise<GetAllOrganizationResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.get<GetAllOrganizationResponse>('/OrganizationModel/GetAll');
-    return data;
+    const response = await api.get<{ data: GetAllOrganizationResponse }>('/OrganizationModel/GetAll');
+    return response.data.data;
   } catch (error) {
     throw error;
   }
