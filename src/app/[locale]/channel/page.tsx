@@ -24,9 +24,7 @@ const Dashboard = () => {
 
                             <div className="flex items-center justify-between">
                                 <h4>{t("description")}</h4>
-                                <EmbeddedSignup
-                                    appId="1415321233093673"
-                                    configId="783316014058065" />
+                                <EmbeddedSignup />
                             </div>
                         </div>
                     </div>

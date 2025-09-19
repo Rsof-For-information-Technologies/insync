@@ -44,7 +44,7 @@ const EmbeddedSignup: React.FC = () => {
   useEffect(() => {
     window.fbAsyncInit = function () {
       window.FB.init({
-        appId: "1415321233093673",
+        appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID as string,
         autoLogAppEvents: true,
         xfbml: true,
         version: "v23.0",
@@ -73,7 +73,7 @@ const EmbeddedSignup: React.FC = () => {
 
   async function handleSignup() {
     window.FB.login(fbLoginCallback, {
-      config_id: "783316014058065",
+      config_id: process.env.NEXT_PUBLIC_FACEBOOK_CONFIG_ID as string,
       response_type: "code",
       override_default_response_type: true,
       extras: { version: "v3" },

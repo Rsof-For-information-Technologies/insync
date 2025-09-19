@@ -14,6 +14,9 @@ declare global {
             NEXT_PUBLIC_ENCRYPTION_KEY: string;
             SECRET_KEY: string;
             NEXT_PUBLIC_FRONTEND_URL: string;
+
+            NEXT_PUBLIC_FACEBOOK_APP_ID: string;
+            NEXT_PUBLIC_FACEBOOK_CONFIG_ID: string;
         }
     }
 
