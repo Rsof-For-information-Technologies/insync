@@ -8,7 +8,7 @@ export default function SidebarClientWrapper({
 }: {
   className?: string;
 }) {
-  const t = useTranslations("SideMenu");
+  const t = useTranslations("");
 
   return <Sidebar className={className} t={t} />;
 }

@@ -6,6 +6,23 @@
         "login": "تسجيل الدخول",
         "signup": "تسجيل الإنضمام"
     },
+    "dashboard": "لوحة التحكم",
+    "chatbot": "الدردشة الآلية",
+    "tenant": {
+        "title": "المستأجر",
+        "submenu": {
+            "list": "قائمة المستأجرين",
+            "add": "إضافة مستأجر"
+        }
+    },
+    "organization": {
+        "title": "المنظمة",
+        "submenu": {
+            "list": "قائمة المنظمات",
+            "add": "إضافة منظمة"
+        }
+    },
+    "channel": "القنوات",
     "SignInPage": {
         "title": {
             "line1": "مرحبًا بعودتك!",
@@ -73,25 +90,6 @@
                 "line1": "أدخل كلمة مرور جديدة لحسابك."
             }
         }
-    },
-    "SideMenu": {
-        "dashboard": "لوحة التحكم",
-        "chatbot": "الدردشة الآلية",
-        "tenant": {
-            "title": "المستأجر",
-            "submenu": {
-                "list": "قائمة المستأجرين",
-                "add": "إضافة مستأجر"
-            }
-        },
-        "organization": {
-            "title": "المنظمة",
-            "submenu": {
-                "list": "قائمة المنظمات",
-                "add": "إضافة منظمة"
-            }
-        },
-        "channel": "القنوات"
     },
     "loading": {
         "title": "جاري التحميل..."
@@ -274,6 +272,25 @@
                 "tenantIdPlaceholder": "أدخل معرّف المستأجر",
                 "btn": {
                     "createBtn": "إنشاء"
+                }
+            }
+        },
+        "updateOrganizationPage": {
+            "title": "تحديث المنظمة",
+            "description": "صفحة تحديث المنظمة",
+            "form": {
+                "name": "الاسم",
+                "namePlaceholder": "أدخل اسم المنظمة",
+                "email": "البريد الإلكتروني",
+                "emailPlaceholder": "أدخل بريدك الإلكتروني",
+                "phone": "الهاتف",
+                "phonePlaceholder": "أدخل رقم الهاتف",
+                "country": "الدولة",
+                "countryPlaceholder": "اختر الدولة",
+                "industryType": "نوع الصناعة",
+                "industryTypePlaceholder": "اختر نوع الصناعة",
+                "btn": {
+                    "updateBtn": "تحديث"
                 }
             }
         }

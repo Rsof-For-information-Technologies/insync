@@ -194,11 +194,11 @@ export const getOrganizationColumns = ({
                             </ActionIcon>
                         </Link>
                     </Tooltip>
-                    <DeletePopover
+                    {/* <DeletePopover
                         title={t('organizationDelete.title')}
                         description={t('organizationDelete.description', { id: row.id })}
                         onDelete={() => onDeleteItem(row.id)}
-                    />
+                    /> */}
                 </div>
             ),
         },

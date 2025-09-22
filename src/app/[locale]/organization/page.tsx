@@ -2,7 +2,6 @@ import { getAllOrganizations } from "@/apiCalls/organization/organizationApis";
 import Authenticate from "@/components/auth/authenticate";
 import Authorize from "@/components/auth/authorize";
 import BasicTableWidget from "@/components/controlled-table/basic-table-widget";
-import type { Organization } from "@/types/organization/getAllOrganization";
 import { UserRole } from "@/types/userRoles";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";

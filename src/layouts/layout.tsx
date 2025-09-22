@@ -5,18 +5,25 @@ import Header from '@/layouts/header';
 import SidebarClientWrapper from '@/layouts/sideBar/sidebar-client-wrapper';
 import { Params } from '@/types/params';
 import { useParams, usePathname } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 
 export default function HydrogenLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { state: { isOpen, screenWidth } } = useDrawerStore()
+  const { state: { isOpen, screenWidth, userToggled }, openDrawer } = useDrawerStore()
   const pathname = usePathname();
   const { locale } = useParams<Params>()
   const authRoutes = [`/${locale}${routes.auth.login}`, `/${locale}${routes.auth.signup}`, `/${locale}${routes.auth.forgotPassword}`, `/${locale}${routes.auth.resetPassword}`];
   const isAuthPage = authRoutes.includes(pathname);
+
+  useEffect(() => {
+    if (!userToggled && !isOpen && (screenWidth as number) > 1280) {
+      openDrawer({ isOpen: true });
+    }
+  }, [isOpen, openDrawer, screenWidth, userToggled, pathname]);
+
   return (
     <main className={`flex min-h-screen flex-grow ${isAuthPage ? "pt-[80px]" : "pt-[80px]"}`}>
 
