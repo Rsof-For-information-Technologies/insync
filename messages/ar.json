@@ -102,7 +102,10 @@
         "title":"روبوتات الدردشة",
         "nodeTitle": "مدخل المستخدم",
         "nodeName": "نص العقدة",
-        "createButton":" إنشاء روبوت دردشة"
+        "createButton":" إنشاء روبوت دردشة",
+        "keyword":"أي كلمة رئيسية روبوت دردشة",
+        "nextButton":"التالي",
+        "cancelButton":"إلغاء"
     },
     "Channel": {
         "title": "القنوات",

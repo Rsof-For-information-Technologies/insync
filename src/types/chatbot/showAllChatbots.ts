@@ -1,4 +1,4 @@
-export interface Chatbot {
+export interface ChatbotShow {
     createdAt: string;
     createdBy: string;
     updatedAt: string | null;
@@ -15,4 +15,8 @@ export interface Chatbot {
 }
 
 
-export type GetAllChatbot = Chatbot[];
+export type GetAllChatbotResponse = {
+    succeeded: boolean;
+    message: string;
+    data: ChatbotShow[];
+};
