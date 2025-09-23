@@ -234,9 +234,18 @@
             "noDataAvailable": "لا يوجد بيانات"
         }
     },
-      "Chatbot":{
-        "nodeTitle" :"مدخل المستخدم",
-        "nodeName": "نص العقدة"
+    "Chatbot": {
+        "title":"روبوتات الدردشة",
+        "nodeTitle": "مدخل المستخدم",
+        "nodeName": "نص العقدة",
+        "createButton":" إنشاء روبوت دردشة",
+        "keyword":"أي كلمة رئيسية روبوت دردشة",
+        "nextButton":"التالي",
+        "cancelButton":"إلغاء"
+    },
+    "Channel": {
+        "title": "القنوات",
+        "description": "القنوات المتصلة"
     },
     "tableFooter": {
         "pages": "الصفحات",

@@ -236,7 +236,12 @@
     },
     "Chatbot":{
         "nodeTitle" : "User Input",
-        "nodeName": "Text Node"
+        "nodeName": "Text Node",
+        "createButton":" Create Chatbot"
+    },
+    "Channel": {
+        "title": "Channels",
+        "description": "Connected Channels"
     },
     "tableFooter": {
         "pages": "Pages",
