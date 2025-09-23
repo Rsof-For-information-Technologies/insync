@@ -1,104 +1,46 @@
-"use client";
+import { getAllChatbots } from "@/apiCalls/chatbot/chatApi";
+import { getChatbotColumns } from "@/app/shared/table-list/chatbotColumns";
+import Authenticate from "@/components/auth/authenticate";
+import Authorize from "@/components/auth/authorize";
+import BasicTableWidget from "@/components/controlled-table/basic-table-widget";
+import { UserRole } from "@/types/userRoles";
+import { Metadata } from "next";
+import { Title } from "rizzui";
+import CreateChatbot from "./(components)/createChatbot";
 
-import { useState, useCallback } from "react";
-import {
-    ReactFlow,
-    applyNodeChanges,
-    applyEdgeChanges,
-    addEdge,
-    Background,
-    Controls,
-    Node,
-    Edge,
-    OnNodesChange,
-    OnEdgesChange,
-    OnConnect,
-} from "@xyflow/react";
-import "@xyflow/react/dist/style.css";
-import { useTranslations } from "next-intl";
-import TextNode from "./(components)/TextNode";
+export const metadata: Metadata = {
+    title: "Chatbot",
+};
 
-const nodeTypes = { textNode: TextNode };
-
-
-export default function Page() {
-    const [nodes, setNodes] = useState<Node[]>([]);
-    const [edges, setEdges] = useState<Edge[]>([]);
-    const t = useTranslations('Chatbot');
-
-    const onNodesChange: OnNodesChange = useCallback(
-        (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-        []
-    );
-
-    const onEdgesChange: OnEdgesChange = useCallback(
-        (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-        []
-    );
-
-    const onConnect: OnConnect = useCallback(
-        (params) =>
-            setEdges((eds) =>
-                addEdge({ ...params, style: { fontSize: 14 } }, eds)
-            ),
-        []
-    );
-
-    const addTextNode = () => {
-        const id = `${+new Date()}`;
-        setNodes((nds) => [
-            ...nds,
-            {
-                id,
-                type: "textNode",
-                position: { x: Math.random() * 300, y: Math.random() * 300 },
-                data: {
-                    label: "New Node",
-                    onChange: (val: string) =>
-                        setNodes((curr) =>
-                            curr.map((n) =>
-                                n.id === id ? { ...n, data: { ...n.data, label: val } } : n
-                            )
-                        ),
-                    onDelete: (deleteId: string) => {
-                        setNodes((curr) => curr.filter((n) => n.id !== deleteId));
-                        setEdges((curr) =>
-                            curr.filter((e) => e.source !== deleteId && e.target !== deleteId)
-                        );
-                    },
-                },
-            },
-        ]);
-    };
+export default async function Chatbot() {
+    const response = await getAllChatbots();
+    const chatbot = response.data;
+    const columns = getChatbotColumns;
+    console.log("chatbot data:", chatbot);
 
     return (
-        <div className="flex w-full h-screen bg-white">
-            {/* Sidebar */}
-            <div className="w-[200px] pt-5 pl-7 pb-5 pr-[10px] border-r border-gray-500 bg-gray-100">
-                <h3 className="mb-5">{t('nodeTitle')}</h3>
-                <button
-                    onClick={addTextNode}
-                    className="w-full bg-blue-700 text-white font-semibold p-[10px] rounded-lg"
-                >
-                    {t('nodeName')}
-                </button>
-            </div>
-
-            {/* Flow canvas */}
-            <div style={{ flex: 1 }}>
-                <ReactFlow
-                    nodes={nodes}
-                    edges={edges}
-                    nodeTypes={nodeTypes}
-                    onNodesChange={onNodesChange}
-                    onEdgesChange={onEdgesChange}
-                    onConnect={onConnect}
-                    fitView
-                >
-                    <Background />
-                    <Controls />
-                </ReactFlow>
-            </div>
-        </div>
+        <Authenticate >
+            <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
+                <div className="space-y-8 relative">
+                    <div className="flex py-6">
+                        <div className="flex justify-between w-full items-center">
+                            <Title as="h2" className="mb-4">Chatbot</Title>
+                            <CreateChatbot />
+                        </div>
+                    </div>
+                </div>
+                {/* Table Widget */}
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <BasicTableWidget
+                        variant="minimal"
+                        data={chatbot}
+                        getColumns={columns}
+                        enablePagination
+                        searchPlaceholder="Search Chatbot"
+                        className="min-h-[480px] [&_.widget-card-header]:items-center [&_.widget-card-header_h5]:font-medium"
+                    />
+                </div>
+            </Authorize>
+        </Authenticate >
     );
 }
