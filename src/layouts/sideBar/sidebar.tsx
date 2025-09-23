@@ -45,7 +45,7 @@ export default function Sidebar({
         className
       )}
     >
-      <div className="sticky flex justify-center top-0 z-40 bg-gray-0/10 dark:bg-gray-100/5">
+      <div className="sticky flex justify-center top-0 z-40 bg-gray-0/10 dark:bg-gray-100/5 border-b border-gray-200">
         <Link
           href={`/${locale}${routes.dashboard}`}
           aria-label="Insync Logo"
