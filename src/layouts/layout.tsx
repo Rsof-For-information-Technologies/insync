@@ -2,10 +2,10 @@
 import { useDrawerStore } from '@/app/shared/drawer-views/use-drawer';
 import { routes } from '@/config/routes';
 import Header from '@/layouts/header';
-import Sidebar from '@/layouts/sideBar/sidebar';
 import { Params } from '@/types/params';
 import { useParams, usePathname } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
+import SidebarClientWrapper from './sideBar/sidebar-client-wrapper';
 
 export default function HydrogenLayout({
   children,
@@ -18,7 +18,6 @@ export default function HydrogenLayout({
   const authRoutes = [`/${locale}${routes.auth.login}`, `/${locale}${routes.auth.signup}`, `/${locale}${routes.auth.forgotPassword}`, `/${locale}${routes.auth.resetPassword}`];
   const isAuthPage = authRoutes.includes(pathname);
 
-  // Ensure drawer stays open by default unless user has explicitly toggled it
   useEffect(() => {
     if (!userToggled && !isOpen && (screenWidth as number) > 1280) {
       openDrawer({ isOpen: true });
@@ -30,7 +29,7 @@ export default function HydrogenLayout({
 
       {!isAuthPage && (
         <Suspense>
-          <Sidebar className="fixed hidden xl:block dark:bg-gray-50" />
+          <SidebarClientWrapper className="fixed hidden xl:block dark:bg-gray-50" />
         </Suspense>
       )}
 

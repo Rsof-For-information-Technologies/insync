@@ -17,14 +17,15 @@ import { Collapse, Title } from "rizzui";
 
 export default function Sidebar({
   className,
+  t,
 }: {
   className?: string;
+  t: ReturnType<typeof useTranslations>;
 }) {
   const pathname = usePathname();
   const { locale } = useParams<Params>();
   const { state: { isOpen }, } = useDrawerStore();
   const { userInfo } = useUserStore();
-  const t = useTranslations('');
 
   const safeT = (key: string) => {
     try {

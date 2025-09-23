@@ -12,9 +12,11 @@ import { Suspense } from "react";
 import useWindowScroll from "react-use/lib/useWindowScroll";
 import HamburgerButton from "./header-parts/hamburger-button";
 import HeaderMenuRight from "./header-parts/header-menu-right";
+import { useTranslations } from "next-intl";
 
 export default function Header({ className }: { className?: string; }) {
   const isMounted = useIsMounted();
+  const t = useTranslations();
   const { userInfo } = useUserStore();
   const pathname = usePathname();
   const { locale } = useParams<Params>();
@@ -43,7 +45,7 @@ export default function Header({ className }: { className?: string; }) {
             <HamburgerButton
               view={
                 <Suspense>
-                  <Sidebar className="static w-full 2xl:w-full" />
+                  <Sidebar className="static w-full 2xl:w-full" t={t} />
                 </Suspense>
               }
             />
