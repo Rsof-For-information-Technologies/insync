@@ -16,7 +16,6 @@ export default async function Chatbot() {
     const response = await getAllChatbots();
     const chatbot = response.data;
     const columns = getChatbotColumns;
-    console.log("chatbot data:", chatbot);
 
     return (
         <Authenticate >
