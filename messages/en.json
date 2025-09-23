@@ -6,6 +6,23 @@
         "login": "Login",
         "signup": "Sign Up"
     },
+    "dashboard": "Dashboard",
+    "chatbot": "Chatbot",
+    "tenant": {
+        "title": "Tenant",
+        "submenu": {
+            "list": "Tenant List",
+            "add": "Add Tenant"
+        }
+    },
+    "organization": {
+        "title": "Organization",
+        "submenu": {
+            "list": "Organization List",
+            "add": "Add Organization"
+        }
+    },
+    "channel": "Channels",
     "SignInPage": {
         "title": {
             "line1": "Welcome Back!",
@@ -73,25 +90,6 @@
                 "line1": "Enter a new password for your."
             }
         }
-    },
-    "SideMenu": {
-        "dashboard": "Dashboard",
-        "chatbot": "Chatbot",
-        "tenant": {
-            "title": "Tenant",
-            "submenu": {
-                "list": "Tenant List",
-                "add": "Add Tenant"
-            }
-        },
-        "organization": {
-            "title": "Organization",
-            "submenu": {
-                "list": "Organization List",
-                "add": "Add Organization"
-            }
-        },
-        "channel": "Channels"
     },
     "loading": {
         "title": "Loading..."
@@ -274,6 +272,25 @@
                 "tenantIdPlaceholder": "Enter Tenant ID",
                 "btn": {
                     "createBtn": "Create"
+                }
+            }
+        },
+        "updateOrganizationPage": {
+            "title": "Update Organization",
+            "description": "Update Organization",
+            "form":{
+                "name": "Name",
+                "namePlaceholder": "Enter Organization Name",
+                "email": "Email",
+                "emailPlaceholder": "Enter Email",
+                "phone": "Phone",
+                "phonePlaceholder": "Enter Phone Number",
+                "country": "Country",
+                "countryPlaceholder": "Select Country",
+                "industryType": "Industry Type",
+                "industryTypePlaceholder": "Select Industry Type",
+                "btn": {
+                    "updateBtn": "Update"
                 }
             }
         }
