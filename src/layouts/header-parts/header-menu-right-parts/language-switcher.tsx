@@ -32,7 +32,6 @@ function LanguageSwitcher() {
             router.replace(newPath);
             router.refresh();
         });
-        console.log(`Language changed to: ${locale}`);
     };
 
     return (

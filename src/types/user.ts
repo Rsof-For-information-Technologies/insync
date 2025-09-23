@@ -1,13 +1,6 @@
-import { UserRole } from "./userRoles";
+import { LoginData } from "./auth/login";
 
-export interface User {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    role: UserRole;
-    isActive: boolean;
-}
+export type User = LoginData
 
 export interface GetUsers {
     succeeded: boolean;
@@ -15,7 +8,6 @@ export interface GetUsers {
     validationResultModel: any | null;
     data: User[];
 }
-
 export interface GetUserById {
     succeeded: boolean;
     message: string | null;
@@ -29,7 +21,6 @@ export interface UpdateUserResponse {
     validationResultModel: any | null;
     data: User;
 }
-
 export interface UpdateUserRequest {
     userId: string;
     firstName: string;

@@ -8,6 +8,8 @@ import WidgetCard from '../cards/widget-card';
 import { useTable } from '@/hooks/useTable';
 import { useColumn } from '@/hooks/useColumn';
 import ControlledTable from '@/components/controlled-table';
+import { useParams } from 'next/navigation';
+import { Params } from '@/types/params';
 
 
 type ColumnTypes = {
@@ -33,7 +35,7 @@ type BasicTableWidgetProps = {
     onDeleteItem,
     onHeaderCellClick,
     onChecked,
-  }: ColumnTypes) => any;
+  }: ColumnTypes & { locale: string }) => any;
   data: any[];
   enablePagination?: boolean;
   variant?: 'modern' | 'minimal' | 'classic' | 'elegant' | 'retro';
@@ -52,7 +54,7 @@ export default function BasicTableWidget({
   title,
   data = [],
   getColumns,
-  pageSize = 7,
+  pageSize = 10,
   setPageSize,
   enablePagination,
   variant = 'modern',
@@ -60,10 +62,12 @@ export default function BasicTableWidget({
   paginatorClassName,
   noGutter,
   sticky,
-  scroll = { x: 1300 },
+  scroll = { x: 1600 },
   className,
   searchPlaceholder = 'Search...',
 }: BasicTableWidgetProps) {
+  const { locale } = useParams<Params>();
+
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
       handleSort(value);
@@ -100,6 +104,7 @@ export default function BasicTableWidget({
         checkedItems: selectedRowKeys,
         onChecked: handleRowSelect,
         handleSelectAll,
+        locale: String(locale ?? ''),
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -110,6 +115,7 @@ export default function BasicTableWidget({
       onDeleteItem,
       handleRowSelect,
       handleSelectAll,
+      locale,
     ]
   );
 

@@ -2,7 +2,6 @@ import { channelHubApiCall } from '@/config/api';
 import type { CreateChatbotRequest, CreateChatbotResponse } from '@/types/chatbot/createChatbot';
 import type { UpdateChatbotRequest, UpdateChatbotResponse } from '@/types/chatbot/updateChatbot';
 import type { GetAllChatbotResponse } from '@/types/chatbot/showAllChatbots';
-
 // create API for Chatbot
 export const registerChatbot = async (payload: CreateChatbotRequest): Promise<CreateChatbotResponse> => {
   const api = channelHubApiCall();

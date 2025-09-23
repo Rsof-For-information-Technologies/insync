@@ -1,14 +1,11 @@
-import { T_SearchParams } from "@/types/searchParams";
-import { serverAxiosInstance } from "@/utils/axios.instance";
-import { logoutOnCookieExpire } from "@/utils/logoutOnCookieExpire";
-import { AxiosError } from "axios";
-import { Metadata } from "next";
-import ResetPasswordForm from "./resetPasswordForm";
-import { Params } from "@/types/params";
-import { getTranslations } from "next-intl/server";
-import UnderlineShape from "@/components/shape/underline";
-import Image from "next/image";
 import AuthWrapperOne from "@/app/shared/auth-layout/auth-wrapper-one";
+import UnderlineShape from "@/components/shape/underline";
+import { Params } from "@/types/params";
+import { T_SearchParams } from "@/types/searchParams";
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
+import ResetPasswordForm from "./resetPasswordForm";
 
 type QueryParams = T_SearchParams & {
     token: string

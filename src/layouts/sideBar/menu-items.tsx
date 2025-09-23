@@ -1,8 +1,10 @@
 import { routes } from '@/config/routes';
-import { FaFolderOpen} from "react-icons/fa";
+import { FaFolderOpen } from "react-icons/fa";
 import { JSX } from "react";
 import { UserRole } from '@/types/userRoles';
-import { BsBuilding } from 'react-icons/bs';
+import { BsBuilding, BsChatDots } from 'react-icons/bs';
+import { ImPowerCord } from "react-icons/im";
+import { RiOrganizationChart } from "react-icons/ri";
 
 // Note: do not add href in the label object, it is rendering as label
 export type MenuItemDropdownItem = {
@@ -33,31 +35,45 @@ export function MenuItems(locale: string): MenuItem[] {
         allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
       },
       {
+        translationKey: "tenant.title",
+        href: `#`,
+        icon: <BsBuilding />,
+        allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+        dropdownItems: [
+          {
+            translationKey: "tenant.submenu.list",
+            href: `/${locale}${routes.tenant.list}`,
+            badge: '',
+            allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+          }
+        ]
+      },
+      {
+        translationKey: "organization.title",
+        href: `#`,
+        icon: <RiOrganizationChart />,
+        allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+        dropdownItems: [
+          {
+            translationKey: "organization.submenu.list",
+            href: `/${locale}${routes.organization.list}`,
+            badge: '',
+            allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+          }
+        ]
+      },
+      {
         translationKey: "chatbot",
         href: `/${locale}${routes.chatbot}`,
-        icon: <BsBuilding />,
+        icon: <BsChatDots />,
         allowedRoles: [UserRole.SuperAdmin,  UserRole.Admin],
       },
-      // {
-      //   translationKey: "property.title",
-      //   href: `#`,
-      //   icon: <BsBuilding />,
-      //   allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
-      //   dropdownItems: [
-      //     {
-      //       translationKey: "property.submenu.list",
-      //       href: `/${locale}${routes.property.list}`,
-      //       badge: '',
-      //       allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
-      //     },
-      //     {
-      //       translationKey: "property.submenu.add",
-      //       href: `/${locale}${routes.property.create}`,
-      //       badge: '',
-      //       allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
-      //     }
-      //   ]
-      // },
+      {
+        translationKey: "channel",
+        href: `/${locale}${routes.channel}`,
+        icon: <ImPowerCord />,
+        allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+      },
     ]
   )
 }

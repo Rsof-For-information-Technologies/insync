@@ -41,19 +41,19 @@ export default function Sidebar({
         width: isOpen ? "270px" : "0px",
       }}
       className={cn(
-        "fixed bottom-0 duration-200 start-0 z-50 h-full w-[270px] border-e-2 border-gray-100 bg-white 2xl:w-72 dark:bg-gray-100/50 overflow-hidden",
+        "fixed bottom-0 duration-200 start-0 z-50 h-full w-[270px] border-e-2 border-gray-100 bg-gray-50 2xl:w-72 dark:bg-gray-100/50 overflow-hidden",
         className
       )}
     >
       <div className="sticky flex justify-center top-0 z-40 bg-gray-0/10 dark:bg-gray-100/5">
         <Link
           href={`/${locale}${routes.dashboard}`}
-          aria-label="Sadef Logo"
+          aria-label="Insync Logo"
           className="text-gray-800 hover:text-gray-900 w-fit inline-block"
         >
           <Image
             src={"/insync-logo-02.png"}
-            alt="Sadef Logo"
+            alt="Insync Logo"
             height={200}
             width={200}
             priority

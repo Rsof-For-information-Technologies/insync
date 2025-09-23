@@ -1,32 +1,37 @@
 "use client";
 
 import { useDrawerStore } from "@/app/shared/drawer-views/use-drawer";
+import { routes } from "@/config/routes";
 import { useIsMounted } from "@/hooks/useIsMounted";
+import Sidebar from "@/layouts/sideBar/sidebar";
+import { useUserStore } from "@/store/user.store";
+import { Params } from "@/types/params";
 import cn from "@/utils/class-names";
+import { useParams, usePathname } from "next/navigation";
 import { Suspense } from "react";
 import useWindowScroll from "react-use/lib/useWindowScroll";
 import HamburgerButton from "./header-parts/hamburger-button";
 import HeaderMenuRight from "./header-parts/header-menu-right";
-import { useUserStore } from "@/store/user.store";
-import Sidebar from "./sideBar/sidebar";
 import { useTranslations } from "next-intl";
 
 export default function Header({ className }: { className?: string; }) {
   const isMounted = useIsMounted();
   const t = useTranslations();
-  const { userInfo } = useUserStore()
+  const { userInfo } = useUserStore();
+  const pathname = usePathname();
+  const { locale } = useParams<Params>();
+  const authRoutes = [`/${locale}${routes.auth.login}`, `/${locale}${routes.auth.signup}`, `/${locale}${routes.auth.forgotPassword}`, `/${locale}${routes.auth.resetPassword}`];
+  const isAuthPage = authRoutes.includes(pathname);
 
   const windowScroll = useWindowScroll();
-
   const { state } = useDrawerStore();
-
   const checkScreenGreater = state?.screenWidth && state?.screenWidth >= 1280;
   const offset = 2;
   return (
 
     <header
       className={cn(
-        `fixed ${state.isOpen && checkScreenGreater ? "w-[calc(100%_-_270px)]" : "w-full"} top-0 flex items-center bg-gray-0/80 p-4 backdrop-blur-xl md:px-5 lg:px-6 z-40 justify-between bg-white xl:pe-8 dark:bg-gray-50/50 shadow-sm`,
+        `fixed ${state.isOpen && checkScreenGreater && !isAuthPage ? "w-[calc(100%_-_270px)]" : "w-full"} top-0 flex items-center bg-gray-0/80 p-4 backdrop-blur-xl md:px-5 lg:px-6 z-40 justify-between bg-white xl:pe-8 dark:bg-gray-50/50 shadow-sm`,
         ((isMounted && windowScroll.y) as number) > offset ? 'card-shadow' : '',
         className
       )}
@@ -36,11 +41,13 @@ export default function Header({ className }: { className?: string; }) {
         <div className="flex max-w-2xl items-center xl:w-auto">
 
           {
-            userInfo &&
+            userInfo && !isAuthPage &&
             <HamburgerButton
-              view={<Suspense>
-                <Sidebar className="static w-full 2xl:w-full" t={t} />
-              </Suspense>}
+              view={
+                <Suspense>
+                  <Sidebar className="static w-full 2xl:w-full" t={t} />
+                </Suspense>
+              }
             />
           }
 

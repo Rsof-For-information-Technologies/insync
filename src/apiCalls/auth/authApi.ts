@@ -1,16 +1,15 @@
-import { apiCall } from '@/config/api';
-import type { LoginRequest, LoginResponse } from '@/types/auth/login';
-import type { SignupRequest, SignupResponse } from '@/types/auth/signup';
+import { connectApiCall } from '@/config/api';
 import type { ForgotPasswordRequest, ForgotPasswordResponse } from '@/types/auth/forgotPassword';
+import type { LoginRequest, LoginResponse } from '@/types/auth/login';
 import type { ResetPasswordRequest, ResetPasswordResponse } from '@/types/auth/resetPassword';
-import { UpdatePasswordResponse } from '@/types/updatePassword';
-import { ChangePasswordSchema } from '@/validators/updatePaseword.schema';
+import type { SignupRequest, SignupResponse } from '@/types/auth/signup';
+import type { ChangePasswordRequest, ChangePasswordResponse } from '@/types/profile/changePassword';
 
 // New registration API for User Management
 export const registerUser = async (payload: SignupRequest): Promise<SignupResponse> => {
-  const api = apiCall();
+  const api = connectApiCall();
   try {
-    const response = await api.post<SignupResponse>('/api/v1/UserManagement/register', payload);
+    const response = await api.post<SignupResponse>('/UserManagement/register', payload);
     return response.data;
   } catch (error) {
     throw error;
@@ -19,10 +18,9 @@ export const registerUser = async (payload: SignupRequest): Promise<SignupRespon
 
 // New UserManagement login API
 export const loginUser = async (payload: LoginRequest): Promise<LoginResponse> => {
-  const api = apiCall();
+  const api = connectApiCall();
   try {
-    const response = await api.post<LoginResponse>('/api/v1/UserManagement/login', payload);
-    console.log("bfudcbudbfuhdbufbduf", response)
+    const response = await api.post<LoginResponse>('/UserManagement/login', payload);
     return response.data;
   } catch (error) {
     throw error;
@@ -31,10 +29,9 @@ export const loginUser = async (payload: LoginRequest): Promise<LoginResponse> =
 
 // New UserManagement forgot password API
 export const forgotPassword = async (payload: ForgotPasswordRequest): Promise<ForgotPasswordResponse> => {
-  const api = apiCall();
+  const api = connectApiCall();
   try {
-    const response = await api.post<ForgotPasswordResponse>('/api/v1/UserManagement/forgot-password', payload);
-    console.log("dfjdfjhdjfhdfhdfjdhfjhdjfhdjf", response)
+    const response = await api.post<ForgotPasswordResponse>('/UserManagement/forgot-password', payload);
     return response.data;
   } catch (error) {
     throw error;
@@ -43,21 +40,24 @@ export const forgotPassword = async (payload: ForgotPasswordRequest): Promise<Fo
 
 // New UserManagement reset password API
 export const resetPassword = async (payload: ResetPasswordRequest): Promise<ResetPasswordResponse> => {
-  const api = apiCall();
+  const api = connectApiCall();
   try {
-    const response = await api.post<ResetPasswordResponse>('/api/v1/UserManagement/reset-password', payload);
+    const response = await api.post<ResetPasswordResponse>('/UserManagement/reset-password', payload);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const UserUpdatePassword = async (data: ChangePasswordSchema): Promise<UpdatePasswordResponse> => {
-  const api = apiCall();
+// New UserManagement change password API
+export const changePassword = async (payload: ChangePasswordRequest): Promise<ChangePasswordResponse> => {
+  const api = connectApiCall();
   try {
-    const response = await api.put<UpdatePasswordResponse>('/api/v1/user/update-password', data);
+    const response = await api.post<ChangePasswordResponse>('/UserManagement/change-password', payload);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
+
+
