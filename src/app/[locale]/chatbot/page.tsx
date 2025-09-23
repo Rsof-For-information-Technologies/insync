@@ -17,6 +17,7 @@ export default async function Chatbot() {
     const chatbot = response.data;
     const columns = getChatbotColumns;
 
+    
     return (
         <Authenticate >
             <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
