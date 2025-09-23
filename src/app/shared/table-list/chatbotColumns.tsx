@@ -5,6 +5,9 @@ import { Text, Tooltip, ActionIcon } from 'rizzui';
 import { Trash2, Download, ListChecks } from 'lucide-react';
 import { Switch } from "rizzui";
 import UpdateChatbotInfo from '@/app/[locale]/chatbot/(components)/updateChatbotInfo';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { Params } from '@/types/params';
 
 export type SortConfig = {
   key: string;
@@ -35,6 +38,9 @@ export const getChatbotColumns = ({
   onDeleteItem,
   onHeaderCellClick,
 }: ChatbotColumns) => {
+
+  const { locale } = useParams<Params>()
+
   return [
     {
       title: (
@@ -48,10 +54,9 @@ export const getChatbotColumns = ({
       dataIndex: 'name',
       key: 'name',
       width: 200,
-      render: (value: string) => (
+      render: (value: string, record: ChatbotRow) => (
         <div className="flex items-center gap-2">
-          <ListChecks size={16} className="text-blue-500" />
-          <Text className="font-medium text-gray-800 dark:text-gray-200">{value}</Text>
+          <Link href={`/${locale}/chatbot/editor/${record.id}`} className="font-medium text-gray-800 dark:text-gray-200">{value}</Link>
         </div>
       ),
     },
@@ -95,7 +100,7 @@ export const getChatbotColumns = ({
       width: 220,
       render: (_: string, row: ChatbotRow) => (
         <div className="flex items-center justify-end gap-3 pe-4">
-          <UpdateChatbotInfo data={row.id} name={row.name} keywords={Array.isArray(row.keyword) ? row.keyword : []}/>
+          <UpdateChatbotInfo data={row.id} name={row.name} keywords={Array.isArray(row.keyword) ? row.keyword : []} />
           <Tooltip size="sm" content="Delete" placement="top" color="invert">
             <ActionIcon
               as="span"
