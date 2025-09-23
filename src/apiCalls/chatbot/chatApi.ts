@@ -35,3 +35,4 @@ export const updateChatbot = async (payload: UpdateChatbotRequest): Promise<Upda
     throw error;
   }
 };
+
