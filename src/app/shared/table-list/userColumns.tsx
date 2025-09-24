@@ -1,16 +1,16 @@
 'use client';
 
-import DeletePopover from '@/app/shared/delete-popover';
 import EyeIcon from '@/components/icons/eye';
 import DateCell from '@/components/ui/date-cell';
 import { HeaderCell } from '@/components/ui/table';
 import { routes } from '@/config/routes';
-import { Building, Calendar, Globe, PencilIcon, Phone, Mail, Flag } from 'lucide-react';
+import { Building, Calendar, Globe, Mail, PencilIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { ActionIcon, Text, Tooltip } from 'rizzui';
-import { useTranslations } from 'next-intl';
+import { UserSwitch } from './(components)/userSwitch';
 
-export type OrganizationColumnsParams = {
+export type UserColumnsParams = {
     sortConfig?: any;
     onDeleteItem: (id: string) => void;
     onHeaderCellClick: (value: string) => void;
@@ -18,16 +18,16 @@ export type OrganizationColumnsParams = {
     locale: string;
 };
 
-export const getOrganizationColumns = ({
+export const getUserColumns = ({
     sortConfig,
     onDeleteItem,
     onHeaderCellClick,
     locale,
-}: OrganizationColumnsParams) => {
-    const t = useTranslations('OrganizationPages.organizationListPage.organizationTable.organizationHeader');
+}: UserColumnsParams) => {
+    const t = useTranslations('UserPages.userListPage.userTable.userHeader');
     return [
         {
-            title: <HeaderCell title={t('organizationId')} />,
+            title: <HeaderCell title={t('id')} />,
             dataIndex: 'id',
             key: 'id',
             minWidth: 250,
@@ -41,23 +41,28 @@ export const getOrganizationColumns = ({
             ),
         },
         {
-            title: (
-                <HeaderCell
-                    title={t('name')}
-                    sortable
-                    ascending={
-                        sortConfig?.direction === 'asc' && sortConfig?.key === 'name'
-                    }
-                />
-            ),
-            onHeaderCell: () => onHeaderCellClick('name'),
-            dataIndex: 'name',
-            key: 'name',
-            width: 200,
+            title: <HeaderCell title={t('tenantId')} />,
+            dataIndex: 'tenantId',
+            key: 'tenantId',
+            minWidth: 250,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-green-100 dark:bg-green-900/40 rounded-lg">
-                        <Globe size={18} className="text-green-600 dark:text-green-400" />
+                    <div className="p-2 bg-purple-100 dark:bg-purple-900/40 rounded-lg">
+                        <Globe size={18} className="text-purple-600 dark:text-purple-400" />
+                    </div>
+                    <Text className="font-medium text-gray-800 dark:text-gray-200">{value}</Text>
+                </div>
+            ),
+        },
+        {
+            title: <HeaderCell title={t('organizationId')} />,
+            dataIndex: 'organizationId',
+            key: 'organizationId',
+            minWidth: 250,
+            render: (value: string) => (
+                <div className="flex items-center gap-3">
+                    <div className="p-2 bg-orange-100 dark:bg-orange-900/40 rounded-lg">
+                        <Building size={18} className="text-orange-600 dark:text-orange-400" />
                     </div>
                     <Text className="font-medium text-gray-800 dark:text-gray-200">{value}</Text>
                 </div>
@@ -78,55 +83,32 @@ export const getOrganizationColumns = ({
             ),
         },
         {
-            title: <HeaderCell title={t('phone')} />,
-            dataIndex: 'phone',
-            key: 'phone',
-            width: 180,
-            render: (value: string) => (
-                <div className="flex items-center gap-3">
-                    <div className="p-2 bg-pink-100 dark:bg-pink-900/40 rounded-lg">
-                        <Phone size={18} className="text-pink-600 dark:text-pink-400" />
-                    </div>
-                    <Text className="text-gray-700 dark:text-gray-300">{value || '-'}</Text>
-                </div>
-            ),
+            title: <HeaderCell title={t('isActive')} />,
+            dataIndex: 'isActive',
+            key: 'isActive',
+            minWidth: 140,
+            render: (_: boolean, row: any) => <UserSwitch row={row} field="isActive" />,
         },
         {
-            title: <HeaderCell title={t('country')} />,
-            dataIndex: 'country',
-            key: 'country',
-            minWidth: 160,
-            render: (value: string) => (
-                <div className="flex items-center gap-3">
-                    <div className="p-2 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg">
-                        <Flag size={18} className="text-yellow-600 dark:text-yellow-400" />
-                    </div>
-                    <Text className="text-gray-700 dark:text-gray-300">{value || '-'}</Text>
-                </div>
-            ),
+            title: <HeaderCell title={t('isInvitationSent')} />,
+            dataIndex: 'isInvitationSent',
+            key: 'isInvitationSent',
+            minWidth: 140,
+            render: (_: boolean, row: any) => <UserSwitch row={row} field="isInvitationSent" />,
         },
         {
-            title: <HeaderCell title={t('industryType')} />,
-            dataIndex: 'industryType',
-            key: 'industryType',
-            width: 180,
-            render: (value: string) => (
-                <div className="flex items-center gap-3">
-                    <div className="p-2 bg-teal-100 dark:bg-teal-900/40 rounded-lg">
-                        <Globe size={18} className="text-teal-600 dark:text-teal-400" />
-                    </div>
-                    <Text className="text-gray-700 dark:text-gray-300">{value || '-'}</Text>
-                </div>
-            ),
+            title: <HeaderCell title={t('isInvitationAccepted')} />,
+            dataIndex: 'isInvitationAccepted',
+            key: 'isInvitationAccepted',
+            minWidth: 180,
+            render: (_: boolean, row: any) => <UserSwitch row={row} field="isInvitationAccept" />,
         },
         {
             title: (
                 <HeaderCell
                     title={t('createdAt')}
                     sortable
-                    ascending={
-                        sortConfig?.direction === 'asc' && sortConfig?.key === 'createdAt'
-                    }
+                    ascending={sortConfig?.direction === 'asc' && sortConfig?.key === 'createdAt'}
                 />
             ),
             onHeaderCell: () => onHeaderCellClick('createdAt'),
@@ -143,17 +125,6 @@ export const getOrganizationColumns = ({
             ),
         },
         {
-            title: <HeaderCell title={t('isActive')} />,
-            dataIndex: 'isActive',
-            key: 'isActive',
-            minWidth: 140,
-            render: (value: boolean) => (
-                <span className={value ? 'text-green-600' : 'text-red-600'}>
-                    {value ? t('active') : t('draft')}
-                </span>
-            ),
-        },
-        {
             title: <HeaderCell title={t('actions')} className="justify-end" />,
             dataIndex: 'action',
             key: 'action',
@@ -166,7 +137,7 @@ export const getOrganizationColumns = ({
                         placement="top"
                         color="invert"
                     >
-                        <Link href={`/${locale}${routes.organization.organizationDetails(row.id)}`}>
+                        <Link href={`/${locale}${routes.user.userDetails(row.id)}`}>
                             <ActionIcon
                                 as="span"
                                 size="sm"
@@ -179,11 +150,11 @@ export const getOrganizationColumns = ({
                     </Tooltip>
                     <Tooltip
                         size="sm"
-                        content={'Edit Organization'}
+                        content={'Edit User'}
                         placement="top"
                         color="invert"
                     >
-                        <Link href={`/${locale}${routes.organization.editOrganization(row.id)}`}>
+                        <Link href={`/${locale}${routes.user.editUser(row.id)}`}>
                             <ActionIcon
                                 as="span"
                                 size="sm"

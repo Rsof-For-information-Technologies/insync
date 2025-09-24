@@ -22,6 +22,13 @@
             "add": "إضافة منظمة"
         }
     },
+    "users": {
+        "title": "المستخدمون",
+        "submenu": {
+            "list": "قائمة المستخدمين",
+            "add": "إضافة مستخدم"
+        }
+    },
     "channel": "القنوات",
     "SignInPage": {
         "title": {
@@ -135,6 +142,7 @@
                     "createdAt": "تاريخ الإنشاء",
                     "isActive": "نشط",
                     "draft": "مسودة",
+                    "status": "الحالة",
                     "actions": "الإجراءات",
                     "viewTooltip": "عرض تفاصيل المستأجر",
                     "tenantDelete": {
@@ -292,6 +300,72 @@
                 "btn": {
                     "updateBtn": "تحديث"
                 }
+            }
+        }
+    },
+    "UserPages": {
+        "userListPage": {
+            "title": "قائمة المستخدمين",
+            "description": "إدارة المستخدمين من هذه الصفحة.",
+            "navigateCreateUser": {
+                "createUserBtn": "إنشاء مستخدم"
+            },
+            "userTable": {
+                "title": "جدول المستخدمين",
+                "searchPlaceholder": "بحث عن مستخدم...",
+                "userHeader": {
+                    "id": "معرّف المستخدم",
+                    "tenantId": "معرّف المستأجر",
+                    "organizationId": "معرّف المنظمة",
+                    "email": "البريد الإلكتروني",
+                    "phone": "الهاتف",
+                    "isActive": "نشط",
+                    "isInvitationSent": "تم إرسال الدعوة",
+                    "send": "إرسال",
+                    "resend": "إعادة إرسال",
+                    "isInvitationAccepted": "تم قبول الدعوة",
+                    "accepted": "مقبول",
+                    "pending": "قيد الانتظار",
+                    "createdAt": "تاريخ الإنشاء",
+                    "active": "نشط",
+                    "inactive": "غير نشط",
+                    "actions": "الإجراءات",
+                    "viewTooltip": "عرض تفاصيل المستخدم",
+                    "userDelete": {
+                        "title": "حذف طلب المستخدم",
+                        "description": "هل أنت متأكد أنك تريد حذف طلب المستخدم #{id}؟"
+                    },
+                    "userToast": {
+                        "statusUpdated": "تم تحديث الحالة بنجاح",
+                        "statusUpdateFailed": "فشل تحديث الحالة"
+                    }
+                }
+            }
+        },
+        "userDetailPage": {
+            "title": "صفحة تفاصيل المستخدم",
+            "description": "تعرض صفحة تفاصيل المستخدم معلومات المستخدم المحدد.",
+            "userDetails": {
+                "title": "تفاصيل المستخدم",
+                "id": "معرّف المستخدم",
+                "tenantId": "معرّف المستأجر",
+                "organizationId": "معرّف المنظمة",
+                "userId": "معرّف المستخدم",
+                "email": "البريد الإلكتروني",
+                "isInvitationAccept": "تم قبول الدعوة",
+                "yes": "نعم",
+                "no": "لا",
+                "isInvitationSent": "تم إرسال الدعوة",
+                "send": "إرسال",
+                "resend": "إعادة إرسال",
+                "createdBy": "تم إنشاؤه بواسطة",
+                "deletedAt": "تم الحذف في",
+                "status": "الحالة",
+                "active": "نشط",
+                "inactive": "غير نشط",
+                "country": "الدولة",
+                "createdAt": "تاريخ الإنشاء",
+                "updatedAt": "تاريخ التحديث"
             }
         }
     },

@@ -31,7 +31,7 @@ export const getTenantColumns = ({
             title: <HeaderCell title={t('tenantId')} />,
             dataIndex: 'id',
             key: 'id',
-            width: 220,
+            minWidth: 220,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
@@ -54,7 +54,7 @@ export const getTenantColumns = ({
             onHeaderCell: () => onHeaderCellClick('name'),
             dataIndex: 'name',
             key: 'name',
-            width: 200,
+            minWidth: 200,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-green-100 dark:bg-green-900/40 rounded-lg">
@@ -68,7 +68,7 @@ export const getTenantColumns = ({
             title: <HeaderCell title={t('domain')} />,
             dataIndex: 'domain',
             key: 'domain',
-            width: 200,
+            minWidth: 200,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-pink-100 dark:bg-pink-900/40 rounded-lg">
@@ -91,7 +91,7 @@ export const getTenantColumns = ({
             onHeaderCell: () => onHeaderCellClick('createdAt'),
             dataIndex: 'createdAt',
             key: 'createdAt',
-            width: 200,
+            minWidth: 200,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg">
@@ -101,25 +101,24 @@ export const getTenantColumns = ({
                 </div>
             ),
         },
-        // {
-        //     title: <HeaderCell title="Status" />,
-        //     dataIndex: 'isActive',
-        //     key: 'isActive',
-        //     width: 200,
-        //     render: (value: boolean, row: any) => (
-        //         <div className="flex items-center gap-3">
-        //             <TenantSwitch row={row}/>
-        //         </div>
-        //     ),
-        // },
+        {
+            title: <HeaderCell title={t('status')} />,
+            dataIndex: 'isActive',
+            key: 'isActive',
+            minWidth: 60,
+            render: (_: boolean, row: any) => (
+                <div className="flex items-center gap-3">
+                    <TenantSwitch row={row} />
+                </div>
+            ),
+        },
         {
             title: <HeaderCell title={t('actions')} className="justify-end" />,
             dataIndex: 'action',
             key: 'action',
-            width: 220,
+            minWidth: 180,
             render: (_: string, row: any) => (
                 <div className="flex items-start justify-end gap-3 pe-4">
-                    <TenantSwitch row={row} />
                     <Tooltip
                         size="sm"
                         content={t('viewTooltip')}

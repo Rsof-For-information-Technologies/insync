@@ -11,7 +11,6 @@ import Header from "../../(components)/CommonHeader";
 export default async function DetailsOrganization({ params }: { params: { organizationId: string } }) {
     const t = await getTranslations('OrganizationPages.organizationDetailPage')
     const { organizationId } = params;
-
     const organization: OrganizationByIdRequest = await getOrganizationById(organizationId);
 
     return (

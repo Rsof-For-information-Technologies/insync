@@ -1,0 +1,20 @@
+export type Users = {
+  id: string;
+  tenantId: string;
+  organizationId: string;
+  userId: string;
+  email: string;
+  isActive: boolean;
+  isInvitationSent: boolean;
+  isInvitationAccept: boolean;
+  createdAt: string;
+  createdBy: string;
+  updatedAt: string | null;
+  updatedBy: string;
+  isDeleted: boolean;
+  deletedAt: string | null;
+  deletedBy: string;
+};
+
+
+export type GetAllUsersResponse = Users[];

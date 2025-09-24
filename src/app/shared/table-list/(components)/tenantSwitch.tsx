@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import { updateTenant } from "@/apiCalls/tenant/tenantApis";
-import { Switch } from "rizzui";
+import { ShadCnSwitch } from "@/components/shadCn/ui/switch";
+import { useState } from "react";
 import { toast } from "sonner";
 
 export function TenantSwitch({ row }: { row: any }) {
@@ -25,14 +25,10 @@ export function TenantSwitch({ row }: { row: any }) {
     };
 
     return (
-        <Switch
+        <ShadCnSwitch
             checked={isActive}
-            onChange={handleToggle}
-            label={isActive ? "Active" : "Inactive"}
-            labelPlacement="left"
-            size="md"
-            labelClassName={isActive ? "text-green" : "text-red"}
-            className="custon-switch"
+            onCheckedChange={handleToggle}
+            className="data-[state=checked]:bg-black data-[state=unchecked]:bg-gray-200"
         />
     );
 }

@@ -27,7 +27,7 @@ export const getOrganizationByTenantIdColumns = ({
             title: <HeaderCell title={t('organizationId')} />,
             dataIndex: 'id',
             key: 'id',
-            width: 250,
+            minWidth: 250,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
@@ -50,7 +50,7 @@ export const getOrganizationByTenantIdColumns = ({
             onHeaderCell: () => onHeaderCellClick('name'),
             dataIndex: 'name',
             key: 'name',
-            width: 200,
+            minWidth: 200,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-green-100 dark:bg-green-900/40 rounded-lg">
@@ -64,7 +64,7 @@ export const getOrganizationByTenantIdColumns = ({
             title: <HeaderCell title={t('email')} />,
             dataIndex: 'email',
             key: 'email',
-            width: 220,
+            minWidth: 220,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-indigo-100 dark:bg-indigo-900/40 rounded-lg">
@@ -78,7 +78,7 @@ export const getOrganizationByTenantIdColumns = ({
             title: <HeaderCell title={t('phone')} />,
             dataIndex: 'phone',
             key: 'phone',
-            width: 180,
+            minWidth: 180,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-pink-100 dark:bg-pink-900/40 rounded-lg">
@@ -92,7 +92,7 @@ export const getOrganizationByTenantIdColumns = ({
             title: <HeaderCell title={t('country')} />,
             dataIndex: 'country',
             key: 'country',
-            width: 160,
+            minWidth: 160,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg">
@@ -106,7 +106,7 @@ export const getOrganizationByTenantIdColumns = ({
             title: <HeaderCell title={t('industryType')} />,
             dataIndex: 'industryType',
             key: 'industryType',
-            width: 180,
+            minWidth: 180,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-teal-100 dark:bg-teal-900/40 rounded-lg">
@@ -129,7 +129,7 @@ export const getOrganizationByTenantIdColumns = ({
             onHeaderCell: () => onHeaderCellClick('createdAt'),
             dataIndex: 'createdAt',
             key: 'createdAt',
-            width: 240,
+            minWidth: 240,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg">
@@ -143,7 +143,7 @@ export const getOrganizationByTenantIdColumns = ({
             title: <HeaderCell title={t('isActive')} />,
             dataIndex: 'isActive',
             key: 'isActive',
-            width: 140,
+            minWidth: 100,
             render: (value: boolean) => (
                 <span className={value ? 'text-green-600' : 'text-red-600'}>
                     {value ? t('active') : t('inactive')}
