@@ -42,8 +42,8 @@ export const getAllOrganizations = async (): Promise<GetAllOrganizationResponse>
 export const getOrganizationById = async (id: string): Promise<OrganizationByIdRequest> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.get<OrganizationByIdRequest>(`/OrganizationModel/Get/${id}`);
-    return data;
+    const { data } = await api.get<{ data: OrganizationByIdRequest }>(`/OrganizationModel/Get/${id}`);
+    return data.data;
   } catch (error) {
     throw error;
   }

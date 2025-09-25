@@ -393,6 +393,23 @@
                 "createdAt": "تاريخ الإنشاء",
                 "updatedAt": "تاريخ التحديث"
             }
+        },
+        "createUserPage": {
+            "title": "إنشاء مستخدم",
+            "description": "إنشاء مستخدم جديد من خلال ملء النموذج أدناه.",
+            "form": {
+                "tenantId": "معرّف المستأجر",
+                "tenantIdPlaceholder": "أدخل معرّف المستأجر",
+                "organizationId": "معرّف المنظمة",
+                "organizationIdPlaceholder": "أدخل معرّف المنظمة",
+                "userId": "معرّف المستخدم",
+                "userIdPlaceholder": "أدخل معرّف المستخدم",
+                "email": "البريد الإلكتروني",
+                "emailPlaceholder": "أدخل البريد الإلكتروني",
+                "btn": {
+                    "createBtn": "إنشاء"
+                }
+            }
         }
     },
     "ProfilePages": {

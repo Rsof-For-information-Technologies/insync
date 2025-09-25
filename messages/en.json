@@ -109,7 +109,10 @@
         "title": "Chatbots",
         "nodeTitle": "User Input",
         "nodeName": "Text Node",
-        "createButton": " Create Chatbot"
+        "createButton": " Create Chatbot",
+        "keyword": "Any keyword chatbot",
+        "nextButton": "Next",
+        "cancelButton": "Cancel"
     },
     "Channel": {
         "title": "Channels",
@@ -389,6 +392,23 @@
                 "country": "Country",
                 "createdAt": "Created at",
                 "updatedAt": "Updated at"
+            }
+        },
+        "createUserPage": {
+            "title": "Create User",
+            "description": "Create User",
+            "form": {
+                "tenantId": "Tenant ID",
+                "tenantIdPlaceholder": "Enter Tenant ID",
+                "organizationId": "Organization ID",
+                "organizationIdPlaceholder": "Enter Organization ID",
+                "userId": "User ID",
+                "userIdPlaceholder": "Enter User ID",
+                "email": "Email",
+                "emailPlaceholder": "Enter Email",
+                "btn": {
+                    "createBtn": "Create"
+                }
             }
         }
     },

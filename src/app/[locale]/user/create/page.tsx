@@ -1,14 +1,14 @@
 "use client";
 
-import { createOrganization } from "@/apiCalls/organization/organizationApis";
+import { createUser } from "@/apiCalls/user/userApis";
 import Authenticate from "@/components/auth/authenticate";
 import Authorize from "@/components/auth/authorize";
 import { FormStatusButton } from "@/components/formStatusButton";
 import { routes } from "@/config/routes";
-import { CreateOrganizationRequest } from "@/types/organization/createOrganization";
 import { Params } from "@/types/params";
+import { CreateUserRequest } from "@/types/user/createUser";
 import { UserRole } from "@/types/userRoles";
-import { CreateOrganizationSchema, createOrganizationValidator, } from "@/validators/organization/createOrganization";
+import { CreateUserSchema, createUserValidator } from "@/validators/user/createUser";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
@@ -18,16 +18,14 @@ import { toast } from "sonner";
 import Header from "../../(components)/CommonHeader";
 
 const initialValues = {
-  name: "",
-  phone: "",
-  industryType: "",
-  email: "",
-  country: "",
   tenantId: "",
+  organizationId: "",
+  userId: "",
+  email: "",
 };
 
-export default function CreateOrganizationPage() {
-  const t = useTranslations("OrganizationPages.createOrganizationPage");
+export default function CreateUserPage() {
+  const t = useTranslations("UserPages.createUserPage");
   const router = useRouter();
   const { locale } = useParams<Params>();
 
@@ -35,26 +33,24 @@ export default function CreateOrganizationPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateOrganizationSchema>({
-    resolver: zodResolver(createOrganizationValidator),
+  } = useForm<CreateUserSchema>({
+    resolver: zodResolver(createUserValidator),
     defaultValues: initialValues,
   });
 
-  const onSubmit = async (state: CreateOrganizationRequest) => {
+  const onSubmit = async (state: CreateUserRequest) => {
     try {
-      const response = await createOrganization({
-        name: state.name,
-        phone: state.phone,
-        industryType: state.industryType,
-        email: state.email,
-        country: state.country,
+      const response = await createUser({
         tenantId: state.tenantId,
+        organizationId: state.organizationId,
+        userId: state.userId,
+        email: state.email,
       });
       if (response.succeeded) {
-        toast.success(response.message || "Organization Created");
-        router.push(`/${locale}${routes.organization.list}`);
+        toast.success(response.message || "User Created");
+        router.push(`/${locale}${routes.user.list}`);
       } else {
-        toast.error(response.message || "Failed to create tenant");
+        toast.error(response.message || "Failed to create user");
       }
     } catch (error) {
       console.error(error);
@@ -72,35 +68,35 @@ export default function CreateOrganizationPage() {
                 <Input
                   type="text"
                   size="lg"
-                  label={t("form.name")}
-                  id="name"
-                  placeholder={t("form.namePlaceholder")}
+                  label={t("form.tenantId")}
+                  id="tenantId"
+                  placeholder={t("form.tenantIdPlaceholder")}
                   className="[&>label>span]:font-medium"
                   inputClassName="text-base font-medium"
-                  error={errors.name?.message}
-                  {...register("name")}
+                  error={errors.tenantId?.message}
+                  {...register("tenantId")}
                 />
                 <Input
                   type="text"
                   size="lg"
-                  label={t("form.phone")}
-                  id="phone"
-                  placeholder={t("form.phonePlaceholder")}
+                  label={t("form.organizationId")}
+                  id="organizationId"
+                  placeholder={t("form.organizationIdPlaceholder")}
                   className="[&>label>span]:font-medium"
                   inputClassName="text-base font-medium"
-                  error={errors.phone?.message}
-                  {...register("phone")}
+                  error={errors.organizationId?.message}
+                  {...register("organizationId")}
                 />
                 <Input
                   type="text"
                   size="lg"
-                  label={t("form.industryType")}
-                  id="industryType"
-                  placeholder={t("form.industryTypePlaceholder")}
+                  label={t("form.userId")}
+                  id="userId"
+                  placeholder={t("form.userIdPlaceholder")}
                   className="[&>label>span]:font-medium"
                   inputClassName="text-base font-medium"
-                  error={errors.industryType?.message}
-                  {...register("industryType")}
+                  error={errors.userId?.message}
+                  {...register("userId")}
                 />
                 <Input
                   type="email"
@@ -113,30 +109,7 @@ export default function CreateOrganizationPage() {
                   error={errors.email?.message}
                   {...register("email")}
                 />
-                <Input
-                  type="text"
-                  size="lg"
-                  label={t("form.country")}
-                  id="country"
-                  placeholder={t("form.countryPlaceholder")}
-                  className="[&>label>span]:font-medium"
-                  inputClassName="text-base font-medium"
-                  error={errors.country?.message}
-                  {...register("country")}
-                />
-                <Input
-                  type="text"
-                  size="lg"
-                  label={t("form.tenantId")}
-                  id="tenantId"
-                  placeholder={t("form.tenantIdPlaceholder")}
-                  className="[&>label>span]:font-medium"
-                  inputClassName="text-base font-medium"
-                  error={errors.tenantId?.message}
-                  {...register("tenantId")}
-                />
               </div>
-
               <div className="flex justify-start">
                 <FormStatusButton
                   className="w-full md:w-auto px-8 py-3 dark:bg-[#090909] dark:text-white hover:dark:bg-black"
