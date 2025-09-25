@@ -331,13 +331,13 @@
     },
     "UserPages": {
         "userListPage": {
-            "title": "قائمة المستخدمين",
-            "description": "إدارة المستخدمين من هذه الصفحة.",
+            "title": "قائمة المستخدم",
+            "description": "إدارة المستخدم من هذه الصفحة.",
             "navigateCreateUser": {
                 "createUserBtn": "إنشاء مستخدم"
             },
             "userTable": {
-                "title": "جدول المستخدمين",
+                "title": "جدول المستخدم",
                 "searchPlaceholder": "بحث عن مستخدم...",
                 "userHeader": {
                     "id": "معرّف المستخدم",

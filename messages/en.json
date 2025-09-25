@@ -337,8 +337,8 @@
                 "createUserBtn": "Create User"
             },
             "userTable": {
-                "title": "Organization Table",
-                "searchPlaceholder": "Search Organization...",
+                "title": "User Table",
+                "searchPlaceholder": "Search User...",
                 "userHeader": {
                     "id": "User ID",
                     "tenantId": "Tenant ID",
