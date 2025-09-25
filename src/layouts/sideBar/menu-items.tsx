@@ -5,6 +5,7 @@ import { UserRole } from '@/types/userRoles';
 import { BsBuilding, BsChatDots } from 'react-icons/bs';
 import { ImPowerCord } from "react-icons/im";
 import { RiOrganizationChart } from "react-icons/ri";
+import { Users } from 'lucide-react';
 
 // Note: do not add href in the label object, it is rendering as label
 export type MenuItemDropdownItem = {
@@ -57,6 +58,20 @@ export function MenuItems(locale: string): MenuItem[] {
           {
             translationKey: "organization.submenu.list",
             href: `/${locale}${routes.organization.list}`,
+            badge: '',
+            allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+          }
+        ]
+      },
+      {
+        translationKey: "users.title",
+        href: `#`,
+        icon: <Users />,
+        allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+        dropdownItems: [
+          {
+            translationKey: "users.submenu.list",
+            href: `/${locale}${routes.user.list}`,
             badge: '',
             allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
           }

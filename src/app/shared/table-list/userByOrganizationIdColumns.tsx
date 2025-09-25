@@ -9,22 +9,22 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { ActionIcon, Text, Tooltip } from 'rizzui';
 
-export type OrganizationByTenantIdColumnsParams = {
+export type UserByOrganizationIdColumnsParams = {
     sortConfig?: any;
     onHeaderCellClick: (value: string) => void;
     onChecked?: (id: string) => void;
     locale: string;
 };
 
-export const getOrganizationByTenantIdColumns = ({
+export const getUserByOrganizationIdColumns = ({
     sortConfig,
     onHeaderCellClick,
     locale,
-}: OrganizationByTenantIdColumnsParams) => {
-    const t = useTranslations('TenantPages.tenantDetailPage.organizationTable.organizationHeader');
+}: UserByOrganizationIdColumnsParams) => {
+    const t = useTranslations('OrganizationPages.organizationDetailPage.userTable.userHeader');
     return [
         {
-            title: <HeaderCell title={t('organizationId')} />,
+            title: <HeaderCell title={t('id')} />,
             dataIndex: 'id',
             key: 'id',
             minWidth: 250,
@@ -38,23 +38,42 @@ export const getOrganizationByTenantIdColumns = ({
             ),
         },
         {
-            title: (
-                <HeaderCell
-                    title={t('name')}
-                    sortable
-                    ascending={
-                        sortConfig?.direction === 'asc' && sortConfig?.key === 'name'
-                    }
-                />
-            ),
-            onHeaderCell: () => onHeaderCellClick('name'),
-            dataIndex: 'name',
-            key: 'name',
-            minWidth: 200,
+            title: <HeaderCell title={t('tenantId')} />,
+            dataIndex: 'tenantId',
+            key: 'tenantId',
+            minWidth: 250,
             render: (value: string) => (
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-green-100 dark:bg-green-900/40 rounded-lg">
-                        <Globe size={18} className="text-green-600 dark:text-green-400" />
+                    <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
+                        <Building size={18} className="text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <Text className="font-medium text-gray-800 dark:text-gray-200">{value}</Text>
+                </div>
+            ),
+        },
+        {
+            title: <HeaderCell title={t('organizationId')} />,
+            dataIndex: 'organizationId',
+            key: 'organizationId',
+            minWidth: 250,
+            render: (value: string) => (
+                <div className="flex items-center gap-3">
+                    <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
+                        <Building size={18} className="text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <Text className="font-medium text-gray-800 dark:text-gray-200">{value}</Text>
+                </div>
+            ),
+        },
+        {
+            title: <HeaderCell title={t('userId')} />,
+            dataIndex: 'userId',
+            key: 'userId',
+            minWidth: 250,
+            render: (value: string) => (
+                <div className="flex items-center gap-3">
+                    <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
+                        <Building size={18} className="text-blue-600 dark:text-blue-400" />
                     </div>
                     <Text className="font-medium text-gray-800 dark:text-gray-200">{value}</Text>
                 </div>
@@ -75,71 +94,6 @@ export const getOrganizationByTenantIdColumns = ({
             ),
         },
         {
-            title: <HeaderCell title={t('phone')} />,
-            dataIndex: 'phone',
-            key: 'phone',
-            minWidth: 180,
-            render: (value: string) => (
-                <div className="flex items-center gap-3">
-                    <div className="p-2 bg-pink-100 dark:bg-pink-900/40 rounded-lg">
-                        <Phone size={18} className="text-pink-600 dark:text-pink-400" />
-                    </div>
-                    <Text className="text-gray-700 dark:text-gray-300">{value || '-'}</Text>
-                </div>
-            ),
-        },
-        {
-            title: <HeaderCell title={t('country')} />,
-            dataIndex: 'country',
-            key: 'country',
-            minWidth: 160,
-            render: (value: string) => (
-                <div className="flex items-center gap-3">
-                    <div className="p-2 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg">
-                        <Flag size={18} className="text-yellow-600 dark:text-yellow-400" />
-                    </div>
-                    <Text className="text-gray-700 dark:text-gray-300">{value || '-'}</Text>
-                </div>
-            ),
-        },
-        {
-            title: <HeaderCell title={t('industryType')} />,
-            dataIndex: 'industryType',
-            key: 'industryType',
-            minWidth: 180,
-            render: (value: string) => (
-                <div className="flex items-center gap-3">
-                    <div className="p-2 bg-teal-100 dark:bg-teal-900/40 rounded-lg">
-                        <Globe size={18} className="text-teal-600 dark:text-teal-400" />
-                    </div>
-                    <Text className="text-gray-700 dark:text-gray-300">{value || '-'}</Text>
-                </div>
-            ),
-        },
-        {
-            title: (
-                <HeaderCell
-                    title={t('createdAt')}
-                    sortable
-                    ascending={
-                        sortConfig?.direction === 'asc' && sortConfig?.key === 'createdAt'
-                    }
-                />
-            ),
-            onHeaderCell: () => onHeaderCellClick('createdAt'),
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-            minWidth: 240,
-            render: (value: string) => (
-                <div className="flex items-center gap-3">
-                    <div className="p-2 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg">
-                        <Calendar size={18} className="text-yellow-600 dark:text-yellow-400" />
-                    </div>
-                    <DateCell date={new Date(value)} className="text-gray-700 dark:text-gray-300" />
-                </div>
-            ),
-        },
-        {
             title: <HeaderCell title={t('isActive')} />,
             dataIndex: 'isActive',
             key: 'isActive',
@@ -148,6 +102,49 @@ export const getOrganizationByTenantIdColumns = ({
                 <span className={value ? 'text-green-600' : 'text-red-600'}>
                     {value ? t('active') : t('inactive')}
                 </span>
+            ),
+        },
+               {
+            title: <HeaderCell title={t('isInvitationSent')} />,
+            dataIndex: 'isInvitationSent',
+            key: 'isInvitationSent',
+            minWidth: 200,
+            render: (value: boolean) => (
+                <span className={value ? 'text-green-600' : 'text-red-600'}>
+                    {value ? t('send') : t('resend')}
+                </span>
+            ),
+        },
+               {
+            title: <HeaderCell title={t('isInvitationAccept')} />,
+            dataIndex: 'isInvitationAccept',
+            key: 'isInvitationAccept',
+            minWidth: 200,
+            render: (value: boolean) => (
+                <span className={value ? 'text-green-600' : 'text-red-600'}>
+                    {value ? t('accepted') : t('pending')}
+                </span>
+            ),
+        },
+        {
+            title: (
+                <HeaderCell
+                    title={t('createdAt')}
+                    sortable
+                    ascending={sortConfig?.direction === 'asc' && sortConfig?.key === 'createdAt'}
+                />
+            ),
+            onHeaderCell: () => onHeaderCellClick('createdAt'),
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            minWidth: 200,
+            render: (value: string) => (
+                <div className="flex items-center gap-3">
+                    <div className="p-2 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg">
+                        <Calendar size={18} className="text-yellow-600 dark:text-yellow-400" />
+                    </div>
+                    <DateCell date={new Date(value)} className="text-gray-700 dark:text-gray-300" />
+                </div>
             ),
         },
         {
@@ -163,7 +160,7 @@ export const getOrganizationByTenantIdColumns = ({
                         placement="top"
                         color="invert"
                     >
-                        <Link href={`/${locale}${routes.organization.organizationDetails(row.id)}`}>
+                        <Link href={`/${locale}${routes.user.userDetails(row.id)}`}>
                             <ActionIcon
                                 as="span"
                                 size="sm"

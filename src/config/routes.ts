@@ -17,6 +17,13 @@ export const routes = {
     editOrganization: (organizationId: string) => `/organization/${organizationId}/update`,
   },
 
+  users:{
+    list: "/users",
+    create: "/users/create",
+    userDetails: (userId: string) => `/users/${userId}`,
+    editUser: (userId: string) => `/users/${userId}/update`,
+  },
+
   auth:{
     login: "/auth/login",
     signup: "/auth/signup",

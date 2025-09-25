@@ -1,4 +1,4 @@
-import { getOrganizationById } from "@/apiCalls/organization/organizationApis";
+import { getAllUsersByOrganizationId, getOrganizationById } from "@/apiCalls/organization/organizationApis";
 import Authenticate from "@/components/auth/authenticate";
 import Authorize from "@/components/auth/authorize";
 import type { OrganizationByIdRequest } from "@/types/organization/getOrganizationById";
@@ -7,20 +7,27 @@ import { Building, Calendar, Clock, Hash, RefreshCw, Mail, Phone, MapPin } from 
 import { getTranslations } from "next-intl/server";
 import CollapsibleSection from "../../(components)/CollapsibleSection";
 import Header from "../../(components)/CommonHeader";
+import { Metadata } from "next";
+import BasicTableWidget from "@/components/controlled-table/basic-table-widget";
+import { getUserByOrganizationIdColumns } from "@/app/shared/table-list/userByOrganizationIdColumns";
+
+export const metadata: Metadata = {
+  title: "Organization Management",
+};
 
 export default async function DetailsOrganization({ params }: { params: { organizationId: string } }) {
     const t = await getTranslations('OrganizationPages.organizationDetailPage')
+    const res = await getAllUsersByOrganizationId({ organizationId: params.organizationId });
+    const getUsers = res.data;
     const { organizationId } = params;
-
     const organization: OrganizationByIdRequest = await getOrganizationById(organizationId);
+    const columns = getUserByOrganizationIdColumns;
 
     return (
         <Authenticate >
             <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
                 <div className="flex flex-col space-y-6">
-                    {/* Header Section */}
                     <Header title={t('title')} description={t('description')} />
-
                     <CollapsibleSection title={t('organizationDetails.title')} defaultOpen>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border border-gray-200 dark:border-gray-200">
@@ -137,6 +144,19 @@ export default async function DetailsOrganization({ params }: { params: { organi
                         </div>
                     </CollapsibleSection>
                 </div>
+                    <div className="flex flex-col space-y-6 mt-4">
+                        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                            <BasicTableWidget
+                                title={t('userTable.title')}
+                                variant="minimal"
+                                data={getUsers}
+                                getColumns={columns}
+                                enablePagination
+                                searchPlaceholder={t('userTable.searchPlaceholder')}
+                                className="min-h-[480px] [&_.widget-card-header]:items-center [&_.widget-card-header_h5]:font-medium"
+                            />
+                        </div>
+                    </div>
             </Authorize>
         </Authenticate>
     );
