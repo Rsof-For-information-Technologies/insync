@@ -106,10 +106,10 @@
         "description": "مرحبًا بك في لوحة التحكم لموقع إدارة إنسينك"
     },
     "Chatbot": {
-        "title":"روبوتات الدردشة",
+        "title": "روبوتات الدردشة",
         "nodeTitle": "مدخل المستخدم",
         "nodeName": "نص العقدة",
-        "createButton":" إنشاء روبوت دردشة"
+        "createButton": " إنشاء روبوت دردشة"
     },
     "Channel": {
         "title": "القنوات",
@@ -258,6 +258,29 @@
                 "status": "الحالة",
                 "createdAt": "تاريخ الإنشاء",
                 "updatedAt": "تاريخ التحديث"
+            },
+            "userTable": {
+                "title": "جدول مستخدمي المؤسسة",
+                "searchPlaceholder": "ابحث عن مستخدم...",
+                "userHeader": {
+                    "id": "المعرف",
+                    "tenantId": "معرف المستأجر",
+                    "organizationId": "معرف المؤسسة",
+                    "userId": "معرف المستخدم",
+                    "email": "البريد الإلكتروني",
+                    "isActive": "نشط",
+                    "active": "نشط",
+                    "inactive": "غير نشط",
+                    "isInvitationSent": "تم إرسال الدعوة",
+                    "send": "إرسال",
+                    "resend": "إعادة الإرسال",
+                    "isInvitationAccept": "تم قبول الدعوة",
+                    "accepted": "مقبول",
+                    "pending": "قيد الانتظار",
+                    "createdAt": "تاريخ الإنشاء",
+                    "actions": "الإجراءات",
+                    "viewTooltip": "عرض تفاصيل المستخدم"
+                }
             }
         },
         "createOrganizationPage": {

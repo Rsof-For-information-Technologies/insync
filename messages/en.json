@@ -105,11 +105,11 @@
         "title": "Dashboard",
         "description": "Welcome to the dashboard of Insync Admin Site"
     },
-    "Chatbot":{
-        "title":"Chatbots",
-        "nodeTitle" : "User Input",
+    "Chatbot": {
+        "title": "Chatbots",
+        "nodeTitle": "User Input",
         "nodeName": "Text Node",
-        "createButton":" Create Chatbot"
+        "createButton": " Create Chatbot"
     },
     "Channel": {
         "title": "Channels",
@@ -196,7 +196,7 @@
         "createTenantPage": {
             "title": "Create Tenant",
             "description": "Create Tenant",
-            "form":{
+            "form": {
                 "name": "Name",
                 "namePlaceholder": "Enter Tenant Name",
                 "domain": "Domain",
@@ -258,12 +258,35 @@
                 "status": "Status",
                 "createdAt": "Created at",
                 "updatedAt": "Updated at"
+            },
+            "userTable": {
+                "title": "Organization User Table",
+                "searchPlaceholder": "Search User...",
+                "userHeader": {
+                    "id": "ID",
+                    "tenantId": "Tenant ID",
+                    "organizationId": "Organization ID",
+                    "userId": "User ID",
+                    "email": "Email",
+                    "isActive": "Active",
+                    "active": "Active",
+                    "inactive": "Inactive",
+                    "isInvitationSent": "Invitation Sent",
+                    "send": "Send",
+                    "resend": "Resend",
+                    "isInvitationAccept": "Invitation Accepted",
+                    "accepted": "Accepted",
+                    "pending": "Pending",
+                    "createdAt": "Created At",
+                    "actions": "Actions",
+                    "viewTooltip": "View User details"
+                }
             }
         },
         "createOrganizationPage": {
             "title": "Create Organization",
             "description": "Create Organization",
-            "form":{
+            "form": {
                 "tenant": "Tenant",
                 "tenantPlaceholder": "Select Tenant",
                 "name": "Name",
@@ -286,7 +309,7 @@
         "updateOrganizationPage": {
             "title": "Update Organization",
             "description": "Update Organization",
-            "form":{
+            "form": {
                 "name": "Name",
                 "namePlaceholder": "Enter Organization Name",
                 "email": "Email",
