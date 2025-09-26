@@ -22,6 +22,13 @@
             "add": "إضافة منظمة"
         }
     },
+    "users": {
+        "title": "المستخدمون",
+        "submenu": {
+            "list": "قائمة المستخدمين",
+            "add": "إضافة مستخدم"
+        }
+    },
     "channel": "القنوات",
     "SignInPage": {
         "title": {
@@ -99,13 +106,26 @@
         "description": "مرحبًا بك في لوحة التحكم لموقع إدارة إنسينك"
     },
     "Chatbot": {
-        "title":"روبوتات الدردشة",
+        "title": "روبوتات الدردشة",
         "nodeTitle": "مدخل المستخدم",
         "nodeName": "نص العقدة",
-        "createButton":" إنشاء روبوت دردشة",
-        "keyword":"أي كلمة رئيسية روبوت دردشة",
-        "nextButton":"التالي",
-        "cancelButton":"إلغاء"
+        "imageNode": "عقدة الصورة",
+        "createButton": " إنشاء روبوت دردشة",
+        "keyword": "أي كلمة رئيسية روبوت دردشة",
+        "nextButton": "التالي",
+        "cancelButton": "إلغاء",
+        "textNodeHeading": "نص العقدة",
+        "setQuestion": "تعيين سؤال",
+        "textQuestion": "نص السؤال",
+        "questionChar": "(مطلوب، بحد أقصى 4096 حرفًا)",
+        "mediaResponse": "قبول استجابة الوسائط",
+        "variableHeading": "المتغير",
+        "variableChar": " (يُستخدم للتقارير والشروط، بحد أقصى 20 حرفًا)",
+        "cancelModal": " إلغاء",
+        "saveModal": " حفظ",
+        "videoNode": "عقدة الفيديو",
+        "addVideo": "إضافة فيديو",
+        "chooseVideo": "اختر فيديو"
     },
     "Channel": {
         "title": "القنوات",
@@ -138,6 +158,7 @@
                     "createdAt": "تاريخ الإنشاء",
                     "isActive": "نشط",
                     "draft": "مسودة",
+                    "status": "الحالة",
                     "actions": "الإجراءات",
                     "viewTooltip": "عرض تفاصيل المستأجر",
                     "tenantDelete": {
@@ -253,6 +274,29 @@
                 "status": "الحالة",
                 "createdAt": "تاريخ الإنشاء",
                 "updatedAt": "تاريخ التحديث"
+            },
+            "userTable": {
+                "title": "جدول مستخدمي المؤسسة",
+                "searchPlaceholder": "ابحث عن مستخدم...",
+                "userHeader": {
+                    "id": "المعرف",
+                    "tenantId": "معرف المستأجر",
+                    "organizationId": "معرف المؤسسة",
+                    "userId": "معرف المستخدم",
+                    "email": "البريد الإلكتروني",
+                    "isActive": "نشط",
+                    "active": "نشط",
+                    "inactive": "غير نشط",
+                    "isInvitationSent": "تم إرسال الدعوة",
+                    "send": "إرسال",
+                    "resend": "إعادة الإرسال",
+                    "isInvitationAccept": "تم قبول الدعوة",
+                    "accepted": "مقبول",
+                    "pending": "قيد الانتظار",
+                    "createdAt": "تاريخ الإنشاء",
+                    "actions": "الإجراءات",
+                    "viewTooltip": "عرض تفاصيل المستخدم"
+                }
             }
         },
         "createOrganizationPage": {
@@ -294,6 +338,89 @@
                 "industryTypePlaceholder": "اختر نوع الصناعة",
                 "btn": {
                     "updateBtn": "تحديث"
+                }
+            }
+        }
+    },
+    "UserPages": {
+        "userListPage": {
+            "title": "قائمة المستخدم",
+            "description": "إدارة المستخدم من هذه الصفحة.",
+            "navigateCreateUser": {
+                "createUserBtn": "إنشاء مستخدم"
+            },
+            "userTable": {
+                "title": "جدول المستخدم",
+                "searchPlaceholder": "بحث عن مستخدم...",
+                "userHeader": {
+                    "id": "معرّف المستخدم",
+                    "tenantId": "معرّف المستأجر",
+                    "organizationId": "معرّف المنظمة",
+                    "email": "البريد الإلكتروني",
+                    "phone": "الهاتف",
+                    "isActive": "نشط",
+                    "isInvitationSent": "تم إرسال الدعوة",
+                    "send": "إرسال",
+                    "resend": "إعادة إرسال",
+                    "isInvitationAccepted": "تم قبول الدعوة",
+                    "accepted": "مقبول",
+                    "pending": "قيد الانتظار",
+                    "createdAt": "تاريخ الإنشاء",
+                    "active": "نشط",
+                    "inactive": "غير نشط",
+                    "actions": "الإجراءات",
+                    "viewTooltip": "عرض تفاصيل المستخدم",
+                    "userDelete": {
+                        "title": "حذف طلب المستخدم",
+                        "description": "هل أنت متأكد أنك تريد حذف طلب المستخدم #{id}؟"
+                    },
+                    "userToast": {
+                        "statusUpdated": "تم تحديث الحالة بنجاح",
+                        "statusUpdateFailed": "فشل تحديث الحالة"
+                    }
+                }
+            }
+        },
+        "userDetailPage": {
+            "title": "صفحة تفاصيل المستخدم",
+            "description": "تعرض صفحة تفاصيل المستخدم معلومات المستخدم المحدد.",
+            "userDetails": {
+                "title": "تفاصيل المستخدم",
+                "id": "معرّف المستخدم",
+                "tenantId": "معرّف المستأجر",
+                "organizationId": "معرّف المنظمة",
+                "userId": "معرّف المستخدم",
+                "email": "البريد الإلكتروني",
+                "isInvitationAccept": "تم قبول الدعوة",
+                "yes": "نعم",
+                "no": "لا",
+                "isInvitationSent": "تم إرسال الدعوة",
+                "send": "إرسال",
+                "resend": "إعادة إرسال",
+                "createdBy": "تم إنشاؤه بواسطة",
+                "deletedAt": "تم الحذف في",
+                "status": "الحالة",
+                "active": "نشط",
+                "inactive": "غير نشط",
+                "country": "الدولة",
+                "createdAt": "تاريخ الإنشاء",
+                "updatedAt": "تاريخ التحديث"
+            }
+        },
+        "createUserPage": {
+            "title": "إنشاء مستخدم",
+            "description": "إنشاء مستخدم جديد من خلال ملء النموذج أدناه.",
+            "form": {
+                "tenantId": "معرّف المستأجر",
+                "tenantIdPlaceholder": "أدخل معرّف المستأجر",
+                "organizationId": "معرّف المنظمة",
+                "organizationIdPlaceholder": "أدخل معرّف المنظمة",
+                "userId": "معرّف المستخدم",
+                "userIdPlaceholder": "أدخل معرّف المستخدم",
+                "email": "البريد الإلكتروني",
+                "emailPlaceholder": "أدخل البريد الإلكتروني",
+                "btn": {
+                    "createBtn": "إنشاء"
                 }
             }
         }

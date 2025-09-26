@@ -17,6 +17,13 @@ export const routes = {
     editOrganization: (organizationId: string) => `/organization/${organizationId}/update`,
   },
 
+  user: {
+    list: "/user",
+    create: "/user/create",
+    userDetails: (userId: string) => `/user/${userId}`,
+    editUser: (userId: string) => `/user/${userId}/update`,
+  },
+
   auth:{
     login: "/auth/login",
     signup: "/auth/signup",
@@ -26,12 +33,6 @@ export const routes = {
   profile: {
     editProfile: "/profile/edit-profile",
     changePassword: "/profile/changePassword",
-  },
-  user: {
-    list: "/user",
-    create: "/user/create",
-    userDetails: (userId: string) => `/user/${userId}`,
-    editUser: (userId: string) => `/user/${userId}/update`,
   },
   contact: {
     list: "/contact",
