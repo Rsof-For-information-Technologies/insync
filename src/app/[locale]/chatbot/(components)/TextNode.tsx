@@ -20,7 +20,6 @@ interface TextNodeProps {
 }
 
 export default function TextNode({ id, data }: TextNodeProps) {
-  console.log("TextNode data:", data);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [text, setText] = useState("");
   const [displayText, setDisplayText] = useState(""); // <-- For showing in lower div
@@ -124,11 +123,11 @@ export default function TextNode({ id, data }: TextNodeProps) {
           ) : (
             <span className="text-gray-400"></span>
           )}
-
         </div>
-
         <Handle type="target" position={Position.Top} id={`${id}-t`} />
         <Handle type="source" position={Position.Bottom} id={`${id}-b`} />
+        <Handle type="source" position={Position.Right} id={`${id}-a`} />
+        <Handle type="source" position={Position.Left} id={`${id}-c`} />
       </div>
 
       {isModalOpen &&
@@ -246,7 +245,7 @@ export default function TextNode({ id, data }: TextNodeProps) {
                 onClick={handleCancel}
                 className="bg-white text-black border border-black px-4 py-2 rounded hover:bg-gray-200 hover:text-black transition"
               >
-               {t("cancelModal")}
+                {t("cancelModal")}
               </button>
               <button
                 onClick={handleSave}

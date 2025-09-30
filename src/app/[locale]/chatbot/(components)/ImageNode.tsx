@@ -7,7 +7,11 @@ import { useTranslations } from "next-intl";
 
 interface ImageNodeProps {
     id: string;
-    data: { onDelete: (id: string) => void };
+    data: {
+        src: string;
+        onDelete: (id: string) => void;
+        onChange: (src: string) => void;
+    };
 }
 
 export default function ImageNode({ id, data }: ImageNodeProps) {
@@ -17,9 +21,12 @@ export default function ImageNode({ id, data }: ImageNodeProps) {
     function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files ? e.target.files[0] : null;
         if (file) {
-            setSelectedImage(URL.createObjectURL(file));
+             const newUrl = URL.createObjectURL(file);
+            setSelectedImage(newUrl);
+            data.onChange(newUrl);
         } else {
             setSelectedImage(null);
+            data.onChange("");
         }
     }
     return (
@@ -65,6 +72,8 @@ export default function ImageNode({ id, data }: ImageNodeProps) {
             </div>
             <Handle type="target" position={Position.Top} id={`${id}-t`} />
             <Handle type="source" position={Position.Bottom} id={`${id}-b`} />
+            <Handle type="source" position={Position.Right} id={`${id}-a`} />
+            <Handle type="source" position={Position.Left} id={`${id}-c`} />
         </div>
     );
 }

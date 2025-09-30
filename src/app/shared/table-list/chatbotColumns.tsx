@@ -1,13 +1,11 @@
 'use client';
 
 import { HeaderCell } from '@/components/ui/table';
-import { Text, Tooltip, ActionIcon } from 'rizzui';
-import { Trash2, Download, ListChecks } from 'lucide-react';
+import { Tooltip, ActionIcon } from 'rizzui';
+import Link from "next/link";
+import { Trash2, Download} from 'lucide-react';
 import { Switch } from "rizzui";
 import UpdateChatbotInfo from '@/app/[locale]/chatbot/(components)/updateChatbotInfo';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { Params } from '@/types/params';
 
 export type SortConfig = {
   key: string;
@@ -38,9 +36,6 @@ export const getChatbotColumns = ({
   onDeleteItem,
   onHeaderCellClick,
 }: ChatbotColumns) => {
-
-  const { locale } = useParams<Params>()
-
   return [
     {
       title: (
@@ -56,7 +51,12 @@ export const getChatbotColumns = ({
       width: 200,
       render: (value: string, record: ChatbotRow) => (
         <div className="flex items-center gap-2">
-          <Link href={`/${locale}/chatbot/editor/${record.id}`} className="font-medium text-gray-800 dark:text-gray-200">{value}</Link>
+          <Link
+            href={`chatbot/chatbotView/${record.id}`}
+            className="font-medium text-black"
+          >
+            {value}
+          </Link>
         </div>
       ),
     },

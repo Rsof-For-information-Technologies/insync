@@ -108,6 +108,7 @@
     "Chatbot": {
         "title": "روبوتات الدردشة",
         "nodeTitle": "مدخل المستخدم",
+        "actionTitle":"الإجراءات",
         "nodeName": "نص العقدة",
         "imageNode": "عقدة الصورة",
         "createButton": " إنشاء روبوت دردشة",
@@ -124,8 +125,14 @@
         "cancelModal": " إلغاء",
         "saveModal": " حفظ",
         "videoNode": "عقدة الفيديو",
+        "documentNode": " عقدة المستند",
         "addVideo": "إضافة فيديو",
-        "chooseVideo": "اختر فيديو"
+        "chooseVideo": "اختر فيديو",
+        "addDoc": "إضافة مستند",
+        "chooseDoc": "اختر مستند",
+        "audioNode": "عقدة الصوت",
+        "addAud":"أضف الصوت",
+        "addAudio": "اختر الصوت"
     },
     "Channel": {
         "title": "القنوات",

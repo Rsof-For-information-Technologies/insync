@@ -13,15 +13,18 @@ import {
     OnNodesChange,
     OnEdgesChange,
     OnConnect,
-    useReactFlow
+    useReactFlow,
+    MiniMap
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useTranslations } from "next-intl";
 import TextNode from "./TextNode";
 import ImageNode from "./ImageNode";
 import VideoNode from "./videoNode";
+import DocumentNode from "./documentNode";
+import AudioNode from "./audioNode";
 
-const nodeTypes = { textNode: TextNode, imageNode: ImageNode, videoNode: VideoNode };
+const nodeTypes = { textNode: TextNode, imageNode: ImageNode, videoNode: VideoNode, documentNode: DocumentNode, audioNode: AudioNode };
 
 export default function ChatbotMain() {
     const [nodes, setNodes] = useState<Node[]>([]);
@@ -44,8 +47,12 @@ export default function ChatbotMain() {
         []
     );
 
+    const generateId = () => {
+        return crypto.randomUUID();
+    }
+
     const addTextNode = () => {
-        const id = `${+new Date()}`;
+        const id = generateId();
         setNodes((nds) => [
             ...nds,
             {
@@ -65,7 +72,7 @@ export default function ChatbotMain() {
     };
 
     const addImageNode = () => {
-        const id = `${+new Date()}`;
+        const id = generateId();
         setNodes((nds) => [
             ...nds,
             {
@@ -80,18 +87,65 @@ export default function ChatbotMain() {
                             curr.filter((e) => e.source !== deleteId && e.target !== deleteId)
                         );
                     },
+                    onChange: (newSrc: string) => {
+                        setNodes((nds) =>
+                            nds.map((n) =>
+                                n.id === id ? { ...n, data: { ...n.data, src: newSrc } } : n
+                            )
+                        );
+                    },
                 },
             },
         ]);
     };
 
     const addVideoNode = () => {
-        const id = `${+new Date()}`;
+        const id = generateId();
         setNodes((nds) => [
             ...nds,
             {
                 id,
-                type: "videoNode", // <-- CORRECT
+                type: "videoNode",
+                position: { x: Math.random() * 300, y: Math.random() * 300 },
+                data: {
+                    onDelete: (deleteId: string) => {
+                        setNodes((curr) => curr.filter((n) => n.id !== deleteId));
+                        setEdges((curr) =>
+                            curr.filter((e) => e.source !== deleteId && e.target !== deleteId)
+                        );
+                    },
+                },
+            },
+        ]);
+    };
+
+    const addDocumentNode = () => {
+        const id = generateId();
+        setNodes((nds) => [
+            ...nds,
+            {
+                id,
+                type: "documentNode",
+                position: { x: Math.random() * 300, y: Math.random() * 300 },
+                data: {
+                    onDelete: (deleteId: string) => {
+                        setNodes((curr) => curr.filter((n) => n.id !== deleteId));
+                        setEdges((curr) =>
+                            curr.filter((e) => e.source !== deleteId && e.target !== deleteId)
+                        );
+                    },
+                },
+            },
+        ]);
+    };
+
+    const addAudioNode = () => {
+        const id = generateId();
+        setNodes((nds) => [
+            ...nds,
+            {
+                id,
+                type: "audioNode",
                 position: { x: Math.random() * 300, y: Math.random() * 300 },
                 data: {
                     onDelete: (deleteId: string) => {
@@ -109,6 +163,7 @@ export default function ChatbotMain() {
         const flow = toObject();
         console.log("Flow data:", flow);
     };
+
     return (
         <div className="flex w-full h-screen bg-white">
             {/* Sidebar */}
@@ -133,6 +188,19 @@ export default function ChatbotMain() {
                     {t("videoNode")}
                 </button>
                 <button
+                    onClick={addDocumentNode}
+                    className="w-full bg-purple-600 mt-[10px] text-white font-semibold p-[10px] rounded-lg"
+                >
+                    {t("documentNode")}
+                </button>
+                <button
+                    onClick={addAudioNode}
+                    className="w-full bg-pink-600 mt-[10px] text-white font-semibold p-[10px] rounded-lg"
+                >
+                    {t("audioNode")}
+                </button>
+                <h3 className="mt-20 mb-5">{t("actionTitle")}</h3>
+                <button
                     onClick={saveFlow}
                     className="w-full bg-gray-800 mt-[10px] text-white font-semibold p-[10px] rounded-lg"
                 >
@@ -142,18 +210,37 @@ export default function ChatbotMain() {
 
             {/* Flow canvas */}
             <div style={{ flex: 1 }}>
-                    <ReactFlow
-                        nodes={nodes}
-                        edges={edges}
-                        nodeTypes={nodeTypes}
-                        onNodesChange={onNodesChange}
-                        onEdgesChange={onEdgesChange}
-                        onConnect={onConnect}
-                        fitView
-                    >
-                        <Background />
-                        <Controls />
-                    </ReactFlow>
+                <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    nodeTypes={nodeTypes}
+                    onNodesChange={onNodesChange}
+                    onEdgesChange={onEdgesChange}
+                    onConnect={onConnect}
+                    fitView
+                >
+                    <MiniMap
+                        nodeStrokeWidth={3}
+                        zoomable
+                        pannable
+                        nodeColor={(node) => {
+                            switch (node.type) {
+                                case "textNode":
+                                    return "blue";
+                                case "imageNode":
+                                    return "green";
+                                case "videoNode":
+                                    return "yellow";
+                                case "documentNode":
+                                    return "purple";
+                                default:
+                                    return "#eee";
+                            }
+                        }}
+                    />
+                    <Background />
+                    <Controls />
+                </ReactFlow>
             </div>
         </div>
     );
