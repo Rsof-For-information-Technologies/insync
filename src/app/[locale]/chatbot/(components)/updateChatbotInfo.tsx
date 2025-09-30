@@ -4,6 +4,7 @@ import { Tooltip, ActionIcon, Switch, Input } from "rizzui";
 import { PencilIcon, X } from "lucide-react";
 import { updateChatbot } from "@/apiCalls/chatbot/chatApi";
 import type { UpdateChatbotRequest } from "@/types/chatbot/updateChatbot";
+import { toast } from "sonner";
 
 interface UpdateChatbotInfoProps {
     data: string; // chatbot id
@@ -66,9 +67,11 @@ const UpdateChatbotInfo = ({ data, name, keywords = [] }: UpdateChatbotInfoProps
             };
 
             await updateChatbot(payload);
+            toast.success("Chatbot name updated successfully");
             closeModal();
         } catch {
             setNameError("Failed to update chatbot name");
+            toast.error("Failed to update chatbot name");
         }
     };
 
@@ -87,9 +90,12 @@ const UpdateChatbotInfo = ({ data, name, keywords = [] }: UpdateChatbotInfoProps
             };
 
             await updateChatbot(payload);
+            toast.success("Chatbot keyword updated successfully");
             closeModal();
         } catch {
             setKeywordError("Failed to update chatbot keyword");
+            toast.error("Failed to update chatbot keyword");
+
         }
     };
 
