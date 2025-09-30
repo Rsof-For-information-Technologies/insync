@@ -10,8 +10,8 @@ enum MODE {
 }
 
 export const siteConfig = {
-  title: "Sadef",
-  description: `Sadef Property listing company`,
+  title: "Insync",
+  description: `Insync chatbot builder company`,
   logo: logoImg,
   icon: logoIconImg,
   mode: MODE.LIGHT,

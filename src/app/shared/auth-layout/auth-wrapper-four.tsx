@@ -115,7 +115,7 @@ function AuthHeader() {
       <Link href={'/'}>
         <Image
           src={"/insync-logo-02.png"}
-          alt="Sadef Logo"
+          alt="Insync Logo"
           height={200}
           width={200}
           priority
