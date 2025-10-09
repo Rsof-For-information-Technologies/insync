@@ -7,6 +7,7 @@ import {
   applyNodeChanges,
   Background,
   BackgroundVariant,
+  Controls,
   Edge,
   Node,
   OnConnect,
@@ -281,7 +282,7 @@ export default function ChatbotMain() {
           <ChatbotSidebar nodes={nodes} edges={edges} onLayout={onLayout} />
           <ChatbotMiniMap nodes={nodes} />
           <Background variant={BackgroundVariant.Lines} />
-          {/* <Controls position="top-right" orientation="horizontal" /> */}
+          <Controls position="top-right" orientation="horizontal" />
         </ReactFlow>
       </div>
     </div>
