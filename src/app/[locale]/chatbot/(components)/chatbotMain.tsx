@@ -1,5 +1,6 @@
 "use client";
 
+import dagre from '@dagrejs/dagre';
 import {
   addEdge,
   applyEdgeChanges,
@@ -18,7 +19,6 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useCallback, useEffect, useState } from "react";
-import dagre from '@dagrejs/dagre';
 
 
 import useChatbotDarkBgStore from "@/store/chatbotDarkBg.store";
@@ -31,8 +31,8 @@ import StartNode from "./CustomNodes/startNode";
 import TextNode from "./CustomNodes/TextNode";
 import VideoNode from "./CustomNodes/videoNode";
 import ChatbotMiniMap from "./CustomReactFlowComponents/ChatbotMiniMap";
-import DarkAndLightMode from "./SideBarActionButtons/DarkAndLightMode";
 import ChatbotSidebar from "./SideBarActionButtons/ChatbotSidebar";
+import DarkAndLightMode from "./SideBarActionButtons/DarkAndLightMode";
 
 type NodeTypeKey =
   | "startNode"
