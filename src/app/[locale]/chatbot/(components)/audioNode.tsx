@@ -2,69 +2,109 @@
 import { Trash2, FileAudio } from "lucide-react";
 import { Handle, Position } from "@xyflow/react";
 import { useState } from "react";
-import { useTranslations } from "next-intl";
-
+import { z, ZodError } from "zod";
+import { toast } from "sonner";
 
 interface AudioNodeProps {
-    id: string;
-    data: { onDelete: (id: string) => void };
+  id: string;
+  data: { onDelete: (id: string) => void };
 }
 
+const audioValidationSchema = z.object({
+  file: z.instanceof(File).refine((file) => file.type.startsWith("audio/"), {
+    message: "Only audio files are allowed."
+  })
+});
+
 export default function AudioNode({ id, data }: AudioNodeProps) {
-    const [selectedAudio, setselectedAudio] = useState<string | null>(null);
-    const t = useTranslations("Chatbot");
+  const [selectedAudio, setSelectedAudio] = useState<string | null>(null);
 
-    function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
-        const file = e.target.files ? e.target.files[0] : null;
-        if (file) {
-            setselectedAudio(URL.createObjectURL(file));
-        } else {
-            setselectedAudio(null);
+  function handleAudioUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files ? e.target.files[0] : null;
+
+    if (file) {
+      try {
+        audioValidationSchema.parse({ file });
+        setSelectedAudio(URL.createObjectURL(file));
+      } catch (error) {
+        if (error instanceof ZodError) {
+          toast.error(error.errors[0].message);
+          e.target.value = "";
         }
+      }
+    } else {
+      setSelectedAudio(null);
     }
-    return (
-        <div className="w-[220px] rounded-[10px] overflow-hidden border border-gray-300 bg-gray-100 shadow">
-            {/* Header */}
-            <div className="flex items-center justify-between p-2.5 bg-pink-600 text-white">
-                <h3 className="text-[14px] text-white font-medium">{t("addAudio")}</h3>
-                <Trash2
-                    className="w-4 h-4 cursor-pointer hover:text-red-300"
-                    onClick={() => data.onDelete(id)}
-                />
-            </div>
+  }
 
-            {/* Content area */}
-            <div className="bg-white border-t border-gray-300 rounded-b-[10px] p-2 flex flex-col items-center">
-                {/* Image preview */}
-                <div className="w-full flex items-center justify-center border border-gray-300 rounded-md bg-gray-50 mb-2">
-                    {selectedAudio ? (
-                        <audio src={selectedAudio} className="w-full h-auto" controls>
-                            Your browser does not support the audio element.
-                        </audio>
-                    ) : (
-                        <div className="flex items-center justify-center w-full h-[100px]">
-                            <FileAudio className="w-10 h-10 text-gray-400" />
-                        </div>
-                    )}
-                </div>
+  return (
+    <div className="relative group flex flex-col items-center">
+      {/* Delete button */}
+      <button
+        onClick={() => data.onDelete(id)}
+        className="absolute -top-4 right-[-14px] text-gray-400 hover:text-red-500 transition z-10"
+        title="Delete Node"
+      >
+        <Trash2 className="w-4 h-4" />
+      </button>
 
-                {/* Upload button */}
-                <label className="w-full">
-                    <input
-                        type="file"
-                        accept="audio/*"
-                        className="hidden"
-                        onChange={handleImageUpload}
-                    />
-                    <span className="block w-full text-center bg-blue-600 text-white py-2 rounded-md cursor-pointer hover:bg-blue-700">
-                        {t("addAud")}
-                    </span>
-                </label>
-            </div>
-            <Handle type="target" position={Position.Top} id={`${id}-t`} />
-            <Handle type="source" position={Position.Bottom} id={`${id}-b`} />
-            <Handle type="source" position={Position.Right} id={`${id}-a`} />
-            <Handle type="source" position={Position.Left} id={`${id}-c`} />
+      {/* Node container with vertical accent */}
+      <div className="w-[350px] min-h-[90px] bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden rounded-none flex items-center gap-3 relative">
+
+        {/* Left accent line */}
+        <div className="absolute top-0 left-0 h-full w-[6px] bg-black"></div>
+
+        {/* Content padding wrapper to avoid overlapping the accent */}
+        <div className="pl-4 pr-3 py-3 flex w-full items-center justify-between gap-3">
+          {/* Audio Preview Area */}
+          <div className="flex-1 flex items-center justify-center bg-gray-50 border border-gray-200 rounded-sm min-h-[70px]">
+            {selectedAudio ? (
+              <audio src={selectedAudio} className="w-full" controls />
+            ) : (
+              <FileAudio className="w-8 h-8 text-gray-400" />
+            )}
+          </div>
+
+          {/* Upload Button - side */}
+          <label className="flex-shrink-0">
+            <input
+              type="file"
+              accept="audio/*"
+              className="hidden"
+              onChange={handleAudioUpload}
+            />
+            <span className="px-4 py-2 text-sm bg-black text-white rounded-sm cursor-pointer hover:bg-gray-800 transition">
+              Upload
+            </span>
+          </label>
         </div>
-    );
+      </div>
+
+      {/* Handles */}
+      <Handle
+        type="target"
+        position={Position.Top}
+        id={`${id}-t`}
+        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+      />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        id={`${id}-b`}
+        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+      />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id={`${id}-a`}
+        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+      />
+      <Handle
+        type="source"
+        position={Position.Left}
+        id={`${id}-c`}
+        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+      />
+    </div>
+  );
 }

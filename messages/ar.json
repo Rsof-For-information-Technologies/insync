@@ -132,7 +132,8 @@
         "chooseDoc": "اختر مستند",
         "audioNode": "عقدة الصوت",
         "addAud":"أضف الصوت",
-        "addAudio": "اختر الصوت"
+        "addAudio": "اختر الصوت",
+        "buttonNode":"عقدة الزر"
     },
     "Channel": {
         "title": "القنوات",

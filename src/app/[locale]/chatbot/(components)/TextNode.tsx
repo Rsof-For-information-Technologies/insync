@@ -2,12 +2,15 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Handle, Position } from "@xyflow/react";
-import { Trash2, X, Bold, Italic, Smile } from "lucide-react";
+import { Trash2, Bold, Italic, Smile } from "lucide-react";
 import { createPortal } from "react-dom";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { Switch, Input } from 'rizzui';
 import { Select } from 'rizzui';
 import { useTranslations } from "next-intl";
+import { z, ZodError } from "zod";
+import { toast } from "sonner";
+
 
 type MediaOption = {
   label: string;
@@ -16,17 +19,28 @@ type MediaOption = {
 
 interface TextNodeProps {
   id: string;
-  data: { label: string; onChange: (val: string) => void; onDelete: (id: string) => void };
+  data: {
+    label?: string;
+    onChange?: (val: string) => void;
+    onDelete: (id: string) => void;
+    onDataChange?: (updatedData: Record<string, unknown>) => void; // <--- new
+  };
 }
+
+const textValidationSchema = z.object({
+  text: z.string().max(4096, "Text cannot exceed 4096 characters"),
+  variableValue: z.string().max(20, "Variable cannot exceed 20 characters").optional(),
+});
 
 export default function TextNode({ id, data }: TextNodeProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [text, setText] = useState("");
-  const [displayText, setDisplayText] = useState(""); // <-- For showing in lower div
+  const [displayText, setDisplayText] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [acceptMedia, setAcceptMedia] = useState(false);
   const [selectedMediaOption, setSelectedMediaOption] = useState<MediaOption | null>(null);
   const [variableValue, setVariableValue] = useState("");
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const t = useTranslations("Chatbot");
 
   const paginationLimitOptions = [
@@ -41,8 +55,35 @@ export default function TextNode({ id, data }: TextNodeProps) {
   const emojiButtonRef = useRef<HTMLButtonElement>(null);
   const emojiPickerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    data.onDataChange?.({
+      text,
+      acceptMedia,
+      selectedMediaOption,
+      variableValue,
+    });
+  }, [text, acceptMedia, selectedMediaOption, variableValue]);
 
-  // Close emoji picker on outside click
+  useEffect(() => {
+    const validateText = () => {
+      try {
+        textValidationSchema.parse({ text, variableValue });
+        setIsSaveDisabled(false);
+      } catch (error) {
+        setIsSaveDisabled(true);
+        console.log(error)
+        if (error instanceof ZodError) {
+          const firstError = error.errors[0].message;
+          console.log(firstError)
+          if (firstError) {
+            toast.error(firstError);
+          }
+        }
+      }
+    };
+    validateText();
+  }, [text, variableValue]);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -98,163 +139,212 @@ export default function TextNode({ id, data }: TextNodeProps) {
 
   return (
     <>
-      <div className="w-[250px] rounded-lg bg-white text-sm relative">
-        <div className="flex items-center justify-between p-2.5 bg-yellow-600 text-white rounded-t-lg">
-          <h3 className="text-[14px] font-normal m-0 text-white"> {t("textNodeHeading")} </h3>
-          <button onClick={() => data.onDelete(id)}>
-            <Trash2 className="w-4 h-4 cursor-pointer hover:text-red-300" />
-          </button>
-        </div>
+      <div className="relative group flex flex-col items-center">
+        {/* Delete button - outside the node, no bg/border */}
+        <button
+          onClick={() => data.onDelete(id)}
+          className="absolute -top-4 right-[-14px] text-gray-400 hover:text-red-500 transition z-10"
+          title="Delete Node"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
 
-        {/* Lower div now shows saved text */}
+        {/* Node container - long rectangle with vertical accent */}
         <div
-          className="p-2.5 min-h-[60px] bg-white border-l border-r border-b border-gray-400 rounded-b-lg cursor-pointer"
+          className="w-[350px] min-h-[60px] bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden rounded-none flex"
           onClick={() => setIsModalOpen(true)}
         >
-          {displayText ? (
-            <span
-              className="break-words"
-              dangerouslySetInnerHTML={{
-                __html: displayText
-                  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                  .replace(/\*(.*?)\*/g, '<em>$1</em>'),
-              }}
-            />
-          ) : (
-            <span className="text-gray-400"></span>
-          )}
+          {/* Vertical accent */}
+          <div className="w-1 bg-black"></div>
+
+          {/* Content - full height clickable */}
+          <div className="flex-1 p-3 text-sm text-gray-800 cursor-pointer leading-relaxed">
+            {displayText ? (
+              <div
+                className="text-[13px]"
+                dangerouslySetInnerHTML={{
+                  __html: displayText
+                    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                    .replace(/\*(.*?)\*/g, "<em>$1</em>"),
+                }}
+              />
+            ) : (
+              <span className="text-gray-400 italic">Click to edit</span>
+            )}
+          </div>
         </div>
-        <Handle type="target" position={Position.Top} id={`${id}-t`} />
-        <Handle type="source" position={Position.Bottom} id={`${id}-b`} />
-        <Handle type="source" position={Position.Right} id={`${id}-a`} />
-        <Handle type="source" position={Position.Left} id={`${id}-c`} />
+
+        {/* Handles - black color */}
+        <Handle
+          type="target"
+          position={Position.Top}
+          id={`${id}-t`}
+          className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+        />
+        <Handle
+          type="source"
+          position={Position.Bottom}
+          id={`${id}-b`}
+          className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+        />
+        <Handle
+          type="source"
+          position={Position.Right}
+          id={`${id}-a`}
+          className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+        />
+        <Handle
+          type="source"
+          position={Position.Left}
+          id={`${id}-c`}
+          className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+        />
       </div>
 
+
+      {/* === Modal (unchanged) === */}
       {isModalOpen &&
         createPortal(
-          <div className="fixed top-0 right-0 h-full w-[400px] bg-white shadow-lg z-[100] transition-all duration-300 flex flex-col">
-            {/* Header */}
-            <div className="flex items-center justify-between p-5 border-b border-gray-300">
-              <h2 className="text-[23px] font-bold"> {t("setQuestion")} </h2>
-              <X
-                className="w-6 h-6 cursor-pointer text-gray-600 hover:text-gray-900"
-                onClick={handleCancel}
-              />
-            </div>
-
-            {/* Body */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-4 relative">
-              <label className="block text-base font-medium text-gray-700">
-                {t("textQuestion")} <i className="text-gray-500"> {t("questionChar")} </i>
-              </label>
-
-              <textarea
-                ref={textareaRef}
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                maxLength={4096}
-                className="w-full border border-gray-300 rounded-lg p-2 min-h-[120px] focus:ring focus:ring-blue-400 focus:outline-none"
-              />
-
-              {/* Toolbar */}
-              <div className="flex items-center space-x-3 relative">
-                <button
-                  ref={emojiButtonRef}
-                  type="button"
-                  className="p-2 rounded hover:bg-gray-100"
-                  onClick={toggleEmojiPicker}
-                >
-                  <Smile className="w-5 h-5 text-gray-600" />
-                </button>
-                <button
-                  type="button"
-                  className="p-2 rounded hover:bg-gray-100"
-                  onClick={() => applyFormat("bold")}
-                >
-                  <Bold className="w-5 h-5 text-gray-600" />
-                </button>
-                <button
-                  type="button"
-                  className="p-2 rounded hover:bg-gray-100"
-                  onClick={() => applyFormat("italic")}
-                >
-                  <Italic className="w-5 h-5 text-gray-600" />
-                </button>
-              </div>
-              <div className="text-sm text-gray-500 text-right mt-1 border-b border-gray-300 pb-4">
-                {text.length}/4096 characters
-              </div>
-
-              {/* Accept Media Response */}
-              <div className="border-b border-gray-300 pb-[16px]">
-                <div className="flex items-center justify-between mt-4">
-                  <label className="text-base font-medium text-gray-700">{t("mediaResponse")}</label>
-                  <Switch
-                    variant="outline"
-                    checked={acceptMedia}
-                    onChange={(e) =>
-                      e.target.checked ? setAcceptMedia(true) : setAcceptMedia(false)
-                    }
-                  />
-                </div>
-                {/* Media type select if switch is active */}
-                {acceptMedia && (
-                  <div className="mt-2">
-                    <Select
-                      label="Select media type"
-                      options={paginationLimitOptions}
-                      value={selectedMediaOption}
-                      onChange={setSelectedMediaOption}
+          <>
+            <div className="fixed inset-0 bg-black/50 z-[90]" />
+            <div className="fixed top-0 right-0 h-full w-[400px] bg-white shadow-2xl z-[100] flex flex-col animate-slide-left">
+              <div className="flex items-center justify-between p-5 border-b border-gray-200">
+                <h2 className="text-xl font-semibold">{t("setQuestion")}</h2>
+                <button onClick={handleCancel}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-5 h-5 text-gray-600 hover:text-gray-900"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
                     />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-5 space-y-5">
+                <label className="block text-sm font-medium text-gray-700">
+                  {t("textQuestion")}{" "}
+                  <i className="text-gray-500">{t("questionChar")}</i>
+                </label>
+
+                <textarea
+                  ref={textareaRef}
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg p-2.5 min-h-[120px] text-sm focus:ring focus:ring-yellow-400 focus:outline-none"
+                />
+
+                <div className="flex items-center gap-2">
+                  <button
+                    ref={emojiButtonRef}
+                    type="button"
+                    className="p-2 rounded-lg hover:bg-gray-100"
+                    onClick={toggleEmojiPicker}
+                  >
+                    <Smile className="w-5 h-5 text-gray-600" />
+                  </button>
+                  <button
+                    type="button"
+                    className="p-2 rounded-lg hover:bg-gray-100"
+                    onClick={() => applyFormat("bold")}
+                  >
+                    <Bold className="w-5 h-5 text-gray-600" />
+                  </button>
+                  <button
+                    type="button"
+                    className="p-2 rounded-lg hover:bg-gray-100"
+                    onClick={() => applyFormat("italic")}
+                  >
+                    <Italic className="w-5 h-5 text-gray-600" />
+                  </button>
+                </div>
+
+                <div className="text-sm text-gray-500 text-right border-b border-gray-200 pb-3">
+                  {text.length}/4096
+                </div>
+
+                <div className="border-b border-gray-200 pb-4">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium text-gray-700">
+                      {t("mediaResponse")}
+                    </label>
+                    <Switch
+                      variant="outline"
+                      checked={acceptMedia}
+                      onChange={(e) =>
+                        e.target.checked
+                          ? setAcceptMedia(true)
+                          : setAcceptMedia(false)
+                      }
+                    />
+                  </div>
+
+                  {acceptMedia && (
+                    <div className="mt-3">
+                      <Select
+                        label="Select media type"
+                        options={paginationLimitOptions}
+                        value={selectedMediaOption}
+                        onChange={setSelectedMediaOption}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-3">
+                  <p className="text-sm mb-2 font-medium text-gray-800">
+                    {t("variableHeading")}{" "}
+                    <i className="text-gray-500">{t("variableChar")}</i>
+                  </p>
+                  <Input
+                    type="text"
+                    size="lg"
+                    placeholder="Enter variable (optional)"
+                    value={variableValue}
+                    onChange={(e) => setVariableValue(e.target.value)}
+                  />
+                  <div className="text-right text-xs text-gray-500">
+                    {variableValue.length}/20
+                  </div>
+                </div>
+
+                {showEmojiPicker && emojiButtonRef.current && (
+                  <div
+                    ref={emojiPickerRef}
+                    className="absolute z-[9999] top-24 left-6 shadow-xl"
+                  >
+                    <EmojiPicker onEmojiClick={onEmojiClick} />
                   </div>
                 )}
               </div>
 
-              {/* Variable input */}
-              <div className="mt-4 relative">
-                <p className="text-base mb-5 font-medium text-black">{t("variableHeading")}  <i className="text-gray-500"> {t("variableChar")} </i></p>
-                <Input
-                  type="text"
-                  size="lg"
-                  placeholder="Enter variable value (optional)"
-                  value={variableValue}
-                  maxLength={20}
-                  onChange={(e) => setVariableValue(e.target.value)}
-                  className="[&>label>span]:font-medium"
-                />
-                {/* Character counter */}
-                <div className="text-right text-sm text-gray-500">
-                  {variableValue.length}/20
-                </div>
-              </div>
-
-              {/* Emoji Picker */}
-              {showEmojiPicker && emojiButtonRef.current &&
-                <div
-                  ref={emojiPickerRef}
-                  className="absolute z-[9999] top-0 left-[15px] shadow-xl"
+              <div className="flex justify-end gap-3 p-5 border-t border-gray-200">
+                <button
+                  onClick={handleCancel}
+                  className="bg-white text-gray-700 border border-gray-400 px-4 py-2 rounded-lg hover:bg-gray-100 transition"
                 >
-                  <EmojiPicker onEmojiClick={onEmojiClick} />
-                </div>
-              }
+                  {t("cancelModal")}
+                </button>
+                <button
+                  onClick={handleSave}
+                  disabled={isSaveDisabled}
+                  className={`px-4 py-2 rounded-lg transition ${isSaveDisabled
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-yellow-500 text-white hover:bg-yellow-600"
+                    }`}
+                >
+                  {t("saveModal")}
+                </button>
+              </div>
             </div>
-
-            {/* Footer Buttons */}
-            <div className="flex justify-end p-5 border-t border-gray-300 space-x-3">
-              <button
-                onClick={handleCancel}
-                className="bg-white text-black border border-black px-4 py-2 rounded hover:bg-gray-200 hover:text-black transition"
-              >
-                {t("cancelModal")}
-              </button>
-              <button
-                onClick={handleSave}
-                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition"
-              >
-                {t("saveModal")}
-              </button>
-            </div>
-          </div>,
+          </>,
           document.body
         )}
     </>
