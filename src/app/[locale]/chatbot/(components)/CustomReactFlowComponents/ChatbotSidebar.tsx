@@ -1,6 +1,6 @@
 "use client";
 
-import { Edge, Node } from "@xyflow/react";
+import { Edge, Node, Panel } from "@xyflow/react";
 import {
     FileText,
     Image as ImageIcon,
@@ -10,6 +10,7 @@ import {
     Type,
     Video,
 } from "lucide-react";
+import DownloadChatbotImageButton from "./DownloadChatbotImageButton";
 
 type NodeTypeKey =
     | "textNode"
@@ -79,7 +80,7 @@ export default function ChatbotSidebar({ nodes, edges, onSave }: ChatbotSidebarP
     };
 
     return (
-        <div className="absolute top-[0] left-6 flex flex-col items-center gap-5 p-4 bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl shadow-xl pointer-events-auto z-10">
+        <Panel position="top-left" className="flex flex-col items-center gap-5 p-4 bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl shadow-xl pointer-events-auto z-10">
             {nodeButtons.map((btn) => (
                 <button
                     key={btn.type}
@@ -99,10 +100,13 @@ export default function ChatbotSidebar({ nodes, edges, onSave }: ChatbotSidebarP
             <button
                 onClick={handleSave}
                 title="Save Flow"
+                aria-label="Save Chatbot Flow"
                 className="p-3 rounded-full bg-gray-100 hover:bg-gray-800 hover:text-white transition"
             >
                 <Save size={18} />
             </button>
-        </div>
+
+            <DownloadChatbotImageButton />
+        </Panel>
     );
 }

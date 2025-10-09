@@ -48,6 +48,7 @@
     "emoji-picker-react": "^4.13.3",
     "glob": "^10.3.10",
     "hashids": "^2.3.0",
+    "html-to-image": "^1.2.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.514.0",
     "motion": "^12.23.22",

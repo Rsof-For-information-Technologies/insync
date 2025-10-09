@@ -8,27 +8,27 @@ import {
   BackgroundVariant,
   Controls,
   Edge,
-  MiniMap,
   Node,
   OnConnect,
   OnEdgesChange,
   OnNodesChange,
   ReactFlow,
   useReactFlow,
-  XYPosition,
+  XYPosition
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useCallback, useEffect, useState } from "react";
 
+import CustomEdge from "./CustomEdges/CustomEdge";
 import AudioNode from "./CustomNodes/audioNode";
 import ButtonNode from "./CustomNodes/buttonNode";
-import ChatbotSidebar from "./CustomReactFlowComponents/ChatbotSidebar";
-import CustomEdge from "./CustomEdges/CustomEdge";
 import DocumentNode from "./CustomNodes/documentNode";
 import ImageNode from "./CustomNodes/ImageNode";
 import StartNode from "./CustomNodes/startNode";
 import TextNode from "./CustomNodes/TextNode";
 import VideoNode from "./CustomNodes/videoNode";
+import ChatbotMiniMap from "./CustomReactFlowComponents/ChatbotMiniMap";
+import ChatbotSidebar from "./CustomReactFlowComponents/ChatbotSidebar";
 
 type NodeTypeKey =
   | "startNode"
@@ -199,10 +199,7 @@ export default function ChatbotMain() {
 
   return (
     <div className="flex w-full h-screen bg-gray-50 text-gray-900 relative">
-      {/* Sidebar */}
-      <ChatbotSidebar nodes={nodes} edges={edges} />
 
-      {/* Canvas */}
       <div className="flex-1 bg-white">
         <ReactFlow
           nodes={nodes}
@@ -214,33 +211,10 @@ export default function ChatbotMain() {
           onConnect={onConnect}
           onDrop={onDrop}
           onDragOver={onDragOver}
-          fitView
+          proOptions={{ hideAttribution: true }}
         >
-          <MiniMap
-            nodeStrokeWidth={2}
-            zoomable
-            pannable
-            nodeColor={(node) => {
-              switch (node.type) {
-                case "startNode":
-                  return "#1D4ED8";
-                case "textNode":
-                  return "#3B82F6";
-                case "imageNode":
-                  return "#22C55E";
-                case "videoNode":
-                  return "#EAB308";
-                case "documentNode":
-                  return "#8B5CF6";
-                case "audioNode":
-                  return "#EC4899";
-                case "buttonNode":
-                  return "#EF4444";
-                default:
-                  return "#ccc";
-              }
-            }}
-          />
+          <ChatbotSidebar nodes={nodes} edges={edges} />
+          <ChatbotMiniMap nodes={nodes} />
           <Background variant={BackgroundVariant.Lines} />
           <Controls position="top-right" orientation="horizontal" />
         </ReactFlow>
