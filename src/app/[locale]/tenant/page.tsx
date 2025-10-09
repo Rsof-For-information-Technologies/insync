@@ -24,8 +24,8 @@ export default async function TenantTablePage({ params }: { params: Params }) {
   const columns = getTenantColumns;
 
   return (
-    <Authenticate >
-      <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
+    // <Authenticate >
+    //   <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
         <div className="flex flex-col space-y-6">
           {/* header */}
           <Header
@@ -52,7 +52,7 @@ export default async function TenantTablePage({ params }: { params: Params }) {
             />
           </div>
         </div>
-      </Authorize>
-    </Authenticate>
+    //   </Authorize>
+    // </Authenticate>
   );
 }

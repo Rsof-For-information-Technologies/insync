@@ -27,11 +27,11 @@ export default function HydrogenLayout({
   return (
     <main className={`flex min-h-screen flex-grow ${isAuthPage ? "pt-[80px]" : "pt-[80px]"}`}>
 
-      {!isAuthPage && (
+      {/* {!isAuthPage && ( */}
         <Suspense>
           <SidebarClientWrapper className="fixed hidden xl:block dark:bg-gray-50" />
         </Suspense>
-      )}
+      {/* )} */}
 
       <div className={`flex w-full flex-col flex-1 ${isOpen && (screenWidth as number) > 1280 && !isAuthPage ? "xl:ms-[270px]" : ""}`} >
         <Header />
