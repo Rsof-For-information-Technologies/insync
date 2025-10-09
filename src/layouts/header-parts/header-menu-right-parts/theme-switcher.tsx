@@ -63,7 +63,7 @@ const ThemeSwitcer = () => {
 
     return (<>
         <ActionIcon onClick={setThemeHandler}
-            aria-label="Notification"
+            aria-label="Toggle theme"
             variant="text"
             className="relative h-[34px] w-[34px] shadow backdrop-blur-md md:h-9 md:w-9 dark:bg-gray-100"
         >

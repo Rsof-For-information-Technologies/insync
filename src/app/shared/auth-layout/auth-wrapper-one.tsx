@@ -6,7 +6,7 @@ import { Button, Title, Text } from 'rizzui';
 import { PiAppleLogoFill, PiArrowLeftBold } from 'react-icons/pi';
 import { FcGoogle } from 'react-icons/fc';
 import OrSeparation from '@/app/shared/auth-layout/or-separation';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 export default function AuthWrapperOne({
   children,

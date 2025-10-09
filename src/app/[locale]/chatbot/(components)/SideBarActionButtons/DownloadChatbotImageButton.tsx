@@ -1,13 +1,15 @@
 import { getNodesBounds, getViewportForBounds, useReactFlow } from '@xyflow/react';
 import { toPng } from 'html-to-image';
 import { Download } from 'lucide-react';
+import CustomActionButton from '../CustomReactFlowComponents/CustomActionButton';
+import { toast } from 'sonner';
 
 const IMAGE_WIDTH = 1024;
 const IMAGE_HEIGHT = 768;
 
 const downloadImage = (dataUrl: string) => {
     const link = document.createElement('a');
-    link.download = `${new Date()}-chatbot.png`;
+    link.download = `${new Date().getTime()}-chatbot.png`;
     link.href = dataUrl;
     link.click();
 }
@@ -40,18 +42,23 @@ function DownloadChatbotImageButton() {
                 height: `${IMAGE_HEIGHT}px`,
                 transform: `translate(${x}px, ${y}px) scale(${zoom})`
             } as any,
-        }).then(downloadImage);
+        }).then(downloadImage).then(() => {
+            toast.success('Chatbot image downloaded successfully!');
+        }).catch((err) => {
+            toast.error('Failed to download image');
+        });
     }
 
     return (
-        <button
-            onClick={onDownload}
+        <CustomActionButton
+            icon={<Download size={18} />}
             title="Download Chatbot Image"
-            aria-label='Download Chatbot Image'
-            className="p-3 rounded-full bg-gray-100 hover:bg-gray-800 hover:text-white transition"
-        >
-            <Download size={18} />
-        </button>
+            ariaLabel="Download Chatbot Image"
+            onClick={onDownload}
+            tooltip="Download flow as PNG image"
+            tooltipPosition="right"
+            hoverColor="hover:bg-gray-800"
+        />
     )
 }
 

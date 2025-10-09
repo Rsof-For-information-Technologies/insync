@@ -6,19 +6,22 @@ import {
   applyNodeChanges,
   Background,
   BackgroundVariant,
-  Controls,
   Edge,
   Node,
   OnConnect,
   OnEdgesChange,
   OnNodesChange,
+  Position,
   ReactFlow,
   useReactFlow,
   XYPosition
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useCallback, useEffect, useState } from "react";
+import dagre from '@dagrejs/dagre';
 
+
+import useChatbotDarkBgStore from "@/store/chatbotDarkBg.store";
 import CustomEdge from "./CustomEdges/CustomEdge";
 import AudioNode from "./CustomNodes/audioNode";
 import ButtonNode from "./CustomNodes/buttonNode";
@@ -28,7 +31,8 @@ import StartNode from "./CustomNodes/startNode";
 import TextNode from "./CustomNodes/TextNode";
 import VideoNode from "./CustomNodes/videoNode";
 import ChatbotMiniMap from "./CustomReactFlowComponents/ChatbotMiniMap";
-import ChatbotSidebar from "./CustomReactFlowComponents/ChatbotSidebar";
+import DarkAndLightMode from "./SideBarActionButtons/DarkAndLightMode";
+import ChatbotSidebar from "./SideBarActionButtons/ChatbotSidebar";
 
 type NodeTypeKey =
   | "startNode"
@@ -197,6 +201,65 @@ export default function ChatbotMain() {
     customEdge: CustomEdge,
   };
 
+  const { isDarkBg } = useChatbotDarkBgStore();
+
+  // =====================
+  // Auto Layout with Dagre
+  // =====================
+  const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
+
+  const nodeWidth = 350; // Approximate width of your nodes
+  const nodeHeight = 150; // Approximate height of your nodes
+
+  const getLayoutedElements = useCallback(
+    (nodesToLayout: Node<BaseNodeData>[], edgesToLayout: Edge[], direction = "TB") => {
+      const isHorizontal = direction === "LR";
+      dagreGraph.setGraph({ rankdir: direction });
+
+      nodesToLayout.forEach((node) => {
+        dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+      });
+
+      edgesToLayout.forEach((edge) => {
+        dagreGraph.setEdge(edge.source, edge.target);
+      });
+
+      dagre.layout(dagreGraph);
+
+      const newNodes = nodesToLayout.map((node) => {
+        const nodeWithPosition = dagreGraph.node(node.id);
+        const newNode: Node<BaseNodeData> = {
+          ...node,
+          targetPosition: isHorizontal ? Position.Left : Position.Top,
+          sourcePosition: isHorizontal ? Position.Right : Position.Bottom,
+          position: {
+            x: nodeWithPosition.x - nodeWidth / 2,
+            y: nodeWithPosition.y - nodeHeight / 2,
+          },
+        };
+
+        return newNode;
+      });
+
+      return { nodes: newNodes, edges: edgesToLayout };
+    },
+    [dagreGraph]
+  );
+
+  const onLayout = useCallback(
+    (direction: "TB" | "LR") => {
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+        nodes,
+        edges,
+        direction
+      );
+
+      setNodes([...layoutedNodes]);
+      setEdges([...layoutedEdges]);
+    },
+    [nodes, edges, getLayoutedElements]
+  );
+
   return (
     <div className="flex w-full h-screen bg-gray-50 text-gray-900 relative">
 
@@ -212,11 +275,13 @@ export default function ChatbotMain() {
           onDrop={onDrop}
           onDragOver={onDragOver}
           proOptions={{ hideAttribution: true }}
+          colorMode={isDarkBg ? "dark" : "light"}
         >
-          <ChatbotSidebar nodes={nodes} edges={edges} />
+          <DarkAndLightMode />
+          <ChatbotSidebar nodes={nodes} edges={edges} onLayout={onLayout} />
           <ChatbotMiniMap nodes={nodes} />
           <Background variant={BackgroundVariant.Lines} />
-          <Controls position="top-right" orientation="horizontal" />
+          {/* <Controls position="top-right" orientation="horizontal" /> */}
         </ReactFlow>
       </div>
     </div>
