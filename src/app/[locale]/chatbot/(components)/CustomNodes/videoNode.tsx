@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 // import { useTranslations } from "next-intl";
 import { z } from "zod";
 import { toast } from "sonner";
+import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 
 interface VideoNodeProps {
   id: string;
@@ -23,7 +24,7 @@ const videoValidationSchema = z.object({
 
 export default function VideoNode({ id, data }: VideoNodeProps) {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(data.src || null);
-//   const t = useTranslations("Chatbot");
+  //   const t = useTranslations("Chatbot");
 
   useEffect(() => {
     if (data.onDataChange) {
@@ -72,7 +73,7 @@ export default function VideoNode({ id, data }: VideoNodeProps) {
       {/* Node container */}
       <div
         className="w-[350px] min-h-[100px] bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden rounded-none flex cursor-pointer"
-        onClick={() => {}}
+        onClick={() => { }}
       >
         {/* Vertical accent */}
         <div className="w-1 bg-black"></div>
@@ -108,30 +109,17 @@ export default function VideoNode({ id, data }: VideoNodeProps) {
       </div>
 
       {/* Handles */}
-      <Handle
+      <CustomHandle
         type="target"
-        position={Position.Top}
-        id={`${id}-t`}
-        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+        position={Position.Left}
+        id={`${id}-a`}
       />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id={`${id}-b`}
-        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
-      />
-      <Handle
+      <CustomHandle
         type="source"
         position={Position.Right}
-        id={`${id}-a`}
-        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+        id={`${id}-b`}
       />
-      <Handle
-        type="source"
-        position={Position.Left}
-        id={`${id}-c`}
-        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
-      />
+
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 // import { useTranslations } from "next-intl";
 import { z, ZodError } from "zod";
 import { toast } from "sonner";
+import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 
 interface DocumentNodeProps {
   id: string;
@@ -24,7 +25,7 @@ const documentValidationSchema = z.object({
 });
 
 export default function DocumentNode({ id, data }: DocumentNodeProps) {
-//   const t = useTranslations("Chatbot");
+  //   const t = useTranslations("Chatbot");
   const [selectedFile, setSelectedFile] = useState<File | null>(data.file || null);
   const [fileURL, setFileURL] = useState<string | null>(
     data.file ? URL.createObjectURL(data.file) : null
@@ -108,30 +109,16 @@ export default function DocumentNode({ id, data }: DocumentNodeProps) {
         </div>
       </div>
 
-      {/* Handles - black */}
-      <Handle
+      {/* Handles */}
+      <CustomHandle
         type="target"
-        position={Position.Top}
-        id={`${id}-t`}
-        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+        position={Position.Left}
+        id={`${id}-a`}
       />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id={`${id}-b`}
-        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
-      />
-      <Handle
+      <CustomHandle
         type="source"
         position={Position.Right}
-        id={`${id}-a`}
-        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
-      />
-      <Handle
-        type="source"
-        position={Position.Left}
-        id={`${id}-c`}
-        className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+        id={`${id}-b`}
       />
     </div>
   );

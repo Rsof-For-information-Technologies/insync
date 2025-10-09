@@ -10,6 +10,7 @@ import { Select, Input } from 'rizzui';
 import { useTranslations } from "next-intl";
 import { z, ZodError } from "zod";
 import { toast } from "sonner";
+import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 
 type MediaOption = {
   label: string;
@@ -273,10 +274,17 @@ export default function ButtonNode({ id, data }: ButtonNodeProps) {
           ))}
         </div>
 
-        <Handle type="target" position={Position.Top} id={`${id}-t`} />
-        <Handle type="source" position={Position.Bottom} id={`${id}-b`} />
-        <Handle type="source" position={Position.Right} id={`${id}-a`} />
-        <Handle type="source" position={Position.Left} id={`${id}-c`} />
+        {/* Handles */}
+        <CustomHandle
+          type="target"
+          position={Position.Left}
+          id={`${id}-a`}
+        />
+        <CustomHandle
+          type="source"
+          position={Position.Right}
+          id={`${id}-b`}
+        />
       </div>
 
       {isModalOpen &&

@@ -10,6 +10,7 @@ import { Select } from 'rizzui';
 import { useTranslations } from "next-intl";
 import { z, ZodError } from "zod";
 import { toast } from "sonner";
+import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 
 
 type MediaOption = {
@@ -174,30 +175,16 @@ export default function TextNode({ id, data }: TextNodeProps) {
           </div>
         </div>
 
-        {/* Handles - black color */}
-        <Handle
+        {/* Handles */}
+        <CustomHandle
           type="target"
-          position={Position.Top}
-          id={`${id}-t`}
-          className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+          position={Position.Left}
+          id={`${id}-a`}
         />
-        <Handle
-          type="source"
-          position={Position.Bottom}
-          id={`${id}-b`}
-          className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
-        />
-        <Handle
+        <CustomHandle
           type="source"
           position={Position.Right}
-          id={`${id}-a`}
-          className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
-        />
-        <Handle
-          type="source"
-          position={Position.Left}
-          id={`${id}-c`}
-          className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm"
+          id={`${id}-b`}
         />
       </div>
 

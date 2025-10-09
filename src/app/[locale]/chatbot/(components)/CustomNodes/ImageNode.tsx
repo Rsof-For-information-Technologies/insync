@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 // import { useTranslations } from "next-intl";
 import { z } from "zod";
 import { toast } from "sonner";
+import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 
 interface ImageNodeProps {
     id: string;
@@ -105,10 +106,16 @@ export default function ImageNode({ id, data }: ImageNodeProps) {
             </div>
 
             {/* Handles */}
-            <Handle type="target" position={Position.Top} id={`${id}-t`} className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm" />
-            <Handle type="source" position={Position.Bottom} id={`${id}-b`} className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm" />
-            <Handle type="source" position={Position.Right} id={`${id}-a`} className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm" />
-            <Handle type="source" position={Position.Left} id={`${id}-c`} className="!bg-black w-3 h-3 border-2 border-white rounded-full shadow-sm" />
+            <CustomHandle
+                type="target"
+                position={Position.Left}
+                id={`${id}-a`}
+            />
+            <CustomHandle
+                type="source"
+                position={Position.Right}
+                id={`${id}-b`}
+            />
         </div>
 
     );
