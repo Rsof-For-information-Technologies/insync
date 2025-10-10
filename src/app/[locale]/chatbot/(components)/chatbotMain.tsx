@@ -13,6 +13,7 @@ import {
   OnConnect,
   OnEdgesChange,
   OnNodesChange,
+  Panel,
   Position,
   ReactFlow,
   useReactFlow,
@@ -34,6 +35,9 @@ import VideoNode from "./CustomNodes/videoNode";
 import ChatbotMiniMap from "./CustomReactFlowComponents/ChatbotMiniMap";
 import ChatbotSidebar from './SideBarActionButtons/ChatbotSideBar';
 import DarkAndLightMode from "./SideBarActionButtons/DarkAndLightMode";
+import { ZoomSlider } from '@/components/shadCn/ui/Chatbot/ZoomSlider';
+import { NodeSearch } from '@/components/shadCn/ui/Chatbot/NodeSearch';
+import FocusToStartNode from './SideBarActionButtons/FocusToStartNode';
 
 type NodeTypeKey =
   | "startNode"
@@ -298,6 +302,14 @@ export default function ChatbotMain() {
           colorMode={isDarkBg ? "dark" : "light"}
           selectNodesOnDrag={false}
         >
+          {/* <Panel
+            className="flex gap-1 rounded-md bg-primary-foreground p-1 text-foreground"
+            position="top-center"
+          >
+            <NodeSearch />
+          </Panel> */}
+          <ZoomSlider position="top-center" />
+          <FocusToStartNode />
           <DarkAndLightMode />
           <ChatbotSidebar nodes={nodes} edges={edges} onLayout={onLayout} />
           <ChatbotMiniMap nodes={nodes} />

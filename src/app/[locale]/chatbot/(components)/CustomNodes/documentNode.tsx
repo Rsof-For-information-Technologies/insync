@@ -1,10 +1,10 @@
 "use client";
-import { Trash2, FileCode, Download, Plus } from "lucide-react";
-import { Handle, Position } from "@xyflow/react";
-import { useState, useEffect } from "react";
+import { Position } from "@xyflow/react";
+import { Download, FileCode, Plus, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 // import { useTranslations } from "next-intl";
-import { z, ZodError } from "zod";
 import { toast } from "sonner";
+import { z, ZodError } from "zod";
 import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 
 interface DocumentNodeProps {
