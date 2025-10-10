@@ -32,7 +32,7 @@ import StartNode from "./CustomNodes/startNode";
 import TextNode from "./CustomNodes/TextNode";
 import VideoNode from "./CustomNodes/videoNode";
 import ChatbotMiniMap from "./CustomReactFlowComponents/ChatbotMiniMap";
-import ChatbotSidebar from "./SideBarActionButtons/ChatbotSidebar";
+import ChatbotSidebar from './SideBarActionButtons/ChatbotSideBar';
 import DarkAndLightMode from "./SideBarActionButtons/DarkAndLightMode";
 
 type NodeTypeKey =
@@ -63,7 +63,7 @@ interface BaseNodeData {
 export default function ChatbotMain() {
   const [nodes, setNodes] = useState<Node<BaseNodeData>[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
-  const { screenToFlowPosition } = useReactFlow();
+  const { screenToFlowPosition, getIntersectingNodes } = useReactFlow();
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) =>
@@ -198,6 +198,23 @@ export default function ChatbotMain() {
     [nodes, propagateData]
   );
 
+  // =====================
+  // Node Drag - Highlight Overlaps
+  // =====================
+  const onNodeDrag = useCallback(
+    (_: React.MouseEvent, node: Node<BaseNodeData>) => {
+      const intersections = getIntersectingNodes(node).map((n) => n.id);
+
+      setNodes((nds) =>
+        nds.map((n) => ({
+          ...n,
+          className: intersections.includes(n.id) ? "highlight" : "",
+        }))
+      );
+    },
+    [getIntersectingNodes]
+  );
+
   const edgeTypes = {
     customEdge: CustomEdge,
   };
@@ -275,8 +292,11 @@ export default function ChatbotMain() {
           onConnect={onConnect}
           onDrop={onDrop}
           onDragOver={onDragOver}
+          onNodeDrag={onNodeDrag}
+          className='intersection-flow'
           proOptions={{ hideAttribution: true }}
           colorMode={isDarkBg ? "dark" : "light"}
+          selectNodesOnDrag={false}
         >
           <DarkAndLightMode />
           <ChatbotSidebar nodes={nodes} edges={edges} onLayout={onLayout} />

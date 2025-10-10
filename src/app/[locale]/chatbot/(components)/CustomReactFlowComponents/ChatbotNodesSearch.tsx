@@ -1,4 +1,4 @@
-import { NodeSearch } from '@/components/shadCn/ui/NodeSearch'
+import { NodeSearch } from '@/components/shadCn/ui/Chatbot/NodeSearch'
 import { Panel } from '@xyflow/react'
 
 function ChatbotNodesSearch() {

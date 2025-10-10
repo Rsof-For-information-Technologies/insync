@@ -6,7 +6,7 @@ function DarkAndLightMode() {
     const { isDarkBg, toggleMode } = useChatbotDarkBgStore();
 
     return (
-        <Panel position='top-right'>
+        <Panel position='center-right'>
             {isDarkBg ? (
                 <button
                     onClick={toggleMode}

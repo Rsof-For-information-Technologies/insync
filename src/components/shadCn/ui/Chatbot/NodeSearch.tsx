@@ -6,7 +6,7 @@ import {
     type Node,
     type PanelProps,
 } from "@xyflow/react";
-import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./command";
+import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../command";
 
 
 export interface NodeSearchProps extends Omit<PanelProps, "children"> {
