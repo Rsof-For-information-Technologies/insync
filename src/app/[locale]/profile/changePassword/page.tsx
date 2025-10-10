@@ -94,8 +94,8 @@ export default function PasswordSettingsView() {
   }
 
   return (
-    <Authenticate>
-      <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
+    // <Authenticate>
+    //   <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
         <div className="flex flex-col space-y-6">
           <Header
             title={t('title')}
@@ -164,7 +164,7 @@ export default function PasswordSettingsView() {
             </form>
           </div>
         </div>
-      </Authorize>
-    </Authenticate>
+    //    </Authorize>
+    // </Authenticate> 
   );
 }

@@ -1,6 +1,6 @@
 import { getCookie, removeCookie } from '@/utils/cookieStorage';
 import axios from 'axios';
-import { toast } from 'react-hot-toast';
+import { toast } from 'sonner';
 
 export const tenantApiCall = () => {
   const instance = axios.create({

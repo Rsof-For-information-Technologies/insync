@@ -22,8 +22,8 @@ export default async function UserTablePage({ params }: { params: Params }) {
   const columns = getUserColumns
 
   return (
-    <Authenticate >
-      <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
+    // <Authenticate >
+    //   <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
         <div className="flex flex-col space-y-6">
           <Header
             title={t('title')}
@@ -45,7 +45,7 @@ export default async function UserTablePage({ params }: { params: Params }) {
             />
           </div>
         </div>
-      </Authorize>
-    </Authenticate>
+    //   </Authorize>
+    // </Authenticate>
   );
 }

@@ -134,7 +134,8 @@
         "chooseDoc": "choose a document",
         "audioNode": "Audio Node",
         "addAud": "Add Audio",
-        "addAudio":"choose an audio"
+        "addAudio":"choose an audio",
+        "buttonNode":"Button Node"
     },
     "Channel": {
         "title": "Channels",
