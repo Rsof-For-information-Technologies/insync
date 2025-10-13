@@ -1,10 +1,10 @@
 "use client";
-import { Trash2, Image as ImageIcon, Plus } from "lucide-react";
-import { Handle, Position } from "@xyflow/react";
-import { useState, useEffect } from "react";
+import { Position } from "@xyflow/react";
+import { Image as ImageIcon, Plus, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 // import { useTranslations } from "next-intl";
-import { z } from "zod";
 import { toast } from "sonner";
+import { z } from "zod";
 import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 
 interface ImageNodeProps {
@@ -108,12 +108,12 @@ export default function ImageNode({ id, data }: ImageNodeProps) {
             {/* Handles */}
             <CustomHandle
                 type="target"
-                position={Position.Left}
+                position={Position.Top}
                 id={`${id}-a`}
             />
             <CustomHandle
                 type="source"
-                position={Position.Right}
+                position={Position.Bottom}
                 id={`${id}-b`}
             />
         </div>

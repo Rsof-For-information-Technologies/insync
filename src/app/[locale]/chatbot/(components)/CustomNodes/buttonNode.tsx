@@ -1,15 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Handle, Position } from "@xyflow/react";
-import { Trash2, X, Bold, Italic, Smile } from "lucide-react";
-import { createPortal } from "react-dom";
-import { Switch } from 'rizzui';
+import { Position } from "@xyflow/react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { Select, Input } from 'rizzui';
+import { Bold, Italic, Smile, Trash2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { z, ZodError } from "zod";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { Input, Select, Switch } from 'rizzui';
 import { toast } from "sonner";
+import { z, ZodError } from "zod";
 import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 
 type MediaOption = {

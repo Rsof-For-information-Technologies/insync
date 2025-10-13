@@ -1,9 +1,9 @@
 "use client";
-import { Trash2, FileAudio } from "lucide-react";
-import { Handle, Position } from "@xyflow/react";
+import { Position } from "@xyflow/react";
+import { FileAudio, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { z, ZodError } from "zod";
 import { toast } from "sonner";
+import { z, ZodError } from "zod";
 import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 
 interface AudioNodeProps {

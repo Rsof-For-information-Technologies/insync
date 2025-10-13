@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.1.0",
     "@dagrejs/dagre": "^1.1.5",
     "@floating-ui/react": "^0.27.5",
     "@headlessui/react": "^2.2.0",
@@ -40,6 +41,7 @@
     "@tiptap/react": "^2.22.3",
     "@tiptap/starter-kit": "^2.22.3",
     "@xyflow/react": "^12.8.4",
+    "antd": "^5.27.4",
     "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

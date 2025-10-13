@@ -1,18 +1,50 @@
-import { ShadCnButton } from '@/components/shadCn/ui/button';
-import { ButtonEdge } from '@/components/shadCn/ui/Chatbot/ButtonEdge';
-import { EdgeProps, useReactFlow } from '@xyflow/react';
-import { RxCross2 } from 'react-icons/rx';
+import { EdgeProps, getStraightPath, getEdgeCenter } from "@xyflow/react";
+import EdgeAddButton from "./addEdgeButton";
 
-const CustomEdge = ({ id, data, ...props }: EdgeProps) => {
-    const { deleteElements } = useReactFlow();
+export default function CustomEdge({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+  markerEnd,
+  data,
+}: EdgeProps) {
+  // Get straight edge path instead of bezier
+  const [edgePath] = getStraightPath({
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+  });
 
-    return (
-        <ButtonEdge id={id} {...props}>
-            <ShadCnButton onClick={() => { deleteElements({ edges: [{ id }] }) }} size="icon" variant="outline" className='rounded-full shadow-md'>
-                <RxCross2 size={16} />
-            </ShadCnButton>
-        </ButtonEdge>
-    );
-};
+  const [edgeCenterX, edgeCenterY] = getEdgeCenter({
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+  });
 
-export default CustomEdge;
+  return (
+    <>
+      {/* Edge line */}
+      <path
+        id={id}
+        d={edgePath}
+        markerEnd={markerEnd}
+        className="react-flow__edge-path stroke-gray-400 fill-transparent"
+      />
+
+      {/* Add node button at center */}
+      <foreignObject
+        width={24}
+        height={24}
+        x={edgeCenterX - 12} // 24/2
+        y={edgeCenterY - 12} // 24/2
+        requiredExtensions="http://www.w3.org/1999/xhtml"
+      >
+        <EdgeAddButton id={id} data={data} />
+      </foreignObject>
+    </>
+  );
+}
