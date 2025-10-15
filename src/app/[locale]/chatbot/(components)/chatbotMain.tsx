@@ -1,5 +1,6 @@
 "use client";
 
+import useChatbotDarkBgStore from "@/store/chatbotDarkBg.store";
 import dagre from "@dagrejs/dagre";
 import {
   addEdge,
@@ -19,10 +20,8 @@ import {
   XYPosition,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useCallback, useEffect, useState } from "react";
-
-import { ZoomSlider } from "@/components/shadCn/ui/Chatbot/ZoomSlider";
-import useChatbotDarkBgStore from "@/store/chatbotDarkBg.store";
+import { useCallback, useEffect, useRef, useState } from "react";
+import CustomEdge from "./CustomEdges/CustomEdge";
 import AudioNode from "./CustomNodes/audioNode";
 import ButtonNode from "./CustomNodes/buttonNode";
 import DocumentNode from "./CustomNodes/documentNode";
@@ -31,10 +30,12 @@ import StartNode from "./CustomNodes/startNode";
 import TextNode from "./CustomNodes/TextNode";
 import VideoNode from "./CustomNodes/videoNode";
 import ChatbotMiniMap from "./CustomReactFlowComponents/ChatbotMiniMap";
-import ChatbotSidebar from "./SideBarActionButtons/ChatbotSideBar";
+import ChatbotSidebar from './SideBarActionButtons/ChatbotSideBar';
 import DarkAndLightMode from "./SideBarActionButtons/DarkAndLightMode";
-import FocusToStartNode from "./SideBarActionButtons/FocusToStartNode";
-import CustomEdge from "./CustomEdges/CustomEdge";
+import { ZoomSlider } from '@/components/shadCn/ui/Chatbot/ZoomSlider';
+import { NodeSearch } from '@/components/shadCn/ui/Chatbot/NodeSearch';
+import FocusToStartNode from './SideBarActionButtons/FocusToStartNode';
+import NodeContextMenu from "./CustomReactFlowComponents/NodeContextMenu";
 
 type NodeTypeKey =
   | "startNode"
@@ -66,9 +67,20 @@ interface BaseNodeData {
   [key: string]: unknown;
 }
 
+// Define the structure for the context menu state
+interface MenuState {
+  id: string;
+  top?: number | false;
+  left?: number | false;
+  right?: number | false;
+  bottom?: number | false;
+}
+
 export default function ChatbotMain() {
   const [nodes, setNodes] = useState<Node<BaseNodeData>[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
+  const [menu, setMenu] = useState<MenuState | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const { screenToFlowPosition, getIntersectingNodes } = useReactFlow();
   
 
@@ -225,7 +237,7 @@ export default function ChatbotMain() {
       const startNode: Node<BaseNodeData> = {
         id: generateId(),
         type: "startNode",
-        position: { x: 300, y: 50 },
+        position: { x: 300, y: 100 },
         data: {
           onDelete: (id: string) =>
             setNodes((curr) => curr.filter((n) => n.id !== id)),
@@ -334,8 +346,9 @@ export default function ChatbotMain() {
 
   // --- Auto layout with dagre ---
   const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-  const nodeWidth = 350;
-  const nodeHeight = 150;
+
+  const nodeWidth = 400; // Approximate width of your nodes
+  const nodeHeight = 150; // Approximate height of your nodes
 
   const getLayoutedElements = useCallback(
     (nodesToLayout: Node<BaseNodeData>[], edgesToLayout: Edge[], direction = "TB") => {
@@ -383,6 +396,35 @@ export default function ChatbotMain() {
     [nodes, edges, getLayoutedElements]
   );
 
+  const onNodeContextMenu = useCallback(
+    (event: React.MouseEvent, node: Node<BaseNodeData>) => {
+      // Prevent native context menu from showing
+      event.preventDefault();
+
+      if (!ref.current) return;
+
+      // Calculate position of the context menu. We want to make sure it
+      // doesn't get positioned off-screen.
+      const pane = ref.current.getBoundingClientRect();
+
+      // Calculate position relative to the viewport
+      const menuWidth = 200; // Approximate menu width
+      const menuHeight = 200; // Approximate menu height
+
+      setMenu({
+        id: node.id,
+        top: event.clientY < pane.height - menuHeight ? event.clientY : false,
+        left: event.clientX < pane.width - menuWidth ? event.clientX : false,
+        right: event.clientX >= pane.width - menuWidth ? pane.width - event.clientX + pane.left : false,
+        bottom: event.clientY >= pane.height - menuHeight ? pane.height - event.clientY + pane.top : false,
+      });
+    },
+    [setMenu],
+  );
+
+  // Close the context menu if it's open whenever the window is clicked.
+  const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
+
   // --- Add callback to ALL edges ---
   const edgesWithCallback: Edge[] = edges.map(edge => ({
     ...edge,
@@ -396,6 +438,7 @@ export default function ChatbotMain() {
     <div className="flex w-full h-screen bg-gray-50 text-gray-900 relative">
       <div className="flex-1 bg-white">
         <ReactFlow
+          ref={ref}
           nodes={nodes}
           edges={edgesWithCallback}
           nodeTypes={nodeTypes}
@@ -406,18 +449,20 @@ export default function ChatbotMain() {
           onDrop={onDrop}
           onDragOver={onDragOver}
           onNodeDrag={onNodeDrag}
+          onNodeContextMenu={onNodeContextMenu}
+          onPaneClick={onPaneClick}
           className="intersection-flow"
           proOptions={{ hideAttribution: true }}
           colorMode={isDarkBg ? "dark" : "light"}
           selectNodesOnDrag={false}
+          onlyRenderVisibleElements={true}
         >
-          <ZoomSlider position="top-center" />
           <FocusToStartNode />
-          <DarkAndLightMode />
-          <ChatbotSidebar nodes={nodes} edges={edges} onLayout={onLayout} />
+          <ChatbotSidebar onLayout={onLayout} />
           <ChatbotMiniMap nodes={nodes} />
           <Background variant={BackgroundVariant.Lines} />
           <Controls position="top-right" orientation="horizontal" />
+          {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
         </ReactFlow>
       </div>
     </div>
