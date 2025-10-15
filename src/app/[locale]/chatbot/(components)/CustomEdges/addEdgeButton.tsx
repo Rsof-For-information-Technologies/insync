@@ -1,4 +1,7 @@
-import { Menu, Dropdown } from "antd";
+"use client";
+
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadCn/ui/popover";
+import { useState } from "react";
 
 interface EdgeAddButtonProps {
     id: string;
@@ -6,6 +9,8 @@ interface EdgeAddButtonProps {
 }
 
 export default function EdgeAddButton({ id, data }: EdgeAddButtonProps) {
+    const [open, setOpen] = useState(false);
+
     const nodeOptions = [
         { label: "Text Node", value: "textNode" },
         { label: "Image Node", value: "imageNode" },
@@ -15,28 +20,37 @@ export default function EdgeAddButton({ id, data }: EdgeAddButtonProps) {
         { label: "Button Node", value: "buttonNode" },
     ];
 
-    const menu = (
-        <Menu
-            onClick={(event) =>
-                data?.onAddNodeCallback &&
-                data.onAddNodeCallback({ id, type: event.key as string })
-            }
-        >
-            {nodeOptions.map((option) => (
-                <Menu.Item key={option.value}>{option.label}</Menu.Item>
-            ))}
-        </Menu>
-    );
+    const handleNodeSelect = (type: string) => {
+        if (data?.onAddNodeCallback) {
+            data.onAddNodeCallback({ id, type });
+        }
+        setOpen(false);
+    };
 
     return (
-        <Dropdown overlay={menu} trigger={["click"]} placement="bottom">
-            <div className="flex items-center justify-center">
-                <button
-                    className="w-[24px] h-[24px] p-0 text-[14px] border border-black text-black flex items-baseline justify-center rounded-full bg-white hover:bg-gray-100 transition cursor-pointer"
-                >
-                    +
-                </button>
-            </div>
-        </Dropdown>
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <div className="flex items-center justify-center">
+                    <button
+                        className="w-[24px] h-[24px] p-0 text-[14px] border border-black text-black flex items-baseline justify-center rounded-full bg-white hover:bg-gray-100 transition cursor-pointer"
+                    >
+                        +
+                    </button>
+                </div>
+            </PopoverTrigger>
+            <PopoverContent className="w-48 p-2 bg-white" align="center">
+                <div className="flex flex-col gap-1">
+                    {nodeOptions.map((option) => (
+                        <button
+                            key={option.value}
+                            onClick={() => handleNodeSelect(option.value)}
+                            className="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-100 transition-colors"
+                        >
+                            {option.label}
+                        </button>
+                    ))}
+                </div>
+            </PopoverContent>
+        </Popover>
     );
 }
