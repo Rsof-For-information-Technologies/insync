@@ -108,12 +108,12 @@ export default function ImageNode({ id, data }: ImageNodeProps) {
             {/* Handles */}
             <CustomHandle
                 type="target"
-                position={Position.Top}
+                position={Position.Left}
                 id={`${id}-a`}
             />
             <CustomHandle
                 type="source"
-                position={Position.Bottom}
+                position={Position.Right}
                 id={`${id}-b`}
             />
         </div>

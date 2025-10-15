@@ -72,8 +72,8 @@ export default function TextNode({ id, data }: TextNodeProps) {
         </div>
 
         {/* Handles */}
-        <CustomHandle type="target" position={Position.Top} id={`${id}-a`} />
-        <CustomHandle type="source" position={Position.Bottom} id={`${id}-b`} />
+        <CustomHandle type="target" position={Position.Left} id={`${id}-a`} />
+        <CustomHandle type="source" position={Position.Right} id={`${id}-b`} />
       </div>
 
       {/* Modal */}

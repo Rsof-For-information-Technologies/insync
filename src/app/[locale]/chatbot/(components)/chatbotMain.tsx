@@ -30,12 +30,9 @@ import StartNode from "./CustomNodes/startNode";
 import TextNode from "./CustomNodes/TextNode";
 import VideoNode from "./CustomNodes/videoNode";
 import ChatbotMiniMap from "./CustomReactFlowComponents/ChatbotMiniMap";
-import ChatbotSidebar from './SideBarActionButtons/ChatbotSideBar';
-import DarkAndLightMode from "./SideBarActionButtons/DarkAndLightMode";
-import { ZoomSlider } from '@/components/shadCn/ui/Chatbot/ZoomSlider';
-import { NodeSearch } from '@/components/shadCn/ui/Chatbot/NodeSearch';
-import FocusToStartNode from './SideBarActionButtons/FocusToStartNode';
 import NodeContextMenu from "./CustomReactFlowComponents/NodeContextMenu";
+import ChatbotSidebar from './SideBarActionButtons/ChatbotSideBar';
+import FocusToStartNode from './SideBarActionButtons/FocusToStartNode';
 
 type NodeTypeKey =
   | "startNode"
