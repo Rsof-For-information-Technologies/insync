@@ -1,4 +1,4 @@
-import { EdgeProps, getStraightPath, getEdgeCenter } from "@xyflow/react";
+import { EdgeProps, getEdgeCenter, getBezierPath } from "@xyflow/react";
 import EdgeAddButton from "./addEdgeButton";
 
 export default function CustomEdge({
@@ -10,8 +10,8 @@ export default function CustomEdge({
   markerEnd,
   data,
 }: EdgeProps) {
-  // Get straight edge path instead of bezier
-  const [edgePath] = getStraightPath({
+  
+  const [edgePath] = getBezierPath({
     sourceX,
     sourceY,
     targetX,
