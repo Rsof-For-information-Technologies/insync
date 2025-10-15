@@ -3,7 +3,7 @@
 import { HeaderCell } from '@/components/ui/table';
 import { Tooltip, ActionIcon } from 'rizzui';
 import Link from "next/link";
-import { Trash2, Download} from 'lucide-react';
+import { Trash2, Download } from 'lucide-react';
 import { Switch } from "rizzui";
 import UpdateChatbotInfo from '@/app/[locale]/chatbot/(components)/updateChatbotInfo';
 
@@ -52,7 +52,10 @@ export const getChatbotColumns = ({
       render: (value: string, record: ChatbotRow) => (
         <div className="flex items-center gap-2">
           <Link
-            href={`chatbot/chatbotView/${record.id}`}
+            href={{
+              pathname: `chatbot/chatbotView/${record.id}`,
+              query: { chatbotName: record.name },
+            }}
             className="font-medium text-black"
           >
             {value}
