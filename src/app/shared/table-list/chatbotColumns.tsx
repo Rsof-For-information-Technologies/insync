@@ -63,22 +63,22 @@ export const getChatbotColumns = ({
         </div>
       ),
     },
-    {
-      title: <HeaderCell title="Keywords" />,
-      dataIndex: 'keywords',
-      key: 'keywords',
-      width: 250,
-      render: (value: string[]) => (
-        <div className='flex '>
-          {value && value.length > 0 ?
-            value.map((keyword, index) =>
-              <span className='mr-[5px] text-blue-600 font-medium items-center flex w-[min-content] rounded-3xl h-[28px] px-[8px] border border-gray-200 ' key={index}>{keyword}</span>
-            )
-            : '-'
-          }
-        </div>
-      ),
-    },
+    // {
+    //   title: <HeaderCell title="Keywords" />,
+    //   dataIndex: 'keywords',
+    //   key: 'keywords',
+    //   width: 250,
+    //   render: (value: string[]) => (
+    //     <div className='flex '>
+    //       {value && value.length > 0 ?
+    //         value.map((keyword, index) =>
+    //           <span className='mr-[5px] text-blue-600 font-medium items-center flex w-[min-content] rounded-3xl h-[28px] px-[8px] border border-gray-200 ' key={index}>{keyword}</span>
+    //         )
+    //         : '-'
+    //       }
+    //     </div>
+    //   ),
+    // },
     {
       title: <HeaderCell title="Is Active" />,
       dataIndex: "isActive",
