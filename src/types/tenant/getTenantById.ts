@@ -1,13 +1,21 @@
-export interface TenantById {
+export interface TenantIdRequest {
+  id: string;
+}
+export interface Tenant {
   name: string;
   domain: string;
-  id: string;
   isActive: boolean;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string | null;
-  updatedBy: string;
-  isDeleted: boolean;
-  deletedAt: string | null;
-  deletedBy: string;
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
+}
+
+export interface GetTenantsByIdResponse {
+  data: Tenant;
+  success: boolean;
+  statusCode: string;
+  message: string;
+  successes: string[];
+  errors: any[];
+  validationErrors: Record<string, any>;
 }

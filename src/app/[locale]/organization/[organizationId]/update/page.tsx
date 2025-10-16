@@ -21,7 +21,6 @@ export default function UpdateOrganizationPage() {
   const Params = useParams<{ locale: string; organizationId: string }>();
   const { locale, organizationId } = Params;
   const [orgData, setOrgData] = useState<Partial<UpdateOrganizationSchema>>({});
-  console.log("orgData", orgData)
 
   const {
     register,
@@ -43,7 +42,7 @@ export default function UpdateOrganizationPage() {
   useEffect(() => {
     async function fetchOrg() {
       try {
-        const data = await getOrganizationById(organizationId);
+        const { data } = await getOrganizationById({ id: organizationId });
         setOrgData({
           id: data.id,
           name: data.name,
@@ -76,8 +75,7 @@ export default function UpdateOrganizationPage() {
         email: state.email,
         country: state.country,
       });
-      console.log("klxjcxlckxkclxcklxc", response)
-      if (response.succeeded) {
+      if (response.success) {
         toast.success(response.message || "Organization Updated Successfully");
         router.push(`/${locale}${routes.organization.list}`);
       } else {

@@ -1,17 +1,25 @@
-export type OrganizationByIdRequest = {
+export interface TenantIdRequest {
   id: string;
+}
+
+export type Organization = {
+  tenantId: string;
   name: string;
   phone: string;
   industryType: string;
   email: string;
   country: string;
-  tenantId: string;
   isActive: boolean;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string | null;
-  updatedBy: string;
-  isDeleted: boolean;
-  deletedAt: string | null;
-  deletedBy: string;
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
 };
+export interface OrganizationByIdResponse {
+  data: Organization;
+  success: boolean;
+  statusCode: string;
+  message: string;
+  successes: string[];
+  errors: any[];
+  validationErrors: Record<string, any>;
+}

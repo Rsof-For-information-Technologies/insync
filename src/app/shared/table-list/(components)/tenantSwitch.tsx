@@ -3,7 +3,7 @@ import { ShadCnSwitch } from "@/components/shadCn/ui/switch";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export function TenantSwitch({ row }: { row: any }) {
+export function TenantSwitch({ row }: { row: { id: string; isActive: boolean } }) {
     const [isActive, setIsActive] = useState(row.isActive);
 
     const handleToggle = async () => {
@@ -11,11 +11,11 @@ export function TenantSwitch({ row }: { row: any }) {
         setIsActive(newValue);
 
         try {
-            const res = await updateTenant({ id: row.id, isActive: newValue });
-            if (res.succeeded) {
-                toast.success(res.message || "Tenant updated");
+            const response = await updateTenant({ id: row.id, isActive: newValue });
+            if (response.success) {
+                toast.success(response.message || "Tenant updated");
             } else {
-                toast.error(res.message || "Update failed");
+                toast.error(response.message || "Update failed");
                 setIsActive(!newValue);
             }
         } catch (err: any) {

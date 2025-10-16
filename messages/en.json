@@ -196,8 +196,9 @@
                 "id": "Tenant ID",
                 "name": "Name",
                 "status": "Status",
-                "createdAt": "Created at",
-                "updatedAt": "Updated at"
+                "domain": "Domain",
+                "rowVersion": "Row Version",
+                "domainEvents": "Domain Events"
             },
             "organizationTable": {
                 "title": "Tenant Organization Table",

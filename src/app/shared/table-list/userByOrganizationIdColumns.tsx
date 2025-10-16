@@ -1,10 +1,9 @@
 'use client';
 
 import EyeIcon from '@/components/icons/eye';
-import DateCell from '@/components/ui/date-cell';
 import { HeaderCell } from '@/components/ui/table';
 import { routes } from '@/config/routes';
-import { Building, Calendar, Flag, Globe, Mail, Phone } from 'lucide-react';
+import { Building, Mail } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { ActionIcon, Text, Tooltip } from 'rizzui';
@@ -124,27 +123,6 @@ export const getUserByOrganizationIdColumns = ({
                 <span className={value ? 'text-green-600' : 'text-red-600'}>
                     {value ? t('accepted') : t('pending')}
                 </span>
-            ),
-        },
-        {
-            title: (
-                <HeaderCell
-                    title={t('createdAt')}
-                    sortable
-                    ascending={sortConfig?.direction === 'asc' && sortConfig?.key === 'createdAt'}
-                />
-            ),
-            onHeaderCell: () => onHeaderCellClick('createdAt'),
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-            minWidth: 200,
-            render: (value: string) => (
-                <div className="flex items-center gap-3">
-                    <div className="p-2 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg">
-                        <Calendar size={18} className="text-yellow-600 dark:text-yellow-400" />
-                    </div>
-                    <DateCell date={new Date(value)} className="text-gray-700 dark:text-gray-300" />
-                </div>
             ),
         },
         {

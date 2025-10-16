@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { Switch } from "rizzui";
-import { toast } from "sonner";
 import { updateUser } from "@/apiCalls/user/userApis";
 import { ShadCnSwitch } from "@/components/shadCn/ui/switch";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export function UserSwitch({ row, field }: { row: any; field: "isActive" | "isInvitationSent" | "isInvitationAccept" }) {
   const [checked, setChecked] = useState(row[field]);
@@ -18,8 +17,7 @@ export function UserSwitch({ row, field }: { row: any; field: "isActive" | "isIn
         isInvitationSent: field === "isInvitationSent" ? newValue : row.isInvitationSent,
         isInvitationAccept: field === "isInvitationAccept" ? newValue : row.isInvitationAccept,
       });
-
-      if (res.succeeded) {
+      if (res.success) {
         toast.success(res.message || `${field} updated`);
       } else {
         toast.error(res.message || "Update failed");

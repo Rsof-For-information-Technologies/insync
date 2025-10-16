@@ -1,5 +1,4 @@
-export type Users = {
-  id: string;
+export interface Users {
   tenantId: string;
   organizationId: string;
   userId: string;
@@ -7,14 +6,16 @@ export type Users = {
   isActive: boolean;
   isInvitationSent: boolean;
   isInvitationAccept: boolean;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string | null;
-  updatedBy: string;
-  isDeleted: boolean;
-  deletedAt: string | null;
-  deletedBy: string;
-};
-
-
-export type GetAllUsersResponse = Users[];
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
+}
+export interface GetAllUsersResponse {
+  data: Users[];
+  success: boolean;
+  statusCode: string;
+  message: string;
+  successes: string[];
+  errors: any[];
+  validationErrors: Record<string, any>;
+}

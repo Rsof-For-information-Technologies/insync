@@ -10,9 +10,9 @@ export default async function StatsOverview({ data }: StatsOverviewProps) {
   const totalTenants = data.length;
   const activeTenants = data.filter((t) => t.isActive).length;
   const inactiveTenants = data.filter((t) => !t.isActive).length;
-  const recentCreated = data
-    .map((t) => new Date(t.createdAt).getTime())
-    .sort((a, b) => b - a)[0];
+  // const recentCreated = data
+  //   .map((t) => new Date(t.createdAt).getTime())
+  //   .sort((a, b) => b - a)[0];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -56,7 +56,7 @@ export default async function StatsOverview({ data }: StatsOverviewProps) {
           </div>
           <span className="text-sm font-medium text-purple-600 dark:text-purple-400">+5%</span>
         </div>
-        <p className="text-2xl font-bold text-gray-800 dark:text-white">{recentCreated ? new Date(recentCreated).toLocaleDateString() : '-'}</p>
+        {/* <p className="text-2xl font-bold text-gray-800 dark:text-white">{recentCreated ? new Date(recentCreated).toLocaleDateString() : '-'}</p> */}
         <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{t('mostRecentCreated')}</p>
       </div>
     </div>

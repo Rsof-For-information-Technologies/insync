@@ -4,25 +4,24 @@ export interface CreateUserRequest {
   userId: string;
   email: string;
 }
-
+export interface User {
+  tenantId: string;
+  organizationId: string;
+  userId: string;
+  email: string;
+  isActive: boolean;
+  isInvitationSent: boolean;
+  isInvitationAccept: boolean;
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
+}
 export interface CreateUserResponse {
-  succeeded: boolean;
+  data: User;
+  success: boolean;
+  statusCode: string;
   message: string;
-  data: {
-    id: string;
-    tenantId: string;
-    organizationId: string;
-    userId: string;
-    email: string;
-    isActive: boolean;
-    isInvitationSent: boolean;
-    isInvitationAccept: boolean;
-    createdAt: string;
-    createdBy: string;
-    updatedAt: string | null;
-    updatedBy: string;
-    isDeleted: boolean;
-    deletedAt: string | null;
-    deletedBy: string;
-  };
+  successes: string[];
+  errors: any[];
+  validationErrors: Record<string, any>;
 }

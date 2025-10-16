@@ -194,8 +194,9 @@
                 "id": "معرّف المستأجر",
                 "name": "الاسم",
                 "status": "الحالة",
-                "createdAt": "تاريخ الإنشاء",
-                "updatedAt": "تاريخ التحديث"
+                "domain": " النطاق",
+                "rowVersion": "إصدار الصف",
+                "domainEvents": "أحداث النطاق"
             },
             "organizationTable": {
                 "title": "جدول منظمات المستأجر",

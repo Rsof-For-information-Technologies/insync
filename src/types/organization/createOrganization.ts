@@ -7,24 +7,24 @@ export interface CreateOrganizationRequest {
   tenantId: string;
 }
 
+export type Organization = {
+  tenantId: string;
+  name: string;
+  phone: string;
+  industryType: string;
+  email: string;
+  country: string;
+  isActive: boolean;
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
+};
 export interface CreateOrganizationResponse {
-  succeeded: boolean;
+  data: Organization;
+  success: boolean;
+  statusCode: string;
   message: string;
-  data: {
-    name: string;
-    phone: string;
-    industryType: string;
-    email: string;
-    country: string;
-    id: string;
-    tenantId: string;
-    isActive: boolean;
-    createdAt: string;
-    createdBy: string;
-    updatedAt: string | null;
-    updatedBy: string;
-    isDeleted: boolean;
-    deletedAt: string | null;
-    deletedBy: string;
-  };
+  successes: string[];
+  errors: any[];
+  validationErrors: Record<string, any>;
 }

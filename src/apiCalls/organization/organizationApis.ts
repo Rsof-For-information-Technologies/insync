@@ -1,15 +1,16 @@
 import { tenantApiCall } from '@/config/api';
 import { CreateOrganizationRequest, CreateOrganizationResponse } from '@/types/organization/createOrganization';
 import type { GetAllOrganizationResponse } from '@/types/organization/getAllOrganization';
-import type { OrganizationByIdRequest } from '@/types/organization/getOrganizationById';
+import type { OrganizationByIdResponse } from '@/types/organization/getOrganizationById';
+import { OrganizationByTenantIdRequest } from '@/types/organization/getOrganizationByTenantId';
 import { UpdateOrganizationRequest, UpdateOrganizationResponse } from '@/types/organization/updateOrganization';
-import { UserByOrganizationIdRequest, UserByOrganizationIdResponse } from '@/types/user/getUsersByOrganizationId';
+import { UserByOrganizationIdResponse, UserByOrganizationIdRequest, UserByTenantIdRequest } from '@/types/user/getUsersByOrganizationId';
 
 // create organizations (client-side)
 export const createOrganization = async (payload: CreateOrganizationRequest): Promise<CreateOrganizationResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.post<CreateOrganizationResponse>('/OrganizationModel/Create', payload);
+    const { data } = await api.post<CreateOrganizationResponse>('/OrganizationModel', payload);
     return data;
   } catch (error) {
     throw error;
@@ -20,7 +21,7 @@ export const createOrganization = async (payload: CreateOrganizationRequest): Pr
 export const updateOrganization = async (payload: UpdateOrganizationRequest): Promise<UpdateOrganizationResponse> => {
   const api = tenantApiCall();
   try {
-    const response = await api.put<UpdateOrganizationResponse>('/OrganizationModel/Update', payload);
+    const response = await api.put<UpdateOrganizationResponse>('/OrganizationModel', payload);
     return response.data;
   } catch (error) {
     throw error;
@@ -31,19 +32,19 @@ export const updateOrganization = async (payload: UpdateOrganizationRequest): Pr
 export const getAllOrganizations = async (): Promise<GetAllOrganizationResponse> => {
   const api = tenantApiCall();
   try {
-    const response = await api.get<{ data: GetAllOrganizationResponse }>('/OrganizationModel/GetAll');
-    return response.data.data;
+    const { data } = await api.get<GetAllOrganizationResponse>('/OrganizationModel');
+    return data;
   } catch (error) {
     throw error;
   }
 };
 
 // Get organization by id (client-side)
-export const getOrganizationById = async (id: string): Promise<OrganizationByIdRequest> => {
+export const getOrganizationById = async (payload: OrganizationByTenantIdRequest): Promise<OrganizationByIdResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.get<{ data: OrganizationByIdRequest }>(`/OrganizationModel/Get/${id}`);
-    return data.data;
+    const { data } = await api.get<OrganizationByIdResponse>(`/OrganizationModel/by-id/${payload.id}`);
+    return data;
   } catch (error) {
     throw error;
   }
@@ -53,7 +54,7 @@ export const getOrganizationById = async (id: string): Promise<OrganizationByIdR
 export const getAllUsersByOrganizationId = async ( payload: UserByOrganizationIdRequest ): Promise<UserByOrganizationIdResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.get<UserByOrganizationIdResponse>( `/BusinessOrgUserModel/GetAllUsersByOrganizationId/${payload.organizationId}` );
+    const { data } = await api.get<UserByOrganizationIdResponse>( `/BusinessOrgUserModel/Organization/${payload.organizationId}` );
     return data;
   } catch (error) {
     throw error;

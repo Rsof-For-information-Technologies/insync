@@ -1,11 +1,9 @@
 import { getAllUsers } from "@/apiCalls/user/userApis";
 import { getUserColumns } from "@/app/shared/table-list/userColumns";
-import Authenticate from "@/components/auth/authenticate";
-import Authorize from "@/components/auth/authorize";
 import BasicTableWidget from "@/components/controlled-table/basic-table-widget";
 import { routes } from "@/config/routes";
 import { Params } from "@/types/params";
-import { UserRole } from "@/types/userRoles";
+import { GetAllUsersResponse } from "@/types/user/getAllUsers";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
@@ -17,7 +15,7 @@ export const metadata: Metadata = {
 
 export default async function UserTablePage({ params }: { params: Params }) {
   const t = await getTranslations('UserPages.userListPage')
-  const users = await getAllUsers();
+  const { data: usersData } : GetAllUsersResponse = await getAllUsers();
   const { locale } = params;
   const columns = getUserColumns
 
@@ -37,7 +35,7 @@ export default async function UserTablePage({ params }: { params: Params }) {
             <BasicTableWidget
               title={t('userTable.title')}
               variant="minimal"
-              data={users}
+              data={usersData ? usersData : []}
               getColumns={columns}
               enablePagination
               searchPlaceholder={t('userTable.searchPlaceholder')}

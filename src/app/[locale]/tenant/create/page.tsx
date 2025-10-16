@@ -1,12 +1,11 @@
 "use client";
 import { createTenant } from "@/apiCalls/tenant/tenantApis";
-import Authenticate from "@/components/auth/authenticate";
-import Authorize from "@/components/auth/authorize";
 import { FormStatusButton } from "@/components/formStatusButton";
 import { routes } from "@/config/routes";
 import { Params } from "@/types/params";
 import { CreateTenantRequest } from "@/types/tenant/createTenant";
-import { UserRole } from "@/types/userRoles";
+import { CreateTenantSchema, createTenantValidator } from "@/validators/tenant/createTenant";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -14,8 +13,6 @@ import useMedia from "react-use/lib/useMedia";
 import { Input } from "rizzui";
 import { toast } from "sonner";
 import Header from "../../(components)/CommonHeader";
-import { CreateTenantSchema, createTenantValidator } from "@/validators/tenant/createTenant";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const initialValues = {
     name: "",
@@ -39,8 +36,11 @@ export default function CreateTenantPage() {
 
     const onSubmit = async (state: CreateTenantRequest) => {
         try {
-            const response = await createTenant({ name: state.name, domain: state.domain });
-            if (response.succeeded) {
+            const response = await createTenant({
+                name: state.name,
+                domain: state.domain,
+            });
+            if (response.success) {
                 toast.success(response.message || "Tenant Created");
                 router.push(`/${locale}${routes.tenant.list}`);
             } else {

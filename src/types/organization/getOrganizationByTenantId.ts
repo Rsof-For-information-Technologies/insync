@@ -1,27 +1,23 @@
 export interface OrganizationByTenantIdRequest {
-  tenantId: string;
+  id: string;
 }
-
-export interface OrganizationData {
+export interface Organization {
+  tenantId: string;
   name: string;
   phone: string;
   industryType: string;
   email: string;
   country: string;
-  id: string;
-  tenantId: string;
   isActive: boolean;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string | null;
-  updatedBy: string;
-  isDeleted: boolean;
-  deletedAt: string | null;
-  deletedBy: string;
+  rowVersion: string;
+  domainEvents: string[];
 }
-
 export interface OrganizationByTenantIdResponse {
-  succeeded: boolean;
+  data: Organization[];
+  success: boolean;
+  statusCode: string;
   message: string;
-  data: OrganizationData[];
+  successes: string[];
+  errors: any[];
+  validationErrors: Record<string, any>;
 }

@@ -1,15 +1,13 @@
 import { getAllOrganizations } from "@/apiCalls/organization/organizationApis";
-import Authenticate from "@/components/auth/authenticate";
-import Authorize from "@/components/auth/authorize";
+import { getOrganizationColumns } from "@/app/shared/table-list/organizationColumns";
 import BasicTableWidget from "@/components/controlled-table/basic-table-widget";
-import { UserRole } from "@/types/userRoles";
+import { routes } from "@/config/routes";
+import { Params } from "@/types/params";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Header from "../(components)/CommonHeader";
-import { routes } from "@/config/routes";
-import { Params } from "@/types/params";
-import { getOrganizationColumns } from "@/app/shared/table-list/organizationColumns";
+import { GetAllOrganizationResponse } from "@/types/organization/getAllOrganization";
 
 export const metadata: Metadata = {
   title: "Organization Management",
@@ -17,7 +15,7 @@ export const metadata: Metadata = {
 
 export default async function OrganizationTablePage({ params }: { params: Params }) {
   const t = await getTranslations('OrganizationPages.organizationListPage')
-  const organizations = await getAllOrganizations();
+  const { data: organizations } : GetAllOrganizationResponse = await getAllOrganizations();
   const { locale } = params;
   const columns = getOrganizationColumns
 
@@ -37,7 +35,7 @@ export default async function OrganizationTablePage({ params }: { params: Params
         <BasicTableWidget
           title={t('organizationTable.title')}
           variant="minimal"
-          data={organizations}
+          data={organizations ? organizations : []}
           getColumns={columns}
           enablePagination
           searchPlaceholder={t('organizationTable.searchPlaceholder')}

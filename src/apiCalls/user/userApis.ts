@@ -1,14 +1,14 @@
 import { tenantApiCall } from "@/config/api";
 import { CreateUserRequest, CreateUserResponse } from "@/types/user/createUser";
 import { GetAllUsersResponse } from "@/types/user/getAllUsers";
-import { UserByIdResponse } from "@/types/user/getUserById";
+import { GetUserByIdRequest, GetUserByIdResponse } from "@/types/user/getUserById";
 import { UpdateUserRequest, UpdateUserResponse } from "@/types/user/updateUser";
 
 export const getAllUsers = async (): Promise<GetAllUsersResponse> => {
   const api = tenantApiCall();
   try {
-    const response = await api.get< { data : GetAllUsersResponse }>('/BusinessOrgUserModel/GetAll');
-    return response.data.data;
+    const { data } = await api.get<GetAllUsersResponse>('/BusinessOrgUserModel');
+    return data;
   } catch (error) {
     throw error;
   }
@@ -17,7 +17,7 @@ export const getAllUsers = async (): Promise<GetAllUsersResponse> => {
 export const createUser = async (payload: CreateUserRequest): Promise<CreateUserResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.post<CreateUserResponse>('/BusinessOrgUserModel/Create', payload);
+    const { data } = await api.post<CreateUserResponse>('/BusinessOrgUserModel', payload);
     return data;
   } catch (error) {
     throw error;
@@ -27,18 +27,18 @@ export const createUser = async (payload: CreateUserRequest): Promise<CreateUser
 export const updateUser = async (payload: UpdateUserRequest): Promise<UpdateUserResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.put<UpdateUserResponse>('/BusinessOrgUserModel/Update', payload);
+    const { data } = await api.put<UpdateUserResponse>('/BusinessOrgUserModel', payload);
     return data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getUserById = async (id: string): Promise<UserByIdResponse> => {
+export const getUserById = async (payload: GetUserByIdRequest): Promise<GetUserByIdResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.get<{ data: UserByIdResponse }>(`/BusinessOrgUserModel/Get/${id}`);
-    return data.data;
+    const { data } = await api.get<GetUserByIdResponse>(`/BusinessOrgUserModel/${payload.id}`);
+    return data;
   } catch (error) {
     throw error;
   }

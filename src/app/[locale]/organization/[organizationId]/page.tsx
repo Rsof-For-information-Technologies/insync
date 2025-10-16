@@ -1,15 +1,13 @@
 import { getAllUsersByOrganizationId, getOrganizationById } from "@/apiCalls/organization/organizationApis";
-import Authenticate from "@/components/auth/authenticate";
-import Authorize from "@/components/auth/authorize";
-import type { OrganizationByIdRequest } from "@/types/organization/getOrganizationById";
-import { UserRole } from "@/types/userRoles";
-import { Building, Calendar, Clock, Hash, RefreshCw, Mail, Phone, MapPin } from "lucide-react";
+import { getUserByOrganizationIdColumns } from "@/app/shared/table-list/userByOrganizationIdColumns";
+import BasicTableWidget from "@/components/controlled-table/basic-table-widget";
+import { OrganizationByIdResponse } from "@/types/organization/getOrganizationById";
+import { UserByOrganizationIdResponse } from "@/types/user/getUsersByOrganizationId";
+import { Building, Hash, Mail, MapPin, Phone } from "lucide-react";
+import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import CollapsibleSection from "../../(components)/CollapsibleSection";
 import Header from "../../(components)/CommonHeader";
-import { Metadata } from "next";
-import BasicTableWidget from "@/components/controlled-table/basic-table-widget";
-import { getUserByOrganizationIdColumns } from "@/app/shared/table-list/userByOrganizationIdColumns";
 
 export const metadata: Metadata = {
     title: "Organization Management",
@@ -17,10 +15,10 @@ export const metadata: Metadata = {
 
 export default async function DetailsOrganization({ params }: { params: { organizationId: string } }) {
     const t = await getTranslations('OrganizationPages.organizationDetailPage')
-    const res = await getAllUsersByOrganizationId({ organizationId: params.organizationId });
-    const getUsers = res.data;
+    console.log(params)
     const { organizationId } = params;
-    const organization: OrganizationByIdRequest = await getOrganizationById(organizationId);
+    const { data: getUsers } : UserByOrganizationIdResponse = await getAllUsersByOrganizationId({ organizationId: organizationId });
+    const { data: organization }: OrganizationByIdResponse = await getOrganizationById({ id: organizationId });
     const columns = getUserByOrganizationIdColumns;
 
     return (
@@ -113,22 +111,7 @@ export default async function DetailsOrganization({ params }: { params: { organi
                             </span>
                         </div>
 
-                        <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border border-gray-200 dark:border-gray-200">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-purple-100 dark:bg-purple-900/40 rounded-lg">
-                                    <Calendar size={20} className="text-purple-600 dark:text-purple-400" />
-                                </div>
-                                <h6 className="font-semibold text-gray-800 dark:text-white">{t('organizationDetails.createdAt')}</h6>
-                            </div>
-                            <div className="flex items-center gap-2 text-gray-700 dark:text-gray-600 pl-11">
-                                <Calendar size={16} />
-                                <span>{new Date(organization.createdAt).toLocaleDateString()}</span>
-                                <Clock size={16} className="ml-2" />
-                                <span>{new Date(organization.createdAt).toLocaleTimeString()}</span>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border border-gray-200 dark:border-gray-200">
+                        {/* <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border border-gray-200 dark:border-gray-200">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
                                     <RefreshCw size={20} className="text-gray-600 dark:text-gray-300" />
@@ -141,7 +124,7 @@ export default async function DetailsOrganization({ params }: { params: { organi
                                 <Clock size={16} className="ml-2" />
                                 <span>{organization.updatedAt ? new Date(organization.updatedAt).toLocaleTimeString() : '-'}</span>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </CollapsibleSection>
             </div>
@@ -150,7 +133,7 @@ export default async function DetailsOrganization({ params }: { params: { organi
                     <BasicTableWidget
                         title={t('userTable.title')}
                         variant="minimal"
-                        data={getUsers}
+                        data={getUsers ? getUsers : []}
                         getColumns={columns}
                         enablePagination
                         searchPlaceholder={t('userTable.searchPlaceholder')}
