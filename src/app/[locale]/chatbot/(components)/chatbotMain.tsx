@@ -17,9 +17,11 @@ import {
   ReactFlow,
   useReactFlow,
   XYPosition,
+  reconnectEdge,
+  Connection
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { ZoomSlider } from "@/components/shadCn/ui/Chatbot/ZoomSlider";
 import useChatbotDarkBgStore from "@/store/chatbotDarkBg.store";
@@ -62,150 +64,171 @@ const edgeTypes = {
 interface BaseNodeData {
   onDelete: (id: string) => void;
   onDataChange?: (data: Record<string, unknown>) => void;
-  onAddNodeCallback?: (params: { id: string; type: string }) => void;
+  onAddNodeCallback?: (params: { id: string; type: string; isHandle?: boolean; nodeId?: string; handleType?: 'source' | 'target' }) => void;
+  parentNodeId?: string;
+  showHandle?: boolean;
+  edges?: Edge[];
   [key: string]: unknown;
 }
 
 export default function ChatbotMain() {
   const [nodes, setNodes] = useState<Node<BaseNodeData>[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
-  const { screenToFlowPosition, getIntersectingNodes } = useReactFlow();
-  
+  const { screenToFlowPosition } = useReactFlow();
 
+  const onAddNodeCallbackRef = useRef<BaseNodeData["onAddNodeCallback"] | null>(null);
   const generateId = (): string => crypto.randomUUID();
 
-  // --- Add Node Callback ---
-  const onAddNodeCallback = useCallback(({ id: edgeId, type }: { id: string; type: string }) => {
-    // Find the edge that was clicked
-    const edge = edges.find(e => e.id === edgeId);
-    if (!edge) {
-      console.error('Edge not found:', edgeId);
-      return;
-    }
+  // -------------------- DELETE NODE LOGIC --------------------
+  const handleDeleteNode = useCallback((deleteId: string) => {
+    setEdges(prevEdges => {
+      const incomingEdges = prevEdges.filter(e => e.target === deleteId);
+      const outgoingEdges = prevEdges.filter(e => e.source === deleteId);
 
-    // Create new node position (between source and target or from source if no target)
-    const sourceNode = nodes.find(n => n.id === edge.source);
-    
-    let newNodePosition: XYPosition;
-    
-    if (edge.target && sourceNode) {
-      // Edge has both source and target - position between them
-      const targetNode = nodes.find(n => n.id === edge.target);
-      if (targetNode) {
-        newNodePosition = {
-          x: (sourceNode.position.x + targetNode.position.x) / 2,
-          y: (sourceNode.position.y + targetNode.position.y) / 2 + 200,
-        };
-      } else {
-        // Target node not found, position below source
-        newNodePosition = {
-          x: sourceNode.position.x,
-          y: sourceNode.position.y + 200,
-        };
-      }
-    } else if (sourceNode) {
-      // Free edge (only source) - position below source
-      newNodePosition = {
-        x: sourceNode.position.x,
-        y: sourceNode.position.y + 200,
-      };
-    } else {
-      // Fallback position
-      newNodePosition = { x: 300, y: 300 };
-    }
-
-    // Create new node
-    const newNodeId = generateId();
-    const newNode: Node<BaseNodeData> = {
-      id: newNodeId,
-      type: type as NodeTypeKey,
-      position: newNodePosition,
-      data: {
-        onDelete: (deleteId: string) => {
-          setEdges((currEdges) => {
-            const incomingEdges = currEdges.filter(e => e.target === deleteId);
-            const outgoingEdges = currEdges.filter(e => e.source === deleteId);
-
-            const newEdges: Edge[] = [];
-
-            // Reconnect all incoming to all outgoing edges
-            incomingEdges.forEach(inc => {
-              outgoingEdges.forEach(out => {
-                newEdges.push({
-                  id: crypto.randomUUID(),
-                  source: inc.source,
-                  target: out.target,
-                  type: "customEdge",
-                  data: { onAddNodeCallback },
-                });
-              });
-            });
-
-            // Keep all edges except ones connected to the deleted node
-            return [
-              ...currEdges.filter(e => e.source !== deleteId && e.target !== deleteId),
-              ...newEdges
-            ];
+      // Connect all sources of incoming edges to targets of outgoing edges
+      const newEdges: Edge[] = [...prevEdges];
+      incomingEdges.forEach(inEdge => {
+        outgoingEdges.forEach(outEdge => {
+          newEdges.push({
+            id: generateId(),
+            source: inEdge.source,
+            target: outEdge.target,
+            type: "customEdge",
+            sourceHandle: inEdge.sourceHandle,
+            targetHandle: outEdge.targetHandle,
+            data: { onAddNodeCallback: onAddNodeCallbackRef.current },
           });
+        });
+      });
 
-          setNodes((currNodes) => currNodes.filter(n => n.id !== deleteId));
-        },
-        onDataChange: (updatedData: Record<string, unknown>) => {
-          setNodes((nds) =>
-            nds.map((n) =>
-              n.id === newNodeId ? { ...n, data: { ...n.data, ...updatedData } } : n
-            )
-          );
-        },
-        onAddNodeCallback: onAddNodeCallback,
-      },
-    };
+      // Remove all edges connected to deleted node
+      return newEdges.filter(e => e.source !== deleteId && e.target !== deleteId);
+    });
 
-    // Update edges based on whether it's a free edge or connected edge
-    if (edge.target) {
-      // Connected edge - replace with two new edges
-      const newEdge1: Edge = {
-        id: generateId(),
-        source: edge.source,
-        target: newNodeId,
-        type: "customEdge",
-        data: { onAddNodeCallback },
+    setNodes(prev => prev.filter(n => n.id !== deleteId));
+  }, []);
+
+  // -------------------- ADD NODE CALLBACK --------------------
+  const onAddNodeCallback = useCallback(
+    ({
+      id: edgeOrHandleId,
+      type,
+      nodeId,
+      handleType,
+    }: {
+      id: string;
+      type: string;
+      nodeId?: string;
+      handleType?: "source" | "target";
+    }) => {
+      const createNodeInternal = (position: XYPosition): Node<BaseNodeData> => {
+        const newNodeId = generateId();
+        return {
+          id: newNodeId,
+          type: type as NodeTypeKey,
+          position,
+          data: {
+            onDelete: handleDeleteNode,
+            onDataChange: (updatedData: Record<string, unknown>) => {
+              setNodes((nds) =>
+                nds.map((n) =>
+                  n.id === newNodeId ? { ...n, data: { ...n.data, ...updatedData } } : n
+                )
+              );
+            },
+            onAddNodeCallback,
+            topConnected: false,
+            bottomConnected: false,
+            showTopButton: true,
+            showBottomButton: true,
+            edges: [],
+          },
+        };
       };
 
-      const newEdge2: Edge = {
-        id: generateId(),
-        source: newNodeId,
-        target: edge.target,
-        type: "customEdge",
-        data: { onAddNodeCallback },
-      };
+      // ---- CASE 1: Node added from handle button ----
+      if (nodeId && handleType) {
+        const newNodeId = generateId();
+        const newNode: Node<BaseNodeData> = {
+          id: newNodeId,
+          type: type as NodeTypeKey,
+          position: { x: 0, y: 0 },
+          data: {
+            onDelete: handleDeleteNode,
+            onAddNodeCallback,
+            topConnected: false,
+            bottomConnected: false,
+            showTopButton: true,
+            showBottomButton: true,
+            edges: [],
+          },
+        };
+        setNodes((prevNodes) => {
+          const parentNode = prevNodes.find(n => n.id === nodeId);
+          if (!parentNode) return prevNodes;
+          newNode.position = { x: parentNode.position.x, y: parentNode.position.y + 200 };
+          return [...prevNodes, newNode];
+        });
 
-      setEdges(eds => [
-        ...eds.filter(e => e.id !== edgeId),
-        newEdge1,
-        newEdge2
-      ]);
-    } else {
-      // Free edge - just connect the new node to source
-      const newEdge: Edge = {
-        id: generateId(),
-        source: edge.source,
-        target: newNodeId,
-        type: "customEdge",
-        data: { onAddNodeCallback },
-      };
+        setEdges((prevEdges) =>
+          addEdge(
+            {
+              id: generateId(),
+              source: nodeId,
+              target: newNodeId,
+              type: "customEdge",
+              sourceHandle: handleType === "source" ? `${nodeId}-bottom` : `${nodeId}-top`,
+              targetHandle: handleType === "source" ? `${newNodeId}-top` : `${newNodeId}-bottom`,
+            },
+            prevEdges
+          )
+        );
+      }
 
-      setEdges(eds => [
-        ...eds.filter(e => e.id !== edgeId),
-        newEdge
-      ]);
-    }
+      // ---- CASE 2: Node added from edge click ----
+      if (edgeOrHandleId) {
+        const edge = edges.find((e) => e.id === edgeOrHandleId);
+        if (!edge) return;
 
-    // Add new node
-    setNodes(nds => [...nds, newNode]);
-  }, [nodes, edges]);
+        const sourceNode = nodes.find((n) => n.id === edge.source);
+        const targetNode = edge.target ? nodes.find((n) => n.id === edge.target) : null;
 
-  // --- Node & edge changes ---
+        const pos = sourceNode && targetNode
+          ? { x: (sourceNode.position.x + targetNode.position.x) / 2, y: (sourceNode.position.y + targetNode.position.y) / 2 + 200 }
+          : sourceNode
+            ? { x: sourceNode.position.x, y: sourceNode.position.y + 200 }
+            : { x: 300, y: 300 };
+
+        const newNode = createNodeInternal(pos);
+        setNodes((prevNodes) => [...prevNodes, newNode]);
+        setEdges((prevEdges) => {
+          const updatedEdges = prevEdges.filter((e) => e.id !== edgeOrHandleId);
+          if (edge.target) {
+            updatedEdges.push(
+              { id: generateId(), source: edge.source, target: newNode.id, type: "customEdge", data: { onAddNodeCallback } },
+              { id: generateId(), source: newNode.id, target: edge.target, type: "customEdge", data: { onAddNodeCallback } }
+            );
+          } else {
+            updatedEdges.push({
+              id: generateId(),
+              source: edge.source,
+              target: newNode.id,
+              type: "customEdge",
+              data: { onAddNodeCallback },
+            });
+          }
+          return updatedEdges;
+        });
+      }
+    },
+    [handleDeleteNode, nodes, edges]
+  );
+
+  useEffect(() => {
+    onAddNodeCallbackRef.current = onAddNodeCallback;
+  }, [onAddNodeCallback]);
+
+  // -------------------- NODE & EDGE CHANGES --------------------
   const onNodesChange: OnNodesChange = useCallback(
     (changes) =>
       setNodes((nds) =>
@@ -219,92 +242,18 @@ export default function ChatbotMain() {
     []
   );
 
-  // --- Auto add start node ---
-  useEffect(() => {
-    if (!nodes.find((n) => n.type === "startNode")) {
-      const startNode: Node<BaseNodeData> = {
-        id: generateId(),
-        type: "startNode",
-        position: { x: 300, y: 50 },
-        data: {
-          onDelete: (id: string) =>
-            setNodes((curr) => curr.filter((n) => n.id !== id)),
-          onAddNodeCallback: onAddNodeCallback,
-        },
-      };
-      setNodes([startNode]);
-    }
-  }, [nodes, onAddNodeCallback]);
 
-  // --- Node creation ---
-  const createNode = useCallback((type: NodeTypeKey, position: XYPosition): Node<BaseNodeData> => {
-    const id = generateId();
-    const baseData: BaseNodeData = {
-      onDelete: (deleteId: string) => {
-        setEdges((currEdges) => {
-          const incomingEdges = currEdges.filter(e => e.target === deleteId);
-          const outgoingEdges = currEdges.filter(e => e.source === deleteId);
+const onReconnect = useCallback(
+  (oldEdge: Edge, newConnection: Connection) => {
+    console.log("Reconnect called!");
+    console.log("oldEdge:", oldEdge);
+    console.log("newConnection:", newConnection);
 
-          const newEdges: Edge[] = [];
+    setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
+  },
+  []
+);
 
-          // Reconnect all incoming to all outgoing edges
-          incomingEdges.forEach(inc => {
-            outgoingEdges.forEach(out => {
-              newEdges.push({
-                id: crypto.randomUUID(),
-                source: inc.source,
-                target: out.target,
-                type: "customEdge",
-                data: { onAddNodeCallback },
-              });
-            });
-          });
-
-          // Keep all edges except ones connected to the deleted node
-          return [
-            ...currEdges.filter(e => e.source !== deleteId && e.target !== deleteId),
-            ...newEdges
-          ];
-        });
-
-        setNodes((currNodes) => currNodes.filter(n => n.id !== deleteId));
-      },
-      onDataChange: (updatedData: Record<string, unknown>) => {
-        setNodes((nds) =>
-          nds.map((n) =>
-            n.id === id ? { ...n, data: { ...n.data, ...updatedData } } : n
-          )
-        );
-      },
-      onAddNodeCallback: onAddNodeCallback,
-    };
-    return { id, type, position, data: baseData };
-  }, [onAddNodeCallback]);
-
-  // --- Drag & drop ---
-  const onDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "move";
-  }, []);
-
-  const onDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      const type = e.dataTransfer.getData("application/reactflow") as NodeTypeKey;
-      if (!type) return;
-
-      const position = screenToFlowPosition({
-        x: e.clientX,
-        y: e.clientY,
-      });
-
-      const newNode = createNode(type, position);
-      setNodes((nds) => nds.concat(newNode));
-    },
-    [screenToFlowPosition, createNode]
-  );
-
-  // --- Connect nodes ---
   const onConnect: OnConnect = useCallback(
     (params) =>
       setEdges((eds) => addEdge({
@@ -316,23 +265,68 @@ export default function ChatbotMain() {
     [onAddNodeCallback]
   );
 
-  // --- Node drag overlap highlight ---
-  const onNodeDrag = useCallback(
-    (_: React.MouseEvent, node: Node<BaseNodeData>) => {
-      const intersections = getIntersectingNodes(node).map((n) => n.id);
-      setNodes((nds) =>
-        nds.map((n) => ({
-          ...n,
-          className: intersections.includes(n.id) ? "highlight" : "",
-        }))
-      );
+  // -------------------- DRAG & DROP --------------------
+  const createNode = useCallback((type: NodeTypeKey, position: XYPosition): Node<BaseNodeData> => {
+    const id = crypto.randomUUID();
+
+    return {
+      id,
+      type,
+      position,
+      data: {
+        onDelete: handleDeleteNode,
+        onAddNodeCallback,
+        onDataChange: (updatedData: Record<string, unknown>) => {
+          setNodes(nds =>
+            nds.map(n =>
+              n.id === id ? { ...n, data: { ...n.data, ...updatedData } } : n
+            )
+          );
+        },
+        topConnected: false,
+        bottomConnected: false,
+        showTopButton: true,
+        showBottomButton: true,
+      },
+    };
+  }, [handleDeleteNode, onAddNodeCallback]);
+
+  const onDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const onDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      const type = e.dataTransfer.getData("application/reactflow") as NodeTypeKey;
+      if (!type) return;
+      const position = screenToFlowPosition({ x: e.clientX, y: e.clientY });
+      const newNode = createNode(type, position);
+      setNodes((nds) => nds.concat(newNode));
     },
-    [getIntersectingNodes]
+    [screenToFlowPosition, createNode]
   );
+
+  // -------------------- AUTO START NODE --------------------
+  useEffect(() => {
+    if (!nodes.find((n) => n.type === "startNode")) {
+      const startNode: Node<BaseNodeData> = {
+        id: generateId(),
+        type: "startNode",
+        position: { x: 300, y: 50 },
+        data: {
+          onDelete: (id: string) => setNodes(curr => curr.filter(n => n.id !== id)),
+          onAddNodeCallback: onAddNodeCallback,
+        },
+      };
+      setNodes([startNode]);
+    }
+  }, [nodes, onAddNodeCallback]);
 
   const { isDarkBg } = useChatbotDarkBgStore();
 
-  // --- Auto layout with dagre ---
+  // -------------------- DAGRE LAYOUT --------------------
   const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
   const nodeWidth = 350;
   const nodeHeight = 150;
@@ -347,7 +341,9 @@ export default function ChatbotMain() {
       });
 
       edgesToLayout.forEach((edge) => {
-        dagreGraph.setEdge(edge.source, edge.target);
+        if (edge.source && edge.target) {
+          dagreGraph.setEdge(edge.source, edge.target);
+        }
       });
 
       dagre.layout(dagreGraph);
@@ -372,31 +368,47 @@ export default function ChatbotMain() {
 
   const onLayout = useCallback(
     (direction: "TB" | "LR") => {
-      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-        nodes,
-        edges,
-        direction
-      );
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges, direction);
       setNodes([...layoutedNodes]);
       setEdges([...layoutedEdges]);
     },
     [nodes, edges, getLayoutedElements]
   );
 
-  // --- Add callback to ALL edges ---
+  // -------------------- PASS EDGE INFO TO NODES --------------------
   const edgesWithCallback: Edge[] = edges.map(edge => ({
     ...edge,
     data: {
       ...edge.data,
-      onAddNodeCallback: onAddNodeCallback
+      onAddNodeCallback: onAddNodeCallback,
+      edges,
     }
   }));
+
+  const nodesWithEdges = nodes.map(node => {
+    const connectedEdges = edges.filter(e => e.source === node.id || e.target === node.id);
+    const topConnected = connectedEdges.some(e => e.target === node.id);
+    const bottomConnected = connectedEdges.some(e => e.source === node.id);
+
+    return {
+      ...node,
+      data: {
+        ...node.data,
+        edges: connectedEdges,
+        topConnected,
+        bottomConnected,
+        showTopButton: !topConnected,
+        showBottomButton: !bottomConnected,
+      },
+    };
+  });
 
   return (
     <div className="flex w-full h-screen bg-gray-50 text-gray-900 relative">
       <div className="flex-1 bg-white">
         <ReactFlow
-          nodes={nodes}
+          key={`flow-${edges.length}-${nodes.length}`}
+          nodes={nodesWithEdges}
           edges={edgesWithCallback}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
@@ -405,11 +417,11 @@ export default function ChatbotMain() {
           onConnect={onConnect}
           onDrop={onDrop}
           onDragOver={onDragOver}
-          onNodeDrag={onNodeDrag}
           className="intersection-flow"
           proOptions={{ hideAttribution: true }}
           colorMode={isDarkBg ? "dark" : "light"}
           selectNodesOnDrag={false}
+          onReconnect={onReconnect}
         >
           <ZoomSlider position="top-center" />
           <FocusToStartNode />
