@@ -19,6 +19,5 @@ export interface User {
   rowVersion: string;
   domainEvents: string[];
 }
-  
+
 export type CreateUserResponse = ApiBaseResponse<User>;
-  

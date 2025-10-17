@@ -9,4 +9,3 @@ export interface UpdateOrganizationRequest {
 }
 
 export type UpdateOrganizationResponse = ApiBaseResponse<null>;
-  

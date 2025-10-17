@@ -13,4 +13,3 @@ export interface Tenant {
 }
 
 export type GetTenantsByIdResponse = ApiBaseResponse<Tenant>;
-  

@@ -26,8 +26,8 @@ export const registerUser = async (payload: SignupRequest | FormData): Promise<S
 export const loginUser = async (payload: LoginRequest): Promise<LoginResponse> => {
   const api = connectApiCall();
   try {
-    const response = await api.post<LoginResponse>('/UserManagement/login', payload);
-    return response.data;
+    const { data } = await api.post<LoginResponse>('/UserManagement/login', payload);
+    return data;
   } catch (error) {
     throw error;
   }
@@ -37,8 +37,8 @@ export const loginUser = async (payload: LoginRequest): Promise<LoginResponse> =
 export const forgotPassword = async (payload: ForgotPasswordRequest): Promise<ForgotPasswordResponse> => {
   const api = connectApiCall();
   try {
-    const response = await api.post<ForgotPasswordResponse>('/UserManagement/forgot-password', payload);
-    return response.data;
+    const { data } = await api.post<ForgotPasswordResponse>('/UserManagement/forgot-password', payload);
+    return data;
   } catch (error) {
     throw error;
   }
@@ -59,8 +59,9 @@ export const resetPassword = async (payload: ResetPasswordRequest): Promise<Rese
 export const changePassword = async (payload: ChangePasswordRequest): Promise<ChangePasswordResponse> => {
   const api = connectApiCall();
   try {
-    const response = await api.post<ChangePasswordResponse>('/UserManagement/change-password', payload);
-    return response.data;
+    const { data } = await api.post<ChangePasswordResponse>('/UserManagement/change-password', payload);
+    console.log("sdkskdjskdksd", data)
+    return data;
   } catch (error) {
     throw error;
   }
