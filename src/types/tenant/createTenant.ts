@@ -11,4 +11,5 @@ export interface Tenant {
   rowVersion: string;
   domainEvents: string[];
 }
+
 export type CreateTenantResponse = ApiBaseResponse<Tenant | null>

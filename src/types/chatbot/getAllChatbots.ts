@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export interface Chatbot {
     id: number,
     organizationID: string,
@@ -7,13 +9,6 @@ export interface Chatbot {
     domainEvents: string[];
 }
 
+export type GetAllChatbotResponse = ApiBaseResponse<Chatbot[]>;
 
-export type GetAllChatbotResponse = {
-    data: Chatbot[];
-    success: boolean;
-    statusCode: "OK" | "Created" | "BadRequest" | "Unauthorized" | "Forbidden" | "NotFound" | "Conflict" | "InternalServerError";
-    message: string;
-    successes: string[];
-    errors: string[];
-    validationErrors: string[];
-};
+// statusCode: "OK" | "Created" | "BadRequest" | "Unauthorized" | "Forbidden" | "NotFound" | "Conflict" | "InternalServerError";

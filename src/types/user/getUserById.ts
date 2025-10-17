@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export interface GetUserByIdRequest {
   id: string;
 }
@@ -14,12 +16,4 @@ export interface User {
   domainEvents: string[];
 }
 
-export interface GetUserByIdResponse {
-  data: User;
-  success: boolean;
-  statusCode: string;
-  message: string;
-  successes: string[];
-  errors: any[];
-  validationErrors: Record<string, any>;
-}
+export type GetUserByIdResponse = ApiBaseResponse<User>; 

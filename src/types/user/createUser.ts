@@ -1,9 +1,12 @@
+import { ApiBaseResponse } from "..";
+
 export interface CreateUserRequest {
   tenantId: string;
   organizationId: string;
   userId: string;
   email: string;
 }
+
 export interface User {
   tenantId: string;
   organizationId: string;
@@ -16,12 +19,6 @@ export interface User {
   rowVersion: string;
   domainEvents: string[];
 }
-export interface CreateUserResponse {
-  data: User;
-  success: boolean;
-  statusCode: string;
-  message: string;
-  successes: string[];
-  errors: any[];
-  validationErrors: Record<string, any>;
-}
+  
+export type CreateUserResponse = ApiBaseResponse<User>;
+  

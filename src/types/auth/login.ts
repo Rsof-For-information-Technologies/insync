@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export interface LoginRequest {
   email: string;
   password: string;
@@ -10,16 +12,8 @@ export interface LoginData {
   firstName: string;
   lastName: string;
   role: string | null;
-  tenandId: string;
+  tenantId: string;
   roles: string[];
 }
 
-export interface LoginResponseBase<TData = unknown> {
-  data: TData;
-  isSuccess: boolean;
-  errors: string[];
-  validationErrors: Record<string, string | string[]>;
-  successes: string[];
-}
-
-export type LoginResponse = LoginResponseBase<LoginData>;
+export type LoginResponse = ApiBaseResponse<LoginData>;

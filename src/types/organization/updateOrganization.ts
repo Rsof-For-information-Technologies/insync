@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export interface UpdateOrganizationRequest {
   id: string;
   phone: string;
@@ -5,11 +7,6 @@ export interface UpdateOrganizationRequest {
   email: string;
   country: string;
 }
-export interface UpdateOrganizationResponse {
-  success: boolean;
-  statusCode: string;
-  message: string;
-  successes: string[];
-  errors: any[];
-  validationErrors: Record<string, any>;
-}
+
+export type UpdateOrganizationResponse = ApiBaseResponse<null>;
+  

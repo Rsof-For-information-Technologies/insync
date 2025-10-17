@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export type Organization = {
   tenantId: string;
   name: string;
@@ -11,12 +13,4 @@ export type Organization = {
   domainEvents: string[];
 };
 
-export interface GetAllOrganizationResponse {
-  data: Organization[];
-  success: boolean;
-  statusCode: string;
-  message: string;
-  successes: string[];
-  errors: any[];
-  validationErrors: Record<string, any>;
-}
+export type GetAllOrganizationResponse = ApiBaseResponse<Organization[]>;

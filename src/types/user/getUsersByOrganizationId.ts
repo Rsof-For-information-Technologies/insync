@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export interface UserByOrganizationIdRequest {
   organizationId: string;
 }
@@ -5,6 +7,7 @@ export interface UserByOrganizationIdRequest {
 export interface UserByTenantIdRequest {
   tenantId: string;
 }
+
 export interface User {
   tenantId: string;
   organizationId: string;
@@ -17,13 +20,5 @@ export interface User {
   rowVersion: string;
   domainEvents: string[];
 }
-export interface UserByOrganizationIdResponse {
-  data: User[];
-  success: boolean;
-  statusCode: string;
-  message: string;
-  successes: string[];
-  errors: any[];
-  validationErrors: Record<string, any>;
-}
 
+export type UserByOrganizationIdResponse = ApiBaseResponse<User[]>;

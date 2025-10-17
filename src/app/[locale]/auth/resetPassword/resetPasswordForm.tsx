@@ -63,7 +63,7 @@ function ResetPasswordForm({ email }: { email: string }) {
 
             const data = await resetPasswordApi(payload);
 
-            if (data?.isSuccess) {
+            if (data.success) {
                 const msg = data.successes?.[0] || "Password reset successfully";
                 toast.success(msg);
                 reset();

@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export interface OrganizationByTenantIdRequest {
   id: string;
 }
@@ -12,12 +14,4 @@ export interface Organization {
   rowVersion: string;
   domainEvents: string[];
 }
-export interface OrganizationByTenantIdResponse {
-  data: Organization[];
-  success: boolean;
-  statusCode: string;
-  message: string;
-  successes: string[];
-  errors: any[];
-  validationErrors: Record<string, any>;
-}
+export type OrganizationByTenantIdResponse = ApiBaseResponse<Organization[]>;

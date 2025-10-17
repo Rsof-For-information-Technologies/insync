@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export interface TenantIdRequest {
   id: string;
 }
@@ -10,12 +12,5 @@ export interface Tenant {
   domainEvents: string[];
 }
 
-export interface GetTenantsByIdResponse {
-  data: Tenant;
-  success: boolean;
-  statusCode: string;
-  message: string;
-  successes: string[];
-  errors: any[];
-  validationErrors: Record<string, any>;
-}
+export type GetTenantsByIdResponse = ApiBaseResponse<Tenant>;
+  
