@@ -1,3 +1,4 @@
+import { ApiBaseResponse } from "..";
 export interface CreateTenantRequest {
   name: string;
   domain: string;
@@ -10,12 +11,4 @@ export interface Tenant {
   rowVersion: string;
   domainEvents: string[];
 }
-export interface CreateTenantResponse {
-  data: Tenant;
-  success: boolean;
-  statusCode: string;
-  message: string;
-  successes: string[];
-  errors: any[];
-  validationErrors: Record<string, any>;
-}
+export type CreateTenantResponse = ApiBaseResponse<Tenant | null>

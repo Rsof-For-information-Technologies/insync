@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export interface Tenant {
   name: string;
   domain: string;
@@ -6,12 +8,5 @@ export interface Tenant {
   rowVersion: string;
   domainEvents: string[];
 }
-export interface GetAllTenantsResponse {
-  data: Tenant[];
-  success: boolean;
-  statusCode: string;
-  message: string;
-  successes: string[];
-  errors: any[];
-  validationErrors: Record<string, any>;
-}
+
+export type GetAllTenantsResponse = ApiBaseResponse<Tenant[]>
