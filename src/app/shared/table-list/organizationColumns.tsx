@@ -119,29 +119,29 @@ export const getOrganizationColumns = ({
                 </div>
             ),
         },
-        {
-            title: (
-                <HeaderCell
-                    title={t('createdAt')}
-                    sortable
-                    ascending={
-                        sortConfig?.direction === 'asc' && sortConfig?.key === 'createdAt'
-                    }
-                />
-            ),
-            onHeaderCell: () => onHeaderCellClick('createdAt'),
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-            minWidth: 200,
-            render: (value: string) => (
-                <div className="flex items-center gap-3">
-                    <div className="p-2 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg">
-                        <Calendar size={18} className="text-yellow-600 dark:text-yellow-400" />
-                    </div>
-                    <DateCell date={new Date(value)} className="text-gray-700 dark:text-gray-300" />
-                </div>
-            ),
-        },
+        // {
+        //     title: (
+        //         <HeaderCell
+        //             title={t('createdAt')}
+        //             sortable
+        //             ascending={
+        //                 sortConfig?.direction === 'asc' && sortConfig?.key === 'createdAt'
+        //             }
+        //         />
+        //     ),
+        //     onHeaderCell: () => onHeaderCellClick('createdAt'),
+        //     dataIndex: 'createdAt',
+        //     key: 'createdAt',
+        //     minWidth: 200,
+        //     render: (value: string) => (
+        //         <div className="flex items-center gap-3">
+        //             <div className="p-2 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg">
+        //                 <Calendar size={18} className="text-yellow-600 dark:text-yellow-400" />
+        //             </div>
+        //             <DateCell date={new Date(value)} className="text-gray-700 dark:text-gray-300" />
+        //         </div>
+        //     ),
+        // },
         {
             title: <HeaderCell title={t('isActive')} />,
             dataIndex: 'isActive',

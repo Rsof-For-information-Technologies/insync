@@ -4,7 +4,7 @@ import CustomActionButton from '../CustomReactFlowComponents/CustomActionButton'
 function AutoLayoutButtons({ onLayout }: { onLayout: (direction: "TB" | "LR") => void }) {
     return (
         <>
-            <CustomActionButton
+            {/* <CustomActionButton
                 icon={<ArrowDownToLine size={18} />}
                 title="Vertical Layout"
                 ariaLabel="Arrange nodes vertically"
@@ -12,7 +12,7 @@ function AutoLayoutButtons({ onLayout }: { onLayout: (direction: "TB" | "LR") =>
                 tooltip="Arrange nodes top to bottom"
                 tooltipPosition="right"
                 hoverColor="hover:bg-indigo-500"
-            />
+            /> */}
 
             <CustomActionButton
                 icon={<ArrowRightToLine size={18} />}

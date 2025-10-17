@@ -39,7 +39,7 @@ function LoginForm() {
     const onSubmit = async (state: LoginSchema) => {
         try {
             const response = await loginUser({ email: state.email, password: state.password });
-            if (response.isSuccess) {
+            if (response.success) {
                 setLocalStorage("user-info", {
                     userId: response.data.userId,
                     firstName: response.data.firstName,
@@ -47,7 +47,7 @@ function LoginForm() {
                     email: response.data.email,
                     role: "Admin",
                     roles: response.data.roles,
-                    tenandId: response.data.tenandId,
+                    tenantId: response.data.tenantId,
                 });
                 setCookie("access_token", response.data.token)
 

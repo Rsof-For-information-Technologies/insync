@@ -6,11 +6,17 @@ import type { SignupRequest, SignupResponse } from '@/types/auth/signup';
 import type { ChangePasswordRequest, ChangePasswordResponse } from '@/types/profile/changePassword';
 
 // New registration API for User Management
-export const registerUser = async (payload: SignupRequest): Promise<SignupResponse> => {
+export const registerUser = async (payload: SignupRequest | FormData): Promise<SignupResponse> => {
   const api = connectApiCall();
   try {
-    const response = await api.post<SignupResponse>('/UserManagement/register', payload);
-    return response.data;
+    const config = payload instanceof FormData ? {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    } : undefined;
+    const { data } = await api.post<SignupResponse>('/UserManagement/register', payload, config);
+    console.log("registration response data", data);
+    return data;
   } catch (error) {
     throw error;
   }

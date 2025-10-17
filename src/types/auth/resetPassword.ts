@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export interface ResetPasswordRequest {
   email: string;
   newPassword: string;
@@ -5,10 +7,5 @@ export interface ResetPasswordRequest {
   token: string;
 }
 
-export interface ResetPasswordResponse {
-  data: null;
-  isSuccess: boolean;
-  errors: string[];
-  validationErrors: Record<string, string | string[]>;
-  successes: string[];
-}
+export type ResetPasswordResponse = ApiBaseResponse<null>;
+

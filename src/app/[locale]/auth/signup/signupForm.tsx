@@ -10,63 +10,65 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from 'next-intl';
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { PiArrowRightBold } from "react-icons/pi";
 import useMedia from "react-use/lib/useMedia";
 import { Input, Password, Text } from "rizzui";
+import { toast } from "sonner";
 
 const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    company: "",
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    Password: "",
+    ConfirmPassword: "",
+    Company: "",
+    PhoneNumber: "",
+    ProfilePicture: null as File | null,
 };
 
 function SignupForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { locale } = useParams<Params>();
-    const [serverError, setServerError] = useState<string | null>(null);
     const isMedium = useMedia("(max-width: 1200px)", false);
     const t = useTranslations('SignUpPage.form');
-    const { register, handleSubmit, formState: { errors }, setError, } = useForm<SignupSchema>({
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setValue,
+    } = useForm<SignupSchema>({
         resolver: zodResolver(signupValidator),
         defaultValues: { ...initialValues },
     });
 
     const onSubmit = async (state: SignupSchema) => {
         try {
-            const response = await registerUser({
-                email: state.email,
-                password: state.password,
-                confirmPassword: state.confirmPassword,
-                firstName: state.firstName,
-                lastName: state.lastName,
-                company: state.company,
-            });
-            if (response.isSuccess) {
-                setServerError(null);
+            const formData = new FormData();
+            formData.append('Email', state.Email);
+            formData.append('Password', state.Password);
+            formData.append('ConfirmPassword', state.ConfirmPassword);
+            formData.append('FirstName', state.FirstName);
+            formData.append('LastName', state.LastName);
+            formData.append('Company', state.Company);
+            formData.append('PhoneNumber', state.PhoneNumber);
+
+            if (state.ProfilePicture && state.ProfilePicture instanceof File) {
+                formData.append('ProfilePicture', state.ProfilePicture);
+            }
+            const response = await registerUser(formData);
+            console.log("registration response", response);
+            if (response.success) {
+                toast.success(response.data);
                 router.push(`/${locale}${routes.auth.login}`);
             } else {
-                const firstError = response.errors?.[0] ?? "Registration failed";
-                setServerError(firstError);
+                toast.error(response.message);
             }
-
         } catch (error) {
             console.log(error);
-            if (
-                (error as any).response?.data &&
-                Object.entries((error as any).response?.data).length
-            ) {
-                for (let [key, value] of Object.entries(
-                    (error as any).response?.data
-                )) {
-                    setError(key as any, { type: "custom", message: value as string });
-                }
-            }
         }
     };
 
@@ -91,8 +93,8 @@ function SignupForm() {
                     placeholder={t('firstNamePlaceholder')}
                     className="[&>label>span]:font-medium"
                     inputClassName="text-sm"
-                    error={errors.firstName?.message}
-                    {...register("firstName")}
+                    error={errors.FirstName?.message}
+                    {...register("FirstName")}
                 />
                 <Input
                     type="text"
@@ -102,8 +104,8 @@ function SignupForm() {
                     placeholder={t('lastNamePlaceholder')}
                     className="[&>label>span]:font-medium"
                     inputClassName="text-sm"
-                    error={errors.lastName?.message}
-                    {...register("lastName")}
+                    error={errors.LastName?.message}
+                    {...register("LastName")}
                 />
                 <Input
                     type="email"
@@ -113,8 +115,8 @@ function SignupForm() {
                     placeholder={t('emailPlaceholder')}
                     className="[&>label>span]:font-medium"
                     inputClassName="text-sm"
-                    error={errors.email?.message}
-                    {...register("email")}
+                    error={errors.Email?.message}
+                    {...register("Email")}
                 />
                 <Password
                     label={t('password')}
@@ -123,8 +125,8 @@ function SignupForm() {
                     size="lg"
                     className="[&>label>span]:font-medium"
                     inputClassName="text-sm"
-                    error={errors.password?.message}
-                    {...register("password")}
+                    error={errors.Password?.message}
+                    {...register("Password")}
                 />
                 <Password
                     label={t('confirmPassword')}
@@ -133,8 +135,8 @@ function SignupForm() {
                     size="lg"
                     className="[&>label>span]:font-medium"
                     inputClassName="text-sm"
-                    error={errors.confirmPassword?.message}
-                    {...register("confirmPassword")}
+                    error={errors.ConfirmPassword?.message}
+                    {...register("ConfirmPassword")}
                 />
                 <Input
                     label={t('company')}
@@ -143,18 +145,39 @@ function SignupForm() {
                     size="lg"
                     className="[&>label>span]:font-medium"
                     inputClassName="text-sm"
-                    error={errors.company?.message}
-                    {...register("company")}
+                    error={errors.Company?.message}
+                    {...register("Company")}
                 />
-                <p className="text-red-500 text-sm">
-                    {(errors as any)?.message?.message}
-                </p>
-
-                {serverError && (
-                    <div className="border border-red-300 p-3 rounded-md bg-red-50 dark:bg-red-100/10">
-                        <p className="text-red-600 text-sm font-medium">{serverError}</p>
-                    </div>
-                )}
+                <Input
+                    label="Phone Number"
+                    id="phoneNumber"
+                    placeholder="Enter your phone number"
+                    size="lg"
+                    className="[&>label>span]:font-medium"
+                    inputClassName="text-sm"
+                    error={errors.PhoneNumber?.message}
+                    {...register("PhoneNumber")}
+                />
+                <div className="[&>label>span]:font-medium">
+                    <label htmlFor="uploadProfilePicture" className="block text-sm font-medium text-gray-700">
+                        {t('profilePicture') || 'Upload Profile Picture'}
+                    </label>
+                    <input
+                        id="uploadProfilePicture"
+                        type="file"
+                        accept="image/*"
+                        className="mt-1 p-2 block w-full text-sm text-gray-700 border-2 border-gray-200 rounded-md"
+                        onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                                setValue('ProfilePicture', file);
+                            }
+                        }}
+                    />
+                    {errors.ProfilePicture?.message && (
+                        <p className="text-red-500 text-sm mt-1">{errors.ProfilePicture.message}</p>
+                    )}
+                </div>
 
                 <FormStatusButton
                     className="w-full @xl:w-full dark:bg-[#090909] dark:text-white hover:dark:bg-black"

@@ -1,19 +1,16 @@
+import { ApiBaseResponse } from "..";
+
 export type Organization = {
-  id: string;
+  tenantId: string;
   name: string;
   phone: string;
   industryType: string;
   email: string;
   country: string;
-  tenantId: string;
   isActive: boolean;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string | null;
-  updatedBy: string;
-  isDeleted: boolean;
-  deletedAt: string | null;
-  deletedBy: string;
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
 };
 
-export type GetAllOrganizationResponse = Organization[];
+export type GetAllOrganizationResponse = ApiBaseResponse<Organization[]>;

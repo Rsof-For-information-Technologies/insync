@@ -34,7 +34,7 @@ export default function ForgotPasswordForm() {
             const payload = { email: state.email };
             const data = await forgotPassword(payload);
 
-            if (!data.isSuccess) {
+            if (!data.success) {
                 const msg = data.errors?.[0] || "Something went wrong";
                 toast.error(msg);
                 return;

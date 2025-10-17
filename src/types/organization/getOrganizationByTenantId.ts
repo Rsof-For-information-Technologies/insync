@@ -1,27 +1,17 @@
-export interface OrganizationByTenantIdRequest {
-  tenantId: string;
-}
+import { ApiBaseResponse } from "..";
 
-export interface OrganizationData {
+export interface OrganizationByTenantIdRequest {
+  id: string;
+}
+export interface Organization {
+  tenantId: string;
   name: string;
   phone: string;
   industryType: string;
   email: string;
   country: string;
-  id: string;
-  tenantId: string;
   isActive: boolean;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string | null;
-  updatedBy: string;
-  isDeleted: boolean;
-  deletedAt: string | null;
-  deletedBy: string;
+  rowVersion: string;
+  domainEvents: string[];
 }
-
-export interface OrganizationByTenantIdResponse {
-  succeeded: boolean;
-  message: string;
-  data: OrganizationData[];
-}
+export type OrganizationByTenantIdResponse = ApiBaseResponse<Organization[]>;

@@ -1,13 +1,8 @@
+import { ApiBaseResponse } from ".";
 import { LoginData } from "./auth/login";
 
 export type User = LoginData
 
-export interface GetUsers {
-    succeeded: boolean;
-    message: string | null;
-    validationResultModel: any | null;
-    data: User[];
-}
 export interface GetUserById {
     succeeded: boolean;
     message: string | null;
@@ -15,12 +10,8 @@ export interface GetUserById {
     data: User;
 }
 
-export interface UpdateUserResponse {
-    succeeded: boolean;
-    message: string;
-    validationResultModel: any | null;
-    data: User;
-}
+export type GetUsers = ApiBaseResponse<User[]>
+
 export interface UpdateUserRequest {
     userId: string;
     firstName: string;
@@ -28,3 +19,6 @@ export interface UpdateUserRequest {
     email: string;
     role: string;
 }
+
+export type UpdateUserResponse = ApiBaseResponse<User>
+

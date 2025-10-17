@@ -1,5 +1,9 @@
-export type UserByIdResponse = {
+import { ApiBaseResponse } from "..";
+
+export interface GetUserByIdRequest {
   id: string;
+}
+export interface User {
   tenantId: string;
   organizationId: string;
   userId: string;
@@ -7,11 +11,9 @@ export type UserByIdResponse = {
   isActive: boolean;
   isInvitationSent: boolean;
   isInvitationAccept: boolean;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string;
-  updatedBy: string;
-  isDeleted: boolean;
-  deletedAt: string | null;
-  deletedBy: string;
-};
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
+}
+
+export type GetUserByIdResponse = ApiBaseResponse<User>; 

@@ -2,14 +2,14 @@ import { tenantApiCall } from '@/config/api';
 import { OrganizationByTenantIdRequest, OrganizationByTenantIdResponse } from '@/types/organization/getOrganizationByTenantId';
 import type { CreateTenantRequest, CreateTenantResponse } from '@/types/tenant/createTenant';
 import type { GetAllTenantsResponse } from '@/types/tenant/getAllTenant';
-import type { TenantById } from '@/types/tenant/getTenantById';
+import type { GetTenantsByIdResponse, TenantIdRequest } from '@/types/tenant/getTenantById';
 import type { UpdateTenantRequest, UpdateTenantResponse } from '@/types/tenant/updateTenant';
 
 // Get all tenants (client-side)
 export const getAllTenants = async (): Promise<GetAllTenantsResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.get<GetAllTenantsResponse>('/TenantModel/GetAll');
+    const { data } = await api.get<GetAllTenantsResponse>('/TenantModel');
     return data;
   } catch (error) {
     throw error;
@@ -17,10 +17,10 @@ export const getAllTenants = async (): Promise<GetAllTenantsResponse> => {
 };
 
 // Get tenant by id (client-side)
-export const getTenantById = async (id: string): Promise<TenantById> => {
+export const getTenantById = async (payload: TenantIdRequest): Promise<GetTenantsByIdResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.get<TenantById>(`/TenantModel/Get/${id}`);
+    const { data } = await api.get<GetTenantsByIdResponse>(`TenantModel/by-id/${payload.id}`);
     return data;
   } catch (error) {
     throw error;
@@ -31,7 +31,7 @@ export const getTenantById = async (id: string): Promise<TenantById> => {
 export const updateTenant = async (payload: UpdateTenantRequest): Promise<UpdateTenantResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.put<UpdateTenantResponse>('/TenantModel/Update', payload);
+    const { data } = await api.put<UpdateTenantResponse>('/TenantModel', payload);
     return data;
   } catch (error) {
     throw error;
@@ -53,7 +53,7 @@ export const createTenant = async (payload: CreateTenantRequest): Promise<Create
 export const getAllOrganizationsByTenantId = async ( payload: OrganizationByTenantIdRequest ): Promise<OrganizationByTenantIdResponse> => {
   const api = tenantApiCall();
   try {
-    const { data } = await api.get<OrganizationByTenantIdResponse>( `/OrganizationModel/GetByTenantId/tenant/${payload.tenantId}` );
+    const { data } = await api.get<OrganizationByTenantIdResponse>( `/OrganizationModel/by-tenantId/${payload.id}` );
     return data;
   } catch (error) {
     throw error;

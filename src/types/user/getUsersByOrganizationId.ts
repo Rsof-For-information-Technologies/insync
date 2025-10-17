@@ -1,27 +1,24 @@
+import { ApiBaseResponse } from "..";
+
 export interface UserByOrganizationIdRequest {
   organizationId: string;
 }
 
-export interface UserData {
-  name: string;
-  phone: string;
-  industryType: string;
-  email: string;
-  country: string;
-  id: string;
+export interface UserByTenantIdRequest {
   tenantId: string;
-  isActive: boolean;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string | null;
-  updatedBy: string;
-  isDeleted: boolean;
-  deletedAt: string | null;
-  deletedBy: string;
 }
 
-export interface UserByOrganizationIdResponse {
-  succeeded: boolean;
-  message: string;
-  data: UserData[];
+export interface User {
+  tenantId: string;
+  organizationId: string;
+  userId: string;
+  email: string;
+  isActive: boolean;
+  isInvitationSent: boolean;
+  isInvitationAccept: boolean;
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
 }
+
+export type UserByOrganizationIdResponse = ApiBaseResponse<User[]>;

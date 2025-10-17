@@ -62,7 +62,7 @@ export default function PasswordSettingsView() {
         newPassword: data.newPassword,
       });
 
-      if (response.isSuccess) {
+      if (response.success) {
         const msg = response.successes?.[0] || t('success');
         toast.success(msg);
         router.push(`/${locale}${routes.dashboard}`);

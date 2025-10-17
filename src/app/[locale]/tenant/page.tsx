@@ -2,7 +2,7 @@ import { getAllTenants } from "@/apiCalls/tenant/tenantApis";
 import Authenticate from "@/components/auth/authenticate";
 import Authorize from "@/components/auth/authorize";
 import BasicTableWidget from "@/components/controlled-table/basic-table-widget";
-import type { Tenant } from "@/types/tenant/getAllTenant";
+import type { GetAllTenantsResponse, Tenant } from "@/types/tenant/getAllTenant";
 import { UserRole } from "@/types/userRoles";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default async function TenantTablePage({ params }: { params: Params }) {
   const t = await getTranslations('TenantPages.tenantListPage')
-  const tenants: Tenant[] = await getAllTenants();
+  const {data: tenantsData}: GetAllTenantsResponse = await getAllTenants();
   const { locale } = params;
   const columns = getTenantColumns;
 
@@ -37,14 +37,14 @@ export default async function TenantTablePage({ params }: { params: Params }) {
           />
 
           {/* Stats Overview */}
-          <StatsOverview data={tenants} />
+          <StatsOverview data={tenantsData} />
 
           {/* Table Widget */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
             <BasicTableWidget
               title={t('tenantTable.title')}
               variant="minimal"
-              data={tenants}
+              data={tenantsData ? tenantsData : []}
               getColumns={columns}
               enablePagination
               searchPlaceholder={t('tenantTable.searchPlaceholder')}

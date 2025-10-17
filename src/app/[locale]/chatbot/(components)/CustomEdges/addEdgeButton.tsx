@@ -1,4 +1,7 @@
-import { Menu, Dropdown } from "antd";
+"use client";
+
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/shadCn/ui/popover";
+import { useState } from "react";
 
 interface EdgeAddButtonProps {
   id: string;

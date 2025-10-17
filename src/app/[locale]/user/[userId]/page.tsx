@@ -1,9 +1,6 @@
 import { getUserById } from "@/apiCalls/user/userApis";
-import Authenticate from "@/components/auth/authenticate";
-import Authorize from "@/components/auth/authorize";
-import { UserByIdResponse } from "@/types/user/getUserById";
-import { UserRole } from "@/types/userRoles";
-import { Building, Calendar, CheckCircle, Clock, Hash, Mail, RefreshCw, Send, XCircle, } from "lucide-react";
+import { GetUserByIdResponse } from "@/types/user/getUserById";
+import { Building, CheckCircle, Hash, Mail, Send, XCircle } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import CollapsibleSection from "../../(components)/CollapsibleSection";
 import Header from "../../(components)/CommonHeader";
@@ -11,7 +8,7 @@ import Header from "../../(components)/CommonHeader";
 export default async function DetailsUser({ params }: { params: { userId: string } }) {
   const t = await getTranslations("UserPages.userDetailPage");
   const { userId } = params;
-  const user: UserByIdResponse = await getUserById(userId);
+  const { data: user }: GetUserByIdResponse = await getUserById({ id: userId });
 
   return (
     // <Authenticate>
@@ -27,9 +24,7 @@ export default async function DetailsUser({ params }: { params: { userId: string
               <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
                 <Hash size={20} className="text-gray-600 dark:text-gray-300" />
               </div>
-              <h6 className="font-semibold text-gray-800 dark:text-white">
-                {t("userDetails.id")}
-              </h6>
+              <h6 className="font-semibold text-gray-800 dark:text-white"> {t("userDetails.id")} </h6>
             </div>
             <p className="text-lg font-mono text-gray-700 dark:text-gray-600 pl-11">{user.id}</p>
           </div>
@@ -39,13 +34,9 @@ export default async function DetailsUser({ params }: { params: { userId: string
               <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
                 <Building size={20} className="text-gray-600 dark:text-gray-300" />
               </div>
-              <h6 className="font-semibold text-gray-800 dark:text-white">
-                {t("userDetails.tenantId")}
-              </h6>
+              <h6 className="font-semibold text-gray-800 dark:text-white"> {t("userDetails.tenantId")} </h6>
             </div>
-            <p className="text-lg font-mono text-gray-700 dark:text-gray-600 pl-11">
-              {user.tenantId}
-            </p>
+            <p className="text-lg font-mono text-gray-700 dark:text-gray-600 pl-11"> {user.tenantId} </p>
           </div>
 
           <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border">
@@ -53,13 +44,9 @@ export default async function DetailsUser({ params }: { params: { userId: string
               <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
                 <Building size={20} className="text-blue-600 dark:text-blue-400" />
               </div>
-              <h6 className="font-semibold text-gray-800 dark:text-white">
-                {t("userDetails.organizationId")}
-              </h6>
+              <h6 className="font-semibold text-gray-800 dark:text-white"> {t("userDetails.organizationId")} </h6>
             </div>
-            <p className="text-lg font-mono text-gray-700 dark:text-gray-600 pl-11">
-              {user.organizationId}
-            </p>
+            <p className="text-lg font-mono text-gray-700 dark:text-gray-600 pl-11"> {user.organizationId} </p>
           </div>
 
           <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border">
@@ -67,11 +54,9 @@ export default async function DetailsUser({ params }: { params: { userId: string
               <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
                 <Hash size={20} className="text-blue-600 dark:text-blue-400" />
               </div>
-              <h6 className="font-semibold text-gray-800 dark:text-white">
-                {t("userDetails.userId")}
-              </h6>
+              <h6 className="font-semibold text-gray-800 dark:text-white"> {t("userDetails.userId")} </h6>
             </div>
-            <p className="text-lg text-gray-700 dark:text-gray-600 pl-11">{user.userId}</p>
+            <p className="text-lg font-mono text-gray-700 dark:text-gray-600 pl-11">{user.userId}</p>
           </div>
 
           <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border">
@@ -79,9 +64,7 @@ export default async function DetailsUser({ params }: { params: { userId: string
               <div className="p-2 bg-indigo-100 dark:bg-indigo-900/40 rounded-lg">
                 <Mail size={20} className="text-indigo-600 dark:text-indigo-400" />
               </div>
-              <h6 className="font-semibold text-gray-800 dark:text-white">
-                {t("userDetails.email")}
-              </h6>
+              <h6 className="font-semibold text-gray-800 dark:text-white"> {t("userDetails.email")} </h6>
             </div>
             <p className="text-lg text-gray-700 dark:text-gray-600 pl-11">{user.email || "-"}</p>
           </div>
@@ -100,9 +83,7 @@ export default async function DetailsUser({ params }: { params: { userId: string
                   <XCircle size={20} className="text-red-600 dark:text-red-400" />
                 )}
               </div>
-              <h6 className="font-semibold text-gray-800 dark:text-white">
-                {t("userDetails.isInvitationAccept")}
-              </h6>
+              <h6 className="font-semibold text-gray-800 dark:text-white"> {t("userDetails.isInvitationAccept")} </h6>
             </div>
             <span
               className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium w-fit pl-11 ${user.isInvitationAccept
@@ -119,9 +100,7 @@ export default async function DetailsUser({ params }: { params: { userId: string
               <div className="p-2 bg-teal-100 dark:bg-teal-900/40 rounded-lg">
                 <Send size={20} className="text-teal-600 dark:text-teal-400" />
               </div>
-              <h6 className="font-semibold text-gray-800 dark:text-white">
-                {t("userDetails.isInvitationSent")}
-              </h6>
+              <h6 className="font-semibold text-gray-800 dark:text-white"> {t("userDetails.isInvitationSent")} </h6>
             </div>
             <span
               className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium w-fit pl-11 ${user.isInvitationSent
@@ -140,9 +119,7 @@ export default async function DetailsUser({ params }: { params: { userId: string
                   className={`w-3 h-3 rounded-full ${user.isActive ? "bg-green-500" : "bg-red-500"}`}
                 ></div>
               </div>
-              <h6 className="font-semibold text-gray-800 dark:text-white">
-                {t("userDetails.status")}
-              </h6>
+              <h6 className="font-semibold text-gray-800 dark:text-white"> {t("userDetails.status")} </h6>
             </div>
             <span
               className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium w-fit ${user.isActive
@@ -154,24 +131,7 @@ export default async function DetailsUser({ params }: { params: { userId: string
             </span>
           </div>
 
-          <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-purple-100 dark:bg-purple-900/40 rounded-lg">
-                <Calendar size={20} className="text-purple-600 dark:text-purple-400" />
-              </div>
-              <h6 className="font-semibold text-gray-800 dark:text-white">
-                {t("userDetails.createdAt")}
-              </h6>
-            </div>
-            <div className="flex items-center gap-2 text-gray-700 dark:text-gray-600 pl-11">
-              <Calendar size={16} />
-              <span>{new Date(user.createdAt).toLocaleDateString()}</span>
-              <Clock size={16} className="ml-2" />
-              <span>{new Date(user.createdAt).toLocaleTimeString()}</span>
-            </div>
-          </div>
-
-          <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border">
+          {/* <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
                 <RefreshCw size={20} className="text-gray-600 dark:text-gray-300" />
@@ -186,9 +146,9 @@ export default async function DetailsUser({ params }: { params: { userId: string
               <Clock size={16} className="ml-2" />
               <span>{user.updatedAt ? new Date(user.updatedAt).toLocaleTimeString() : "-"}</span>
             </div>
-          </div>
+          </div> */}
 
-          <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border">
+          {/* <div className="flex flex-col p-5 bg-gray-50 rounded-lg shadow-sm dark:bg-gray-100 border">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
                 <XCircle size={20} className="text-red-600 dark:text-red-400" />
@@ -203,7 +163,7 @@ export default async function DetailsUser({ params }: { params: { userId: string
               <Clock size={16} className="ml-2" />
               <span>{user.deletedAt ? new Date(user.deletedAt).toLocaleTimeString() : "-"}</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </CollapsibleSection>
     </div>

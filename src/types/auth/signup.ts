@@ -1,18 +1,14 @@
-export interface SignupRequest {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  firstName: string;
-  lastName: string;
-  company: string;
-}
+import { ApiBaseResponse } from "..";
 
-export interface ApiBaseResponse<TData = unknown> {
-  data: TData | null;
-  isSuccess: boolean;
-  errors: string[];
-  validationErrors: Record<string, string | string[]>;
-  successes: string[];
+export interface SignupRequest {
+  Email: string;
+  Password: string;
+  ConfirmPassword: string;
+  FirstName: string;
+  LastName: string;
+  Company: string;
+  PhoneNumber: string;
+  ProfilePicture: File | string | null;
 }
 
 export type SignupResponse = ApiBaseResponse<null>;

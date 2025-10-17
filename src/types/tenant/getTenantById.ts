@@ -1,13 +1,16 @@
-export interface TenantById {
+import { ApiBaseResponse } from "..";
+
+export interface TenantIdRequest {
+  id: string;
+}
+export interface Tenant {
   name: string;
   domain: string;
-  id: string;
   isActive: boolean;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string | null;
-  updatedBy: string;
-  isDeleted: boolean;
-  deletedAt: string | null;
-  deletedBy: string;
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
 }
+
+export type GetTenantsByIdResponse = ApiBaseResponse<Tenant>;
+  

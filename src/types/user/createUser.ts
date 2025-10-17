@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export interface CreateUserRequest {
   tenantId: string;
   organizationId: string;
@@ -5,24 +7,18 @@ export interface CreateUserRequest {
   email: string;
 }
 
-export interface CreateUserResponse {
-  succeeded: boolean;
-  message: string;
-  data: {
-    id: string;
-    tenantId: string;
-    organizationId: string;
-    userId: string;
-    email: string;
-    isActive: boolean;
-    isInvitationSent: boolean;
-    isInvitationAccept: boolean;
-    createdAt: string;
-    createdBy: string;
-    updatedAt: string | null;
-    updatedBy: string;
-    isDeleted: boolean;
-    deletedAt: string | null;
-    deletedBy: string;
-  };
+export interface User {
+  tenantId: string;
+  organizationId: string;
+  userId: string;
+  email: string;
+  isActive: boolean;
+  isInvitationSent: boolean;
+  isInvitationAccept: boolean;
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
 }
+  
+export type CreateUserResponse = ApiBaseResponse<User>;
+  

@@ -1,13 +1,10 @@
 "use client";
 
 import { createUser } from "@/apiCalls/user/userApis";
-import Authenticate from "@/components/auth/authenticate";
-import Authorize from "@/components/auth/authorize";
 import { FormStatusButton } from "@/components/formStatusButton";
 import { routes } from "@/config/routes";
 import { Params } from "@/types/params";
 import { CreateUserRequest } from "@/types/user/createUser";
-import { UserRole } from "@/types/userRoles";
 import { CreateUserSchema, createUserValidator } from "@/validators/user/createUser";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
@@ -16,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "rizzui";
 import { toast } from "sonner";
 import Header from "../../(components)/CommonHeader";
+import useMedia from "react-use/lib/useMedia";
 
 const initialValues = {
   tenantId: "",
@@ -28,6 +26,7 @@ export default function CreateUserPage() {
   const t = useTranslations("UserPages.createUserPage");
   const router = useRouter();
   const { locale } = useParams<Params>();
+  const isMedium = useMedia("(max-width: 1200px)", false);
 
   const {
     register,
@@ -46,7 +45,7 @@ export default function CreateUserPage() {
         userId: state.userId,
         email: state.email,
       });
-      if (response.succeeded) {
+      if (response.success) {
         toast.success(response.message || "User Created");
         router.push(`/${locale}${routes.user.list}`);
       } else {
@@ -113,7 +112,7 @@ export default function CreateUserPage() {
               <div className="flex justify-start">
                 <FormStatusButton
                   className="w-full md:w-auto px-8 py-3 dark:bg-[#090909] dark:text-white hover:dark:bg-black"
-                  size="lg"
+                  size={isMedium ? "lg" : "lg"}
                 >
                   {t("form.btn.createBtn")}
                 </FormStatusButton>

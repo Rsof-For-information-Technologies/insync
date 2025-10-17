@@ -1,3 +1,5 @@
+import { ApiBaseResponse } from "..";
+
 export interface CreateOrganizationRequest {
   name: string;
   phone: string;
@@ -7,24 +9,17 @@ export interface CreateOrganizationRequest {
   tenantId: string;
 }
 
-export interface CreateOrganizationResponse {
-  succeeded: boolean;
-  message: string;
-  data: {
-    name: string;
-    phone: string;
-    industryType: string;
-    email: string;
-    country: string;
-    id: string;
-    tenantId: string;
-    isActive: boolean;
-    createdAt: string;
-    createdBy: string;
-    updatedAt: string | null;
-    updatedBy: string;
-    isDeleted: boolean;
-    deletedAt: string | null;
-    deletedBy: string;
-  };
-}
+export type Organization = {
+  tenantId: string;
+  name: string;
+  phone: string;
+  industryType: string;
+  email: string;
+  country: string;
+  isActive: boolean;
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
+};
+
+export type CreateOrganizationResponse = ApiBaseResponse<Organization>;

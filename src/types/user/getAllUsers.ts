@@ -1,5 +1,6 @@
-export type Users = {
-  id: string;
+import { ApiBaseResponse } from "..";
+
+export interface Users {
   tenantId: string;
   organizationId: string;
   userId: string;
@@ -7,14 +8,8 @@ export type Users = {
   isActive: boolean;
   isInvitationSent: boolean;
   isInvitationAccept: boolean;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string | null;
-  updatedBy: string;
-  isDeleted: boolean;
-  deletedAt: string | null;
-  deletedBy: string;
-};
-
-
-export type GetAllUsersResponse = Users[];
+  id: string;
+  rowVersion: string;
+  domainEvents: string[];
+}
+export type GetAllUsersResponse = ApiBaseResponse<Users[]>
