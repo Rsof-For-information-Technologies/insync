@@ -46,7 +46,7 @@ export default function TablePagination({
           {t('rowsPerPage')}:{' '}
           <Select
             options={paginationLimitOptions}
-            onChange={setPageSize}
+            onChange={(value) => setPageSize(value as number)}
             size="sm"
             variant="flat"
             value={pageSize}

@@ -178,7 +178,7 @@ export default function NodeModal({
                   label="Select media type"
                   options={paginationLimitOptions}
                   value={selectedMediaOption}
-                  onChange={setSelectedMediaOption}
+                  onChange={(value) => setSelectedMediaOption(value as MediaOption | null)}
                 />
               </div>
             )}
