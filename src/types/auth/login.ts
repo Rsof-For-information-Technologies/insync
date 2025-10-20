@@ -11,8 +11,9 @@ export interface LoginData {
   email: string;
   firstName: string;
   lastName: string;
-  role: string | null;
+  ProfilePicture: File | string | null;
   tenantId: string;
+  role: string | null;
   roles: string[];
 }
 

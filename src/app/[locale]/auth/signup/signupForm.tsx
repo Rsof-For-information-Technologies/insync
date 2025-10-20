@@ -59,10 +59,11 @@ function SignupForm() {
             if (state.ProfilePicture && state.ProfilePicture instanceof File) {
                 formData.append('ProfilePicture', state.ProfilePicture);
             }
+
             const response = await registerUser(formData);
-            console.log("registration response", response);
+
             if (response.success) {
-                toast.success(response.data);
+                toast.success(response.message);
                 router.push(`/${locale}${routes.auth.login}`);
             } else {
                 toast.error(response.message);
@@ -149,9 +150,9 @@ function SignupForm() {
                     {...register("Company")}
                 />
                 <Input
-                    label="Phone Number"
+                    label={t('phoneNumber')}
                     id="phoneNumber"
-                    placeholder="Enter your phone number"
+                    placeholder={t('phoneNumberPlaceholder')}
                     size="lg"
                     className="[&>label>span]:font-medium"
                     inputClassName="text-sm"
@@ -159,14 +160,14 @@ function SignupForm() {
                     {...register("PhoneNumber")}
                 />
                 <div className="[&>label>span]:font-medium">
-                    <label htmlFor="uploadProfilePicture" className="block text-sm font-medium text-gray-700">
-                        {t('profilePicture') || 'Upload Profile Picture'}
+                    <label htmlFor="profilePicture" className="block text-sm font-medium text-gray-700 mb-1">
+                        {t('profilePicture')}
                     </label>
                     <input
-                        id="uploadProfilePicture"
+                        id="profilePicture"
                         type="file"
                         accept="image/*"
-                        className="mt-1 p-2 block w-full text-sm text-gray-700 border-2 border-gray-200 rounded-md"
+                        className="py-[9px] px-4 block w-full text-sm text-gray-700 border-2 border-gray-200 rounded-md"
                         onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
@@ -188,12 +189,12 @@ function SignupForm() {
                 </FormStatusButton>
             </div>
             <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
-                Already have an account?{' '}
+                {t('alreadyHaveanAccount')} {''}
                 <Link
                     href={`/${locale}${routes.auth.login}`}
                     className="font-semibold text-[var(--default-text-color)] transition-colors hover:text-[var(--default-text-hover)] "
                 >
-                    Sign In
+                    {t('login')}
                 </Link>
             </Text>
         </form>

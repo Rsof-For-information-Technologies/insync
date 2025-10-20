@@ -43,7 +43,9 @@
             "submit": "تسجيل الدخول",
             "rememberMe": "تذكرني",
             "forgotPassword": "هل نسيت كلمة المرور؟",
-            "loginBtn": "تسجيل الدخول"
+            "loginBtn": "تسجيل الدخول",
+            "DontHaveanAccount": "ليس لديك حساب؟",
+            "signup": "إنشاء حساب"
         }
     },
     "SignUpPage": {
@@ -64,7 +66,12 @@
             "confirmPasswordPlaceholder": "أكد كلمة المرور",
             "company": "الشركة",
             "companyPlaceholder": "اختر الشركة",
-            "signupBtn": "إنشاء حساب"
+            "phoneNumber": "رقم الهاتف",
+            "phoneNumberPlaceholder": "أدخل رقم هاتفك",
+            "profilePicture": "صورة الملف الشخصي",
+            "signupBtn": "إنشاء حساب",
+            "alreadyHaveanAccount": "هل لديك حساب بالفعل؟",
+            "signup": "التسجيل"
         }
     },
     "ForgotPasswordPage": {

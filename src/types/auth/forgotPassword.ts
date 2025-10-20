@@ -5,4 +5,3 @@ export interface ForgotPasswordRequest {
 }
 
 export type ForgotPasswordResponse = ApiBaseResponse<null>
-

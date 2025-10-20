@@ -8,4 +8,3 @@ export interface ResetPasswordRequest {
 }
 
 export type ResetPasswordResponse = ApiBaseResponse<null>;
-

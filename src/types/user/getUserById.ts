@@ -16,4 +16,4 @@ export interface User {
   domainEvents: string[];
 }
 
-export type GetUserByIdResponse = ApiBaseResponse<User>; 
+export type GetUserByIdResponse = ApiBaseResponse<User>;

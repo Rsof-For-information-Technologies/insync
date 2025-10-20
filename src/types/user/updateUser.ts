@@ -6,4 +6,4 @@ export interface UpdateUserRequest {
   isInvitationSent: boolean;
   isInvitationAccept: boolean;
 }
-export type UpdateUserResponse = ApiBaseResponse<null> 
+export type UpdateUserResponse = ApiBaseResponse<null>

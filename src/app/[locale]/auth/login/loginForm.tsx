@@ -11,11 +11,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { PiArrowRightBold } from 'react-icons/pi'
 import useMedia from 'react-use/lib/useMedia'
 import { Checkbox, Input, Password, Text } from 'rizzui'
+import { toast } from 'sonner'
 
 const initialValues = {
     email: "",
@@ -27,48 +28,52 @@ function LoginForm() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const { locale } = useParams<Params>()
-    const [serverError, setServerError] = useState<string | null>(null);
     const isMedium = useMedia('(max-width: 1200px)', false);
     const t = useTranslations("SignInPage.form");
 
-    const { register, handleSubmit, formState: { errors }, setError, } = useForm<LoginSchema>({
+    const {
+        register,
+        handleSubmit, formState: { errors },
+    } = useForm<LoginSchema>({
         resolver: zodResolver(loginValidator),
         defaultValues: { ...initialValues }
     })
 
     const onSubmit = async (state: LoginSchema) => {
         try {
-            const response = await loginUser({ email: state.email, password: state.password });
+            const response = await loginUser({
+                email: state.email,
+                password: state.password,
+            });
             if (response.success) {
                 setLocalStorage("user-info", {
                     userId: response.data.userId,
                     firstName: response.data.firstName,
                     lastName: response.data.lastName,
                     email: response.data.email,
+                    ProfilePicture: response.data.ProfilePicture,
                     role: "Admin",
                     roles: response.data.roles,
                     tenantId: response.data.tenantId,
                 });
+
+                console.log("user-info" , response)
+
                 setCookie("access_token", response.data.token)
 
                 if (searchParams.get("navigate_to"))
                     router.push(`${searchParams.get("navigate_to")}`)
                 else {
+                    toast.success(response.message);
                     router.push(`/${locale}${routes.dashboard}`)
                 }
 
             } else {
-                const firstError = response.errors?.[0] ?? "Authentication failed";
-                setServerError(firstError);
+                toast.error(response.message);
             }
 
         } catch (error) {
             console.log(error);
-            if ((error as any).response?.data && Object.entries((error as any).response?.data).length) {
-                for (let [key, value] of Object.entries((error as any).response?.data)) {
-                    setError(key as any, { type: 'custom', message: value as string });
-                }
-            }
         }
     };
 
@@ -78,7 +83,6 @@ function LoginForm() {
         if (logout === "true") {
             const urlSearchParams = new URLSearchParams(searchParams.toString());
             removeLocalStorage("user-info");
-            // setUserInfo()
             urlSearchParams.delete("logout");
             router.push(`/${locale}${routes.auth.login}?${urlSearchParams}`)
         }
@@ -122,11 +126,6 @@ function LoginForm() {
                         {t('forgotPassword')}
                     </Link>
                 </div>
-                {serverError && (
-                    <div className="border border-red-300 p-3 rounded-md bg-red-50 dark:bg-red-100/10">
-                        <p className="text-red-600 text-sm font-medium">{serverError}</p>
-                    </div>
-                )}
 
                 <FormStatusButton
                     className="group w-full @xl:w-full dark:bg-[#090909] dark:text-white hover:dark:bg-black "
@@ -137,12 +136,12 @@ function LoginForm() {
                 </FormStatusButton>
             </div>
             <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
-                Don’t have an account?{' '}
+                {t('DontHaveanAccount')} {' '}
                 <Link
                     href={`/${locale}${routes.auth.signup}`}
                     className="font-semibold text-[var(--default-text-color)] transition-colors hover:text-[var(--default-text-hover)] "
                 >
-                    Sign Up
+                    {t('signup')}
                 </Link>
             </Text>
         </form>

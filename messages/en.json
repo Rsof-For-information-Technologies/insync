@@ -43,7 +43,9 @@
             "submit": "Log In",
             "rememberMe": "Remember Me",
             "forgotPassword": "Forgot Password",
-            "loginBtn": "Log In"
+            "loginBtn": "Log In",
+            "DontHaveanAccount": "Don’t have an account?",
+            "signup": "Sign Up"
         }
     },
     "SignUpPage": {
@@ -64,7 +66,12 @@
             "confirmPasswordPlaceholder": "Confirm your password",
             "company": "Company",
             "companyPlaceholder": "Select Company",
-            "signupBtn": "Sign Up"
+            "phoneNumber" : "Phone Number",
+            "phoneNumberPlaceholder": "Enter your phone number",
+            "profilePicture": "Profile Picture",
+            "signupBtn": "Sign Up",
+            "alreadyHaveanAccount": "Already have an account?",
+            "login": "Login"
         }
     },
     "ForgotPasswordPage": {
