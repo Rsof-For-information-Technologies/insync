@@ -1,4 +1,4 @@
-import { EdgeProps, getEdgeCenter, getBezierPath } from "@xyflow/react";
+import { EdgeProps, getEdgeCenter, getStraightPath } from "@xyflow/react";
 import EdgeAddButton from "./addEdgeButton";
 
 export default function CustomEdge({

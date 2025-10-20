@@ -426,7 +426,7 @@ const onReconnect = useCallback(
           <ZoomSlider position="top-center" />
           <FocusToStartNode />
           <DarkAndLightMode />
-          <ChatbotSidebar nodes={nodes} edges={edges} onLayout={onLayout} />
+          <ChatbotSidebar onLayout={onLayout} />
           <ChatbotMiniMap nodes={nodes} />
           <Background variant={BackgroundVariant.Lines} />
           <Controls position="top-right" orientation="horizontal" />
