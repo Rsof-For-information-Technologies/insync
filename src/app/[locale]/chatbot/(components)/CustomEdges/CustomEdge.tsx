@@ -9,38 +9,26 @@ export default function CustomEdge({
   targetY,
   markerEnd,
   data,
+  ...rest // <- important
 }: EdgeProps) {
-  
-  const [edgePath] = getBezierPath({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-  });
-
-  const [edgeCenterX, edgeCenterY] = getEdgeCenter({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-  });
+  const [edgePath] = getStraightPath({ sourceX, sourceY, targetX, targetY });
+  const [edgeCenterX, edgeCenterY] = getEdgeCenter({ sourceX, sourceY, targetX, targetY });
 
   return (
     <>
-      {/* Edge line */}
       <path
         id={id}
         d={edgePath}
         markerEnd={markerEnd}
         className="react-flow__edge-path stroke-gray-400 fill-transparent"
+        {...rest} // <- important for reconnect
       />
 
-      {/* Add node button at center */}
       <foreignObject
         width={24}
         height={24}
-        x={edgeCenterX - 12} // 24/2
-        y={edgeCenterY - 12} // 24/2
+        x={edgeCenterX - 12}
+        y={edgeCenterY - 12}
         requiredExtensions="http://www.w3.org/1999/xhtml"
       >
         <EdgeAddButton id={id} data={data} />
@@ -48,3 +36,4 @@ export default function CustomEdge({
     </>
   );
 }
+

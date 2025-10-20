@@ -1,17 +1,20 @@
 "use client";
-import { Trash2, Video, Plus } from "lucide-react";
-import { Handle, Position } from "@xyflow/react";
-import { useState, useEffect } from "react";
+import { Position, Edge } from "@xyflow/react";
+import { Plus, Trash2, Video } from "lucide-react";
+import { useEffect, useState, useMemo } from "react";
 // import { useTranslations } from "next-intl";
-import { z } from "zod";
 import { toast } from "sonner";
+import { z } from "zod";
 import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
+import EdgeAddButton from "../CustomEdges/addEdgeButton";
 
 interface VideoNodeProps {
   id: string;
   data: {
     src?: string;
+    edges?: Edge[];
     onDelete: (id: string) => void;
+    onAddNodeCallback?: (params: { id: string; type: string }) => void;
     onDataChange?: (data: { selectedVideo: string | null }) => void;
   };
 }
@@ -25,6 +28,13 @@ const videoValidationSchema = z.object({
 export default function VideoNode({ id, data }: VideoNodeProps) {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(data.src || null);
   //   const t = useTranslations("Chatbot");
+  const { isTopConnected, isBottomConnected } = useMemo(() => {
+    const edges = data.edges || [];
+    return {
+      isTopConnected: edges.some((e) => e.target === id),
+      isBottomConnected: edges.some((e) => e.source === id),
+    };
+  }, [data.edges, id]);
 
   useEffect(() => {
     if (data.onDataChange) {
@@ -107,19 +117,45 @@ export default function VideoNode({ id, data }: VideoNodeProps) {
           </label>
         </div>
       </div>
+      {/* Top Handle */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="relative">
+          <CustomHandle type="target" position={Position.Top} id={`${id}-top`} connectionCount={1}/>
+          {!isTopConnected && data.onAddNodeCallback && (
+            <div className="absolute left-[24px] top-1/2 -translate-y-1/2">
+              <EdgeAddButton
+                id={`${id}-top`}
+                data={{
+                  onAddNodeCallback: data.onAddNodeCallback,
+                  isHandle: true,
+                  nodeId: id,
+                  handleType: "target",
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
 
-      {/* Handles */}
-      <CustomHandle
-        type="target"
-        position={Position.Left}
-        id={`${id}-a`}
-      />
-      <CustomHandle
-        type="source"
-        position={Position.Right}
-        id={`${id}-b`}
-      />
-
+      {/* Bottom Handle */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
+        <div className="relative">
+          <CustomHandle type="source" position={Position.Bottom} id={`${id}-bottom`} connectionCount={1} />
+          {!isBottomConnected && data.onAddNodeCallback && (
+            <div className="absolute left-[24px] top-1/2 -translate-y-1/2">
+              <EdgeAddButton
+                id={`${id}-bottom`}
+                data={{
+                  onAddNodeCallback: data.onAddNodeCallback,
+                  isHandle: true,
+                  nodeId: id,
+                  handleType: "source",
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

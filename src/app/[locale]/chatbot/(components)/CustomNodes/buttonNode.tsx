@@ -1,15 +1,16 @@
 "use client";
 
-import { Position } from "@xyflow/react";
+import { Position, Edge } from "@xyflow/react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { Bold, Italic, Smile, Trash2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { Input, Select, Switch } from 'rizzui';
 import { toast } from "sonner";
 import { z, ZodError } from "zod";
 import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
+import EdgeAddButton from "../CustomEdges/addEdgeButton";
 
 type MediaOption = {
   label: string;
@@ -18,7 +19,13 @@ type MediaOption = {
 
 interface ButtonNodeProps {
   id: string;
-  data: { label: string; onChange: (val: string) => void; onDelete: (id: string) => void };
+  data: {
+    src?: string;
+    edges?: Edge[];
+    label: string; onChange: (val: string) => void; onDelete: (id: string) => void
+    onAddNodeCallback?: (params: { id: string; type: string; nodeId?: string; handleType?: "source" | "target"; isHandle?: boolean }) => void;
+
+  };
 }
 
 const textValidationSchema = z.object({
@@ -53,6 +60,15 @@ export default function ButtonNode({ id, data }: ButtonNodeProps) {
     { label: 'Image', value: 'image' },
     { label: 'Video', value: 'video' },
   ];
+
+  const { isTopHandleConnected, isBottomHandleConnected } = useMemo(() => {
+    const edgesState = data.edges || [];
+
+    return {
+      isTopHandleConnected: edgesState.some((e) => e.target === id),
+      isBottomHandleConnected: edgesState.some((e) => e.source === id),
+    };
+  }, [data.edges, id]);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const emojiButtonRef = useRef<HTMLButtonElement>(null);
@@ -273,17 +289,35 @@ export default function ButtonNode({ id, data }: ButtonNodeProps) {
           ))}
         </div>
 
-        {/* Handles */}
-        <CustomHandle
-          type="target"
-          position={Position.Left}
-          id={`${id}-a`}
-        />
-        <CustomHandle
-          type="source"
-          position={Position.Right}
-          id={`${id}-b`}
-        />
+        {/* Top Handle */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="relative">
+            <CustomHandle type="target" position={Position.Top} id={`${id}-top`} connectionCount={1} />
+            {!isTopHandleConnected && data.onAddNodeCallback && (
+              <div className="absolute left-[24px] top-1/2 transform -translate-y-1/2">
+                <EdgeAddButton
+                  id={`${id}-top`}
+                  data={{ onAddNodeCallback: data.onAddNodeCallback, nodeId: id, handleType: 'target', isHandle: true }}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom Handle */}
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+          <div className="relative">
+            <CustomHandle type="source" position={Position.Bottom} id={`${id}-bottom`} connectionCount={1} />
+            {!isBottomHandleConnected && data.onAddNodeCallback && (
+              <div className="absolute left-[24px] top-1/2 transform -translate-y-1/2">
+                <EdgeAddButton
+                  id={`${id}-bottom`}
+                  data={{ onAddNodeCallback: data.onAddNodeCallback, nodeId: id, handleType: 'source', isHandle: true }}
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {isModalOpen &&

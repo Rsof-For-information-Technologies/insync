@@ -1,18 +1,23 @@
 "use client";
-import { Position } from "@xyflow/react";
+import { Position, Edge } from "@xyflow/react";
+import { useEffect, useState, useMemo } from "react";
 import { Download, FileCode, Plus, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
 // import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { z, ZodError } from "zod";
 import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
+import EdgeAddButton from "../CustomEdges/addEdgeButton";
 
 interface DocumentNodeProps {
   id: string;
   data: {
+    src?: string;
+    edges?: Edge[];
     onDelete: (id: string) => void;
     onDataChange?: (data: { file: File | null; url: string | null }) => void;
     file?: File | null;
+    onAddNodeCallback?: (params: { id: string; type: string; nodeId?: string; handleType?: "source" | "target"; isHandle?: boolean }) => void;
+
   };
 }
 
@@ -54,6 +59,15 @@ export default function DocumentNode({ id, data }: DocumentNodeProps) {
       e.target.value = "";
     }
   };
+
+  const { isTopHandleConnected, isBottomHandleConnected } = useMemo(() => {
+    const edgesState = data.edges || [];
+
+    return {
+      isTopHandleConnected: edgesState.some((e) => e.target === id),
+      isBottomHandleConnected: edgesState.some((e) => e.source === id),
+    };
+  }, [data.edges, id]);
 
   const isPreviewable = selectedFile?.type === "application/pdf";
 
@@ -109,17 +123,35 @@ export default function DocumentNode({ id, data }: DocumentNodeProps) {
         </div>
       </div>
 
-      {/* Handles */}
-      <CustomHandle
-        type="target"
-        position={Position.Left}
-        id={`${id}-a`}
-      />
-      <CustomHandle
-        type="source"
-        position={Position.Right}
-        id={`${id}-b`}
-      />
+      {/* Top Handle */}
+      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="relative">
+          <CustomHandle type="target" position={Position.Top} id={`${id}-top`} connectionCount={1} />
+          {!isTopHandleConnected && data.onAddNodeCallback && (
+            <div className="absolute left-[24px] top-1/2 transform -translate-y-1/2">
+              <EdgeAddButton
+                id={`${id}-top`}
+                data={{ onAddNodeCallback: data.onAddNodeCallback, nodeId: id, handleType: 'target', isHandle: true }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Bottom Handle */}
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+        <div className="relative">
+          <CustomHandle type="source" position={Position.Bottom} id={`${id}-bottom`} connectionCount={1} />
+          {!isBottomHandleConnected && data.onAddNodeCallback && (
+            <div className="absolute left-[24px] top-1/2 transform -translate-y-1/2">
+              <EdgeAddButton
+                id={`${id}-bottom`}
+                data={{ onAddNodeCallback: data.onAddNodeCallback, nodeId: id, handleType: 'source', isHandle: true }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
