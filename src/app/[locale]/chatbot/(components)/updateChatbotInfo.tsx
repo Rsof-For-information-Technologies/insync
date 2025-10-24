@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Tooltip, ActionIcon, Switch, Input } from "rizzui";
 import { PencilIcon, X } from "lucide-react";
-import { updateChatbot } from "@/apiCalls/chatbot/chatApi";
+import { updateChatbot } from "@/apiCalls/chatbot/chatbotApi";
 import type { UpdateChatbotRequest } from "@/types/chatbot/updateChatbot";
 import { toast } from "sonner";
 

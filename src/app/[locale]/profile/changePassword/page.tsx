@@ -2,9 +2,12 @@
 
 import { changePassword } from "@/apiCalls/auth/authApi";
 import HorizontalFormBlockWrapper from "@/app/shared/modal-views/horiozontal-block";
+import Authenticate from "@/components/auth/authenticate";
+import Authorize from "@/components/auth/authorize";
 import { routes } from "@/config/routes";
 import { useUserStore } from "@/store/user.store";
 import { Params } from "@/types/params";
+import { UserRole } from "@/types/userRoles";
 import { ChangePasswordSchema, changePasswordValidator } from "@/validators/profile/updatePassword";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
@@ -72,8 +75,8 @@ export default function PasswordSettingsView() {
   };
 
   return (
-    // <Authenticate>
-    //   <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
+     <Authenticate>
+       <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
         <div className="flex flex-col space-y-6">
           <Header
             title={t('title')}
@@ -138,7 +141,7 @@ export default function PasswordSettingsView() {
             </form>
           </div>
         </div>
-    //    </Authorize>
-    // </Authenticate>
+        </Authorize>
+     </Authenticate>
   );
 }

@@ -57,8 +57,6 @@ function LoginForm() {
                     tenantId: response.data.tenantId,
                 });
 
-                console.log("user-info" , response)
-
                 setCookie("access_token", response.data.token)
 
                 if (searchParams.get("navigate_to"))

@@ -1,9 +1,12 @@
 "use client";
 import { createTenant } from "@/apiCalls/tenant/tenantApis";
+import Authenticate from "@/components/auth/authenticate";
+import Authorize from "@/components/auth/authorize";
 import { FormStatusButton } from "@/components/formStatusButton";
 import { routes } from "@/config/routes";
 import { Params } from "@/types/params";
 import { CreateTenantRequest } from "@/types/tenant/createTenant";
+import { UserRole } from "@/types/userRoles";
 import { CreateTenantSchema, createTenantValidator } from "@/validators/tenant/createTenant";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
@@ -52,8 +55,8 @@ export default function CreateTenantPage() {
     };
 
     return (
-        // <Authenticate>
-        //     <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate>
+        <Authenticate>
+            <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate>
                 <div className="flex flex-col space-y-6">
                     <Header title={t("title")} description={t("description")} />
                     <div className="bg-gray-50 rounded-lg shadow-sm p-6 dark:bg-gray-100 w-full max-w-2xl mx-auto">
@@ -91,7 +94,7 @@ export default function CreateTenantPage() {
                         </form>
                     </div>
                 </div>
-        //     </Authorize>
-        // </Authenticate>
+            </Authorize>
+        </Authenticate>
     );
 }

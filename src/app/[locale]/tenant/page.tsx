@@ -1,17 +1,17 @@
 import { getAllTenants } from "@/apiCalls/tenant/tenantApis";
+import { getTenantColumns } from "@/app/shared/table-list/tenantColumns";
 import Authenticate from "@/components/auth/authenticate";
 import Authorize from "@/components/auth/authorize";
 import BasicTableWidget from "@/components/controlled-table/basic-table-widget";
-import type { GetAllTenantsResponse, Tenant } from "@/types/tenant/getAllTenant";
+import { routes } from "@/config/routes";
+import { Params } from "@/types/params";
+import type { GetAllTenantsResponse } from "@/types/tenant/getAllTenant";
 import { UserRole } from "@/types/userRoles";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Header from "../(components)/CommonHeader";
 import StatsOverview from "./(components)/statsOverview";
-import { getTenantColumns } from "@/app/shared/table-list/tenantColumns";
-import { routes } from "@/config/routes";
-import { Params } from "@/types/params";
 
 export const metadata: Metadata = {
   title: "Tenant Management",
@@ -19,13 +19,13 @@ export const metadata: Metadata = {
 
 export default async function TenantTablePage({ params }: { params: Params }) {
   const t = await getTranslations('TenantPages.tenantListPage')
-  const {data: tenantsData}: GetAllTenantsResponse = await getAllTenants();
+  const { data: tenantsData }: GetAllTenantsResponse = await getAllTenants();
   const { locale } = params;
   const columns = getTenantColumns;
 
   return (
-    // <Authenticate >
-    //   <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
+    <Authenticate >
+      <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
         <div className="flex flex-col space-y-6">
           {/* header */}
           <Header
@@ -52,7 +52,7 @@ export default async function TenantTablePage({ params }: { params: Params }) {
             />
           </div>
         </div>
-    //   </Authorize>
-    // </Authenticate>
+      </Authorize>
+    </Authenticate>
   );
 }

@@ -14,6 +14,9 @@ import { Input } from "rizzui";
 import { toast } from "sonner";
 import Header from "../../(components)/CommonHeader";
 import useMedia from "react-use/lib/useMedia";
+import Authenticate from "@/components/auth/authenticate";
+import Authorize from "@/components/auth/authorize";
+import { UserRole } from "@/types/userRoles";
 
 const initialValues = {
   tenantId: "",
@@ -57,8 +60,8 @@ export default function CreateUserPage() {
   };
 
   return (
-    // <Authenticate>
-    //   <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate>
+    <Authenticate>
+      <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate>
         <div className="flex flex-col space-y-6">
           <Header title={t("title")} description={t("description")} />
           <div className="bg-gray-50 rounded-lg shadow-sm p-6 dark:bg-neutral-900 h-auto">
@@ -120,7 +123,7 @@ export default function CreateUserPage() {
             </form>
           </div>
         </div>
-    //   </Authorize>
-    // </Authenticate>
+      </Authorize>
+    </Authenticate>
   );
 }

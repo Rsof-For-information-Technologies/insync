@@ -8,6 +8,9 @@ import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Header from "../(components)/CommonHeader";
+import Authenticate from "@/components/auth/authenticate";
+import Authorize from "@/components/auth/authorize";
+import { UserRole } from "@/types/userRoles";
 
 export const metadata: Metadata = {
   title: "User Management",
@@ -15,13 +18,13 @@ export const metadata: Metadata = {
 
 export default async function UserTablePage({ params }: { params: Params }) {
   const t = await getTranslations('UserPages.userListPage')
-  const { data: usersData } : GetAllUsersResponse = await getAllUsers();
+  const { data: usersData }: GetAllUsersResponse = await getAllUsers();
   const { locale } = params;
   const columns = getUserColumns
 
   return (
-    // <Authenticate >
-    //   <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
+    <Authenticate >
+      <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
         <div className="flex flex-col space-y-6">
           <Header
             title={t('title')}
@@ -43,7 +46,7 @@ export default async function UserTablePage({ params }: { params: Params }) {
             />
           </div>
         </div>
-    //   </Authorize>
-    // </Authenticate>
+      </Authorize>
+    </Authenticate>
   );
 }

@@ -24,8 +24,10 @@ export default function Sidebar({
 }) {
   const pathname = usePathname();
   const { locale } = useParams<Params>();
-  const { state: { isOpen }, } = useDrawerStore();
+  const { state: { isOpen }, closeDrawer } = useDrawerStore();
   const { userInfo } = useUserStore();
+  const authRoutes = [`/${locale}${routes.auth.login}`, `/${locale}${routes.auth.signup}`, `/${locale}${routes.auth.forgotPassword}`, `/${locale}${routes.auth.resetPassword}`];
+  const isAuthPage = authRoutes.includes(pathname);
 
   const safeT = (key: string) => {
     try {
@@ -34,6 +36,11 @@ export default function Sidebar({
       return key;
     }
   };
+
+  // Don't render sidebar on auth pages
+  if (isAuthPage) {
+    return null;
+  }
 
   return (
     <aside
@@ -75,11 +82,10 @@ export default function Sidebar({
               );
 
               return (
-                // <Authorize
-                //   allowedRoles={item.allowedRoles}
-                //   key={item.translationKey + "-" + index}
-                // >
-                <>
+                <Authorize
+                  allowedRoles={item.allowedRoles}
+                  key={item.translationKey + "-" + index}
+                >
                   {item?.href ? (
                     <>
                       {item?.dropdownItems ? (
@@ -126,11 +132,10 @@ export default function Sidebar({
                               pathname === dropdownItem.href;
 
                             return (
-                              // <Authorize
-                              //   allowedRoles={dropdownItem.allowedRoles}
-                              //   key={index + " " + dropdownItem.href}
-                              // >
-                              <>
+                              <Authorize
+                                allowedRoles={dropdownItem.allowedRoles}
+                                key={index + " " + dropdownItem.href}
+                              >
                                 <Link
                                   href={`${dropdownItem?.href}`}
                                   key={dropdownItem?.translationKey + index}
@@ -155,9 +160,7 @@ export default function Sidebar({
                                     </span>
                                   </div>
                                 </Link>
-                              </>
-
-                              // </Authorize>
+                              </Authorize>
                             );
                           })}
                         </Collapse>
@@ -202,8 +205,7 @@ export default function Sidebar({
                       {safeT(item.translationKey)}
                     </Title>
                   )}
-                </>
-                // </Authorize>
+                </Authorize>
               );
             })
             : null}

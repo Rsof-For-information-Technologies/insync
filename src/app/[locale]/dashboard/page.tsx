@@ -7,8 +7,8 @@ import { UserRole } from "@/types/userRoles";
 const Dashboard = () => {
     const t = useTranslations('Dashboard')
     return (
-        // <Authenticate >
-        //     <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
+        <Authenticate >
+            <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
                 <div className="space-y-8">
                     <div className="flex py-6">
                         <div>
@@ -17,8 +17,8 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-        //     </Authorize>
-        // </Authenticate>
+            </Authorize>
+        </Authenticate>
     );
 }
 

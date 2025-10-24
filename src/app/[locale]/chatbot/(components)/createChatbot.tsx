@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Input, Switch } from "rizzui";
 import { X } from "lucide-react"; // <-- Import Lucide X
-import { registerChatbot } from "@/apiCalls/chatbot/chatApi";
-import type { CreateChatbotRequest , CreateChatbotResponse} from '@/types/chatbot/createChatbot';
+import { registerChatbot } from "@/apiCalls/chatbot/chatbotApi";
+import type { CreateChatbotRequest, CreateChatbotResponse } from '@/types/chatbot/createChatbot';
 import { toast } from "sonner";
 
 const CreateChatbot = () => {
@@ -41,7 +41,7 @@ const CreateChatbot = () => {
         };
         try {
             const apiRes: CreateChatbotResponse = await registerChatbot(payload);
-             toast.success("Chatbot created successfully");
+            toast.success("Chatbot created successfully");
             console.log("API response:", apiRes);
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : "Request failed";
@@ -65,10 +65,10 @@ const CreateChatbot = () => {
                         <div className="flex justify-between items-center py-[16px]">
                             <h3 className="dark:text-black">{t('createButton')}</h3>
                             {/* Lucide X button */}
-                            <X 
-                                size={24} 
-                                className="cursor-pointer dark:text-black" 
-                                onClick={closeModal} 
+                            <X
+                                size={24}
+                                className="cursor-pointer dark:text-black"
+                                onClick={closeModal}
                             />
                         </div>
 
@@ -78,7 +78,7 @@ const CreateChatbot = () => {
                                 size="lg"
                                 placeholder="Chatbot Name"
                                 className="[&>label>span]:font-medium dark:text-black"
-                                onChange={(e) => {setName(e.target.value); setError('')}}
+                                onChange={(e) => { setName(e.target.value); setError('') }}
                             />
                         </div>
 
@@ -90,7 +90,7 @@ const CreateChatbot = () => {
                                 className="[&>label>span]:font-medium dark:text-black"
                                 disabled={keyword.includes("*")}
                                 value={keyword}
-                                onChange={(e) => {setKeyword(e.target.value.split(',')); setError('')}}
+                                onChange={(e) => { setKeyword(e.target.value.split(',')); setError('') }}
                             />
                         </div>
 
