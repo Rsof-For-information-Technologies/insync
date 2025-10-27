@@ -109,6 +109,7 @@ export default {
         skeleton: 'skeletonWave 1.6s linear 0.5s infinite',
         'spinner-ease-spin': 'spinnerSpin 0.8s ease infinite',
         'spinner-linear-spin': 'spinnerSpin 0.8s linear infinite',
+         dashMove: 'dashMove 1s linear infinite',
       },
       backgroundImage: {
         skeleton: `linear-gradient(90deg,transparent,#ecebeb,transparent)`,
@@ -156,6 +157,10 @@ export default {
           '100%': {
             transform: 'rotate(360deg)',
           },
+        },
+        dashMove: {
+          '0%': { strokeDashoffset: '0' },
+          '100%': { strokeDashoffset: '20' }
         },
       },
       content: {

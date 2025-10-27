@@ -20,7 +20,10 @@ export default function CustomEdge({
         id={id}
         d={edgePath}
         markerEnd={markerEnd}
-        className="react-flow__edge-path stroke-gray-400 fill-transparent"
+        stroke="gray"
+        strokeWidth={2}
+        strokeDasharray="5,5"
+        className="react-flow__edge-path stroke-gray-400 fill-transparent animate-dash"
         {...rest} // <- important for reconnect
       />
 

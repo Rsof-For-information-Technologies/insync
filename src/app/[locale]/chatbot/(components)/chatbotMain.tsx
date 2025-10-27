@@ -243,24 +243,25 @@ export default function ChatbotMain() {
   );
 
 
-const onReconnect = useCallback(
-  (oldEdge: Edge, newConnection: Connection) => {
-    console.log("Reconnect called!");
-    console.log("oldEdge:", oldEdge);
-    console.log("newConnection:", newConnection);
+  const onReconnect = useCallback(
+    (oldEdge: Edge, newConnection: Connection) => {
+      console.log("Reconnect called!");
+      console.log("oldEdge:", oldEdge);
+      console.log("newConnection:", newConnection);
 
-    setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
-  },
-  []
-);
+      setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
+    },
+    []
+  );
 
   const onConnect: OnConnect = useCallback(
     (params) =>
       setEdges((eds) => addEdge({
         ...params,
         type: "customEdge",
-        animated: false,
-        data: { onAddNodeCallback },
+        id: generateId(),
+        animated: true,
+        data: {},
       }, eds)),
     [onAddNodeCallback]
   );
