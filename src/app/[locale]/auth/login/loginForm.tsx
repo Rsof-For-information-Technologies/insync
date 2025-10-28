@@ -51,7 +51,7 @@ function LoginForm() {
                     firstName: response.data.firstName,
                     lastName: response.data.lastName,
                     email: response.data.email,
-                    ProfilePicture: response.data.ProfilePicture,
+                    profilePicture: response.data.ProfilePicture,
                     role: "Admin",
                     roles: response.data.roles,
                     tenantId: response.data.tenantId,

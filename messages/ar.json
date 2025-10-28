@@ -133,6 +133,8 @@
         "saveModal": " حفظ",
         "videoNode": "عقدة الفيديو",
         "documentNode": " عقدة المستند",
+        "addImage": "إضافة صورة",
+        "addImageButton": "اختر صورة",
         "addVideo": "إضافة فيديو",
         "chooseVideo": "اختر فيديو",
         "addDoc": "إضافة مستند",
@@ -462,10 +464,37 @@
                 "updating": "جاري التحديث...",
                 "updatePassword": "تحديث كلمة المرور"
             }
+        },
+        "userProfilePage": {
+            "title": "صفحة الملف الشخصي للمستخدم",
+            "description": "تتيح لك صفحة الملف الشخصي للمستخدم عرض وتحرير معلومات ملفك الشخصي.",
+            "actionButtons": {
+                "cancel": "إلغاء",
+                "editProfile": "تعديل الملف الشخصي"
+            },
+            "form": {
+                "firstName": "الاسم الأول",
+                "firstNamePlaceholder": "أدخل اسمك الأول",
+                "lastName": "اسم العائلة",
+                "lastNamePlaceholder": "أدخل اسمك الأخير",
+                "email": "البريد الإلكتروني",
+                "emailPlaceholder": "أدخل بريدك الإلكتروني",
+                "phoneNumber" : "رقم الهاتف",
+                "phoneNumberPlaceholder": "أدخل رقم هاتفك",
+                "profilePicture": "صورة الملف الشخصي",
+                "changePicture": "تغيير الصورة",
+                "removePicture": "إزالة الصورة"
+            },
+            "btn": {
+                "cancel": "إلغاء",
+                "saving": "جاري الحفظ...",
+                "saveChanges": "حفظ التغييرات"
+            }
         }
     },
     "ProfileMenu": {
         "changePassword": "تغيير كلمة المرور",
+        "userProfile": "الملف الشخصي للمستخدم",
         "signOut": "تسجيل الخروج"
     }
 }

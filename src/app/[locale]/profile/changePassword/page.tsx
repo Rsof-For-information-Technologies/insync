@@ -62,7 +62,6 @@ export default function PasswordSettingsView() {
         newPassword: data.newPassword,
       });
 
-      console.log("woeiowieoweiowioe", response)
       if (response.success) {
         toast.success(response.message || "User Created");
         router.push(`/${locale}${routes.auth.login}`);

@@ -8,9 +8,10 @@ interface HeaderProps {
     btnText?: string;
     icon?: React.ReactNode;
     href?: string;
+    actionButtons?: React.ReactNode;
 }
 
-export default function Header({ title, description, btnText, icon, href }: HeaderProps) {
+export default function Header({ title, description, btnText, icon, href, actionButtons }: HeaderProps) {
     return (
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-gray-50 dark:bg-gray-100 rounded-xl shadow-sm">
 
@@ -41,6 +42,14 @@ export default function Header({ title, description, btnText, icon, href }: Head
                     </Link>
                 </div>
             )}
+
+            {
+                actionButtons && (
+                    <div className="flex items-center gap-2">
+                        {actionButtons}
+                    </div>
+                )
+            }
         </div>
     );
 }

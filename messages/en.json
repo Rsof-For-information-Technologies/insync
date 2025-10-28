@@ -464,10 +464,37 @@
                 "updating": "Updating...",
                 "updatePassword": "Update Password"
             }
+        },
+        "userProfilePage": {
+            "title": "User Profile Page",
+            "description": "The User Profile Page allows you to view and edit your profile information.",
+            "actionButtons": {
+                "cancel": "Cancel",
+                "editProfile": "Edit Profile"
+            },
+            "form": {
+                "firstName": "First Name",
+                "firstNamePlaceholder": "Enter your first name",
+                "lastName": "Last Name",
+                "lastNamePlaceholder": "Enter your last name",
+                "email": "Email",
+                "emailPlaceholder": "Enter your email",
+                "phoneNumber" : "Phone Number",
+                "phoneNumberPlaceholder": "Enter your phone number",
+                "profilePicture": "Profile Picture",
+                "changePicture": "Change Picture",
+                "removePicture": "Remove Picture"
+            },
+            "btn": {
+                "cancel": "Cancel",
+                "saving": "Saving...",
+                "saveChanges": "Save Changes"
+            }
         }
     },
     "ProfileMenu": {
         "changePassword": "Change Password",
+        "userProfile": "User Profile",
         "signOut": "Sign Out"
     }
 }

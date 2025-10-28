@@ -30,10 +30,13 @@ export const routes = {
     forgotPassword: "/auth/forgotPassword",
     resetPassword: "/auth/resetPassword",
   },
+
   profile: {
     editProfile: "/profile/edit-profile",
     changePassword: "/profile/changePassword",
+    userProfile: "/profile/userProfile",
   },
+
   contact: {
     list: "/contact",
     create: "/contact/create",

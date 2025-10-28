@@ -60,7 +60,6 @@ export const changePassword = async (payload: ChangePasswordRequest): Promise<Ch
   const api = connectApiCall();
   try {
     const { data } = await api.post<ChangePasswordResponse>('/UserManagement/change-password', payload);
-    console.log("sdkskdjskdksd", data)
     return data;
   } catch (error) {
     throw error;
