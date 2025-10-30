@@ -1,7 +1,11 @@
 import Authenticate from "@/components/auth/authenticate";
 import Authorize from "@/components/auth/authorize";
-import { useTranslations } from "next-intl";
 import { UserRole } from "@/types/userRoles";
+import { GiMoneyStack } from "react-icons/gi";
+import { useTranslations } from "next-intl";
+import { FaUsers } from "react-icons/fa";
+import { FaMoneyBillTrendUp } from "react-icons/fa6";
+import { VscVmActive } from "react-icons/vsc";
 
 const Dashboard = () => {
     const t = useTranslations('Dashboard');
@@ -12,7 +16,7 @@ const Dashboard = () => {
             value: '$45,231.89',
             change: '+20.1%',
             trend: 'up',
-            icon: '💰',
+            icon: <GiMoneyStack size={24} className={`text-green-600 dark:text-green-400`} />,
             color: 'green'
         },
         {
@@ -20,24 +24,24 @@ const Dashboard = () => {
             value: '2,350',
             change: '+18.1%',
             trend: 'up',
-            icon: '👥',
-            color: 'blue'
+            icon: <FaUsers size={24} className={`text-purple-600 dark:text-purple-400`} />,
+            color: 'purple'
         },
         {
             title: 'Sales',
             value: '12,234',
             change: '-4.3%',
             trend: 'down',
-            icon: '🛒',
-            color: 'orange'
+            icon: <FaMoneyBillTrendUp size={24} className={`text-blue-600 dark:text-blue-400`} />,
+            color: 'blue'
         },
         {
             title: 'Active Now',
             value: '573',
             change: '+12.1%',
             trend: 'up',
-            icon: '⚡',
-            color: 'purple'
+            icon: <VscVmActive size={24} className={`text-green-600 dark:text-green-400`} />,
+            color: 'green'
         }
     ];
 
@@ -57,45 +61,39 @@ const Dashboard = () => {
     return (
         <Authenticate>
             <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
-                <div className="space-y-6">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <div>
-                            <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                                {t('title')}
-                            </h1>
-                            <p className="text-gray-600">{t('description')}</p>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                                System Online
-                            </span>
-                            <div className="text-sm text-gray-500">
-                                Last updated: Just now
+                <div className="space-y-8">
+                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 px-5 py-10 rounded-xl border border-blue-200 dark:border-blue-700/50 shadow-sm">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div>
+                                <p className="text-2xl font-bold text-gray-800 dark:text-white">{t('title')}</p>
+                                <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{t('description')}</p>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <span className="w-2 h-2 mx-1 bg-green-500 rounded-full"></span>
+                                    System Online
+                                </span>
+                                <div className="text-sm text-gray-500">
+                                    Last updated: Just now
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {statsCards.map((stat, index) => (
-                            <div key={index} className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-600 mb-1">
-                                            {stat.title}
-                                        </p>
-                                        <p className="text-2xl font-bold text-gray-900 mb-2">
-                                            {stat.value}
-                                        </p>
-                                        <div className={`flex items-center text-sm ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
-                                            }`}>
-                                            {stat.trend === 'up' ? '↗' : '↘'}
-                                            {stat.change} from last month
-                                        </div>
-                                    </div>
-                                    <div className={`p-3 rounded-lg bg-${stat.color}-50 text-2xl`}>
+                            <div key={index} className={`bg-gradient-to-r from-${stat.color}-50 to-${stat.color}-100 dark:from-${stat.color}-900/30 dark:to-${stat.color}-800/30 p-5 rounded-xl border border-${stat.color}-200 dark:border-${stat.color}-700/50 shadow-sm`}>
+                                <div className="flex items-center justify-between mb-3">
+                                    <div className={`p-3 bg-${stat.color}-100 dark:bg-${stat.color}-800/40 rounded-xl`}>
                                         {stat.icon}
                                     </div>
+                                    <span className={`text-sm font-medium text-${stat.color}-600 dark:text-${stat.color}-400`}>{stat.title}</span>
+                                </div>
+                                <p className="text-2xl font-bold text-gray-800 dark:text-white">{stat.value}</p>
+                                <div className={`flex items-center text-sm ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
+                                    }`}>
+                                    {stat.trend === 'up' ? '↗' : '↘'}
+                                    {stat.change} from last month
                                 </div>
                             </div>
                         ))}
@@ -154,8 +152,8 @@ const Dashboard = () => {
                                     <div key={source} className="flex items-center gap-2">
                                         <div
                                             className={`w-3 h-3 rounded-full ${index === 0 ? 'bg-blue-500' :
-                                                    index === 1 ? 'bg-cyan-500' :
-                                                        index === 2 ? 'bg-indigo-500' : 'bg-violet-500'
+                                                index === 1 ? 'bg-cyan-500' :
+                                                    index === 2 ? 'bg-indigo-500' : 'bg-violet-500'
                                                 }`}
                                         ></div>
                                         <span className="text-sm text-gray-600">{source}</span>
@@ -243,8 +241,8 @@ const Dashboard = () => {
                                         <div className="flex items-center gap-4">
                                             <span className="text-sm text-gray-500">{item.latency}</span>
                                             <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${item.status === 'operational'
-                                                    ? 'bg-green-100 text-green-800'
-                                                    : 'bg-yellow-100 text-yellow-800'
+                                                ? 'bg-green-100 text-green-800'
+                                                : 'bg-yellow-100 text-yellow-800'
                                                 }`}>
                                                 {item.status}
                                             </span>
