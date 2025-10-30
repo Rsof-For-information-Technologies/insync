@@ -6,7 +6,7 @@ import { BsBuilding, BsChatDots } from 'react-icons/bs';
 import { ImPowerCord } from "react-icons/im";
 import { RiOrganizationChart } from "react-icons/ri";
 import { Users } from 'lucide-react';
-
+import { GoProjectRoadmap } from "react-icons/go";
 // Note: do not add href in the label object, it is rendering as label
 export type MenuItemDropdownItem = {
   translationKey: string;
@@ -72,6 +72,20 @@ export function MenuItems(locale: string): MenuItem[] {
           {
             translationKey: "users.submenu.list",
             href: `/${locale}${routes.user.list}`,
+            badge: '',
+            allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+          }
+        ]
+      },
+      {
+        translationKey: "projects.title",
+        href: `#`,
+        icon: <GoProjectRoadmap />,
+        allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
+        dropdownItems: [
+          {
+            translationKey: "projects.submenu.list",
+            href: `/${locale}${routes.project.list}`,
             badge: '',
             allowedRoles: [UserRole.SuperAdmin, UserRole.Admin],
           }

@@ -29,6 +29,12 @@
             "add": "إضافة مستخدم"
         }
     },
+    "projects": {
+        "title": "المشاريع",
+        "submenu": {
+            "list": "قائمة المشاريع"
+        }
+    },
     "channel": "القنوات",
     "SignInPage": {
         "title": {
@@ -115,7 +121,7 @@
     "Chatbot": {
         "title": "روبوتات الدردشة",
         "nodeTitle": "مدخل المستخدم",
-        "actionTitle":"الإجراءات",
+        "actionTitle": "الإجراءات",
         "nodeName": "نص العقدة",
         "imageNode": "عقدة الصورة",
         "createButton": " إنشاء روبوت دردشة",
@@ -140,9 +146,9 @@
         "addDoc": "إضافة مستند",
         "chooseDoc": "اختر مستند",
         "audioNode": "عقدة الصوت",
-        "addAud":"أضف الصوت",
+        "addAud": "أضف الصوت",
         "addAudio": "اختر الصوت",
-        "buttonNode":"عقدة الزر"
+        "buttonNode": "عقدة الزر"
     },
     "Channel": {
         "title": "القنوات",
@@ -443,6 +449,74 @@
             }
         }
     },
+    "ProjectPages": {
+        "projectListPage": {
+            "title": "قائمة المشاريع",
+            "description": "قم بإدارة مشاريعك من هذه الصفحة.",
+            "navigateCreateProject": {
+                "createProjectBtn": "إنشاء مشروع"
+            },
+            "projectTable": {
+                "title": "جدول المشاريع",
+                "searchPlaceholder": "ابحث عن المشاريع...",
+                "projectHeader": {
+                    "name": "الاسم",
+                    "description": "الوصف",
+                    "organizationId": "معرّف المؤسسة",
+                    "id": "المعرّف",
+                    "isActive": "نشط",
+                    "active": "نشط",
+                    "inactive": "غير نشط",
+                    "actions": "الإجراءات",
+                    "viewTooltip": "عرض تفاصيل المشروع"
+                }
+            }
+        },
+        "projectDetailPage": {
+            "title": "صفحة تفاصيل المشروع",
+            "description": "تعرض صفحة تفاصيل المشروع معلومات المشروع المحدد.",
+            "projectDetails": {
+                "title": "تفاصيل المشروع",
+                "name": "الاسم",
+                "description": "الوصف",
+                "organizationId": "معرّف المؤسسة",
+                "id": "المعرّف",
+                "status": "الحالة",
+                "active": "نشط",
+                "inactive": "غير نشط"
+            }
+        },
+        "createProjectPage": {
+            "title": "إنشاء مشروع",
+            "description": "إنشاء مشروع",
+            "form": {
+                "name": "اسم المشروع",
+                "namePlaceholder": "أدخل اسم المشروع",
+                "description": "وصف المشروع",
+                "descriptionPlaceholder": "أدخل وصف المشروع",
+                "tenantId": "معرّف المستأجر",
+                "tenantIdPlaceholder": "أدخل معرّف المستأجر",
+                "organizationId": "معرّف المؤسسة",
+                "organizationIdPlaceholder": "أدخل معرّف المؤسسة",
+                "btn": {
+                    "createBtn": "إنشاء"
+                }
+            }
+        },
+        "updateProjectPage": {
+            "title": "تحديث المشروع",
+            "description": "تحديث المشروع",
+            "form": {
+                "name": "الاسم",
+                "namePlaceholder": "أدخل اسم المشروع",
+                "description": "الوصف",
+                "descriptionPlaceholder": "أدخل وصف المشروع",
+                "btn": {
+                    "updateBtn": "تحديث"
+                }
+            }
+        }
+    },
     "ProfilePages": {
         "changePasswordPage": {
             "title": "صفحة تغيير كلمة المرور",
@@ -479,7 +553,7 @@
                 "lastNamePlaceholder": "أدخل اسمك الأخير",
                 "email": "البريد الإلكتروني",
                 "emailPlaceholder": "أدخل بريدك الإلكتروني",
-                "phoneNumber" : "رقم الهاتف",
+                "phoneNumber": "رقم الهاتف",
                 "phoneNumberPlaceholder": "أدخل رقم هاتفك",
                 "profilePicture": "صورة الملف الشخصي",
                 "changePicture": "تغيير الصورة",

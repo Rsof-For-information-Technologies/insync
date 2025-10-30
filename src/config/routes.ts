@@ -24,6 +24,13 @@ export const routes = {
     editUser: (userId: string) => `/user/${userId}/update`,
   },
 
+  project: {
+    list: "/projects",
+    create: "/projects/create",
+    projectDetails: (projectId: string) => `/projects/${projectId}`,
+    editProject: (projectId: string) => `/projects/${projectId}/update`,
+  },
+
   auth:{
     login: "/auth/login",
     signup: "/auth/signup",

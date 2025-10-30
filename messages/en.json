@@ -29,6 +29,12 @@
             "add": "Add Users"
         }
     },
+    "projects": {
+        "title": "Projects",
+        "submenu": {
+            "list": "Projects List"
+        }
+    },
     "channel": "Channels",
     "SignInPage": {
         "title": {
@@ -439,6 +445,74 @@
                 "emailPlaceholder": "Enter Email",
                 "btn": {
                     "createBtn": "Create"
+                }
+            }
+        }
+    },
+    "ProjectPages": {
+        "projectListPage": {
+            "title": "Project List",
+            "description": "Manage your projects from this page.",
+            "navigateCreateProject": {
+                "createProjectBtn": "Create Project"
+            },
+            "projectTable": {
+                "title": "Project Table",
+                "searchPlaceholder": "Search Projects...",
+                "projectHeader": {
+                    "name": "Name",
+                    "description": "Description",
+                    "organizationId": "Organization ID",
+                    "id": "ID",
+                    "isActive": "Active",
+                    "active": "Active",
+                    "inactive": "Inactive",
+                    "actions": "Actions",
+                    "viewTooltip": "View Project details"
+                }
+            }
+        },
+        "projectDetailPage": {
+            "title": "Project Details Page",
+            "description": "The Project Details Page displays the selected Project information.",
+            "projectDetails": {
+                "title": "Project Details",
+                "name": "Name",
+                "description": "Description",
+                "organizationId": "Organization ID",
+                "id": "ID",
+                "status": "Status",
+                "active": "Active",
+                "inactive": "Inactive"
+            }
+        },
+        "createProjectPage": {
+            "title": "Create Project",
+            "description": "Create Project",
+            "form": {
+                "name": "Project Name",
+                "namePlaceholder": "Enter Project Name",
+                "description": "Project Description",
+                "descriptionPlaceholder": "Enter Project Description",
+                "tenantId": "Tenant ID",
+                "tenantIdPlaceholder": "Enter Tenant ID",
+                "organizationId": "Organization ID",
+                "organizationIdPlaceholder": "Enter Organization ID",
+                "btn": {
+                    "createBtn": "Create"
+                }
+            }
+        },
+        "updateProjectPage": {
+            "title": "Update Project",
+            "description": "Update Project",
+            "form": {
+                "name": "Name",
+                "namePlaceholder": "Enter Project Name",
+                "description": "Description",
+                "descriptionPlaceholder": "Enter Project Description",
+                "btn": {
+                    "updateBtn": "Update"
                 }
             }
         }
