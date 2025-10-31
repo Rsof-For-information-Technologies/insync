@@ -13,7 +13,7 @@ interface HeaderProps {
 
 export default function Header({ title, description, btnText, icon, href, actionButtons }: HeaderProps) {
     return (
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 bg-gray-50 dark:bg-gray-100 rounded-xl shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-yellow-50 to-yellow-100 dark:from-yellow-200/30 dark:to-yellow-100/30 px-4 py-8 border border-yellow-100 dark:border-yellow-100/50 rounded-xl shadow-sm">
 
             {/* Title + Description */}
             <div className="flex flex-col">

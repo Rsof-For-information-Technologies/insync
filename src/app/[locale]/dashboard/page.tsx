@@ -62,20 +62,18 @@ const Dashboard = () => {
         <Authenticate>
             <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
                 <div className="space-y-8">
-                    <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 px-5 py-10 rounded-xl border border-blue-200 dark:border-blue-700/50 shadow-sm">
+                    <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 dark:from-yellow-200/30 dark:to-yellow-100/30 px-4 py-8 border border-yellow-100 dark:border-yellow-100/50 rounded-xl shadow-sm">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                            <div>
-                                <p className="text-2xl font-bold text-gray-800 dark:text-white">{t('title')}</p>
-                                <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{t('description')}</p>
+                            <div className="flex flex-col">
+                                <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white"> {t('title')} </h1>
+                                <p className="text-gray-600 mt-2 dark:text-gray-500"> {t('description')} </p>
                             </div>
                             <div className="flex items-center gap-3">
                                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                     <span className="w-2 h-2 mx-1 bg-green-500 rounded-full"></span>
                                     System Online
                                 </span>
-                                <div className="text-sm text-gray-500">
-                                    Last updated: Just now
-                                </div>
+                                <p className="text-gray-600 dark:text-gray-500">Last updated: Just now</p>
                             </div>
                         </div>
                     </div>

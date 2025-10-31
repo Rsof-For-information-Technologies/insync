@@ -101,7 +101,7 @@ export default function UserProfile() {
     return (
         <Authenticate>
             <Authorize allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]} navigate={true}>
-                <div className="w-full h-full p-6">
+                <div className="w-full h-full">
                     <Header
                         title={t('title')}
                         description={t('description')}
