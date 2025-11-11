@@ -7,14 +7,21 @@ import { z, ZodError } from "zod";
 import EdgeAddButton from "../CustomEdges/addEdgeButton";
 import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 
+interface AudioNodeData {
+  edges?: Edge[];
+  src?: string; // persist uploaded audio
+  onDelete: (id: string) => void;
+  onAddNodeCallback?: (params: {
+    id: string;
+    type: string;
+    nodeId?: string;
+    handleType?: "source" | "target";
+    isHandle?: boolean;
+  }) => void;
+}
 interface AudioNodeProps {
   id: string;
-  data: {
-    src?: string;
-    edges?: Edge[];
-    onDelete: (id: string) => void
-    onAddNodeCallback?: (params: { id: string; type: string; nodeId?: string; handleType?: "source" | "target"; isHandle?: boolean }) => void;
-  };
+  data: AudioNodeData;
 }
 
 const audioValidationSchema = z.object({
@@ -24,8 +31,7 @@ const audioValidationSchema = z.object({
 });
 
 export default function AudioNode({ id, data }: AudioNodeProps) {
-  const [selectedAudio, setSelectedAudio] = useState<string | null>(null);
-
+  const [selectedAudio, setSelectedAudio] = useState<string | null>(data.src || null);
   const { isTopHandleConnected, isBottomHandleConnected } = useMemo(() => {
     const edgesState = data.edges || [];
 

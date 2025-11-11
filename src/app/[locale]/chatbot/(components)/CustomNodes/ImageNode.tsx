@@ -2,23 +2,25 @@
 
 import { Position, Edge } from "@xyflow/react";
 import { Image as ImageIcon, Plus, Trash2 } from "lucide-react";
-import { useEffect, useState,  useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { toast } from "sonner";
+import Image from 'next/image'
 import { z } from "zod";
 import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 import EdgeAddButton from "../CustomEdges/addEdgeButton";
 
-interface ImageNodeProps {
-    id: string;
-    data: {
-        src?: string;
-        edges?: Edge[];
-        onDelete: (id: string) => void;
-        onDataChange?: (data: { selectedImage: string | null }) => void;
-        onAddNodeCallback?: (params: { id: string; type: string; nodeId?: string; handleType?: "source" | "target"; isHandle?: boolean }) => void;
-    };
+interface ImageNodeData {
+    edges?: Edge[];
+    selectedImage?: string | null;
+    onDelete: (id: string) => void;
+    onDataChange?: (data: { selectedImage: string | null }) => void;
+    onAddNodeCallback?: (params: { id: string; type: string; nodeId?: string; handleType?: "source" | "target"; isHandle?: boolean }) => void;
 }
 
+interface ImageNodeProps {
+    id: string;
+    data: ImageNodeData;
+}
 
 const imageValidationSchema = z.object({
     file: z.instanceof(File).refine((file) => file.type.startsWith("image/"), {
@@ -27,19 +29,19 @@ const imageValidationSchema = z.object({
 });
 
 export default function ImageNode({ id, data }: ImageNodeProps) {
-    const [selectedImage, setSelectedImage] = useState<string | null>(data.src || null);
-  const { isTopHandleConnected, isBottomHandleConnected } = useMemo(() => {
-    const edgesState = data.edges || [];
+    const [selectedImage, setSelectedImage] = useState<string | null>(data.selectedImage || null);
+    const { isTopHandleConnected, isBottomHandleConnected } = useMemo(() => {
+        const edgesState = data.edges || [];
 
-    return {
-      isTopHandleConnected: edgesState.some((e) => e.target === id),
-      isBottomHandleConnected: edgesState.some((e) => e.source === id),
-    };
-  }, [data.edges, id]);
+        return {
+            isTopHandleConnected: edgesState.some((e) => e.target === id),
+            isBottomHandleConnected: edgesState.some((e) => e.source === id),
+        };
+    }, [data.edges, id]);
 
     useEffect(() => {
         data.onDataChange?.({ selectedImage });
-    }, [selectedImage, data.onDataChange]);
+    }, [selectedImage]);
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -47,7 +49,9 @@ export default function ImageNode({ id, data }: ImageNodeProps) {
 
         try {
             imageValidationSchema.parse({ file });
-            setSelectedImage(URL.createObjectURL(file));
+            const url = URL.createObjectURL(file);
+            setSelectedImage(url);
+            data.onDataChange?.({ selectedImage: url });
         } catch (err) {
             const message = err instanceof z.ZodError ? err.errors[0].message : "Unexpected error";
             toast.error(message);
@@ -70,7 +74,7 @@ export default function ImageNode({ id, data }: ImageNodeProps) {
                 <div className="flex-1 flex items-center gap-3 p-3">
                     <div className="flex-1 flex items-center justify-center border border-gray-300 rounded-md bg-gray-50 h-[80px]">
                         {selectedImage ? (
-                            <img src={selectedImage} alt="uploaded" className="w-full h-full object-contain" />
+                            <Image src={selectedImage} alt="uploaded" fill className="!relative w-full h-full object-contain" />
                         ) : (
                             <ImageIcon className="w-10 h-10 text-gray-400" />
                         )}
@@ -87,7 +91,7 @@ export default function ImageNode({ id, data }: ImageNodeProps) {
             {/* Top Handle */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <div className="relative">
-                    <CustomHandle type="target" position={Position.Top} id={`${id}-top`}  connectionCount={1}/>
+                    <CustomHandle type="target" position={Position.Top} id={`${id}-top`} connectionCount={1} />
                     {!isTopHandleConnected && data.onAddNodeCallback && (
                         <div className="absolute left-[24px] top-1/2 transform -translate-y-1/2">
                             <EdgeAddButton
