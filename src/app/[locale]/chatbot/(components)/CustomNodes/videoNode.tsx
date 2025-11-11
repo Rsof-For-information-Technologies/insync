@@ -8,15 +8,17 @@ import { z } from "zod";
 import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 import EdgeAddButton from "../CustomEdges/addEdgeButton";
 
+interface VideoNodeData {
+  edges?: Edge[];
+  selectedVideo?: string | null;
+  onDelete: (id: string) => void;
+  onAddNodeCallback?: (params: { id: string; type: string }) => void;
+  onDataChange?: (data: { selectedVideo: string | null }) => void;
+}
+
 interface VideoNodeProps {
   id: string;
-  data: {
-    src?: string;
-    edges?: Edge[];
-    onDelete: (id: string) => void;
-    onAddNodeCallback?: (params: { id: string; type: string }) => void;
-    onDataChange?: (data: { selectedVideo: string | null }) => void;
-  };
+  data: VideoNodeData;
 }
 
 const videoValidationSchema = z.object({
@@ -26,7 +28,7 @@ const videoValidationSchema = z.object({
 });
 
 export default function VideoNode({ id, data }: VideoNodeProps) {
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(data.src || null);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(data.selectedVideo || null);
   //   const t = useTranslations("Chatbot");
   const { isTopConnected, isBottomConnected } = useMemo(() => {
     const edges = data.edges || [];
@@ -37,36 +39,35 @@ export default function VideoNode({ id, data }: VideoNodeProps) {
   }, [data.edges, id]);
 
   useEffect(() => {
-    if (data.onDataChange) {
-      data.onDataChange({ selectedVideo });
-    }
+    data.onDataChange?.({ selectedVideo });
   }, [selectedVideo]);
 
-  const validateVideoFile = (file: File) => {
-    try {
-      videoValidationSchema.parse({ file });
-      return { isValid: true };
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return { isValid: false, error: error.errors[0].message };
-      }
-      return { isValid: false, error: "An unexpected error occurred" };
-    }
-  };
+  // const validateVideoFile = (file: File) => {
+  //   try {
+  //     videoValidationSchema.parse({ file });
+  //     return { isValid: true };
+  //   } catch (error) {
+  //     if (error instanceof z.ZodError) {
+  //       return { isValid: false, error: error.errors[0].message };
+  //     }
+  //     return { isValid: false, error: "An unexpected error occurred" };
+  //   }
+  // };
 
   const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const result = validateVideoFile(file);
-    if (!result.isValid) {
-      toast.error(result.error || "Invalid file");
+    try {
+      videoValidationSchema.parse({ file });
+      const url = URL.createObjectURL(file);
+      setSelectedVideo(url);
+      data.onDataChange?.({ selectedVideo: url });
+    } catch (err) {
+      const message = err instanceof z.ZodError ? err.errors[0].message : "Unexpected error";
+      toast.error(message);
       e.target.value = "";
-      return;
     }
-
-    const newUrl = URL.createObjectURL(file);
-    setSelectedVideo(newUrl);
   };
 
   return (
@@ -120,7 +121,7 @@ export default function VideoNode({ id, data }: VideoNodeProps) {
       {/* Top Handle */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <div className="relative">
-          <CustomHandle type="target" position={Position.Top} id={`${id}-top`} connectionCount={1}/>
+          <CustomHandle type="target" position={Position.Top} id={`${id}-top`} connectionCount={1} />
           {!isTopConnected && data.onAddNodeCallback && (
             <div className="absolute left-[24px] top-1/2 -translate-y-1/2">
               <EdgeAddButton

@@ -12,23 +12,29 @@ interface MediaOption {
   value: string;
 }
 
+interface TextNodeData {
+  edges?: Edge[];
+  onDelete: (id: string) => void;
+  onDataChange?: (updatedData: Record<string, unknown>) => void;
+  onAddNodeCallback?: (params: { id: string; type: string }) => void;
+  text?: string;
+  variables?: {name:string,type:string}[];
+  acceptMedia?: boolean;
+  selectedMediaOption?: MediaOption | null;
+}
+
 interface TextNodeProps {
   id: string;
-  data: {
-    edges?: Edge[];
-    onDelete: (id: string) => void;
-    onDataChange?: (updatedData: Record<string, unknown>) => void;
-    onAddNodeCallback?: (params: { id: string; type: string }) => void;
-  };
+  data: TextNodeData;
 }
 
 export default function TextNode({ id, data }: TextNodeProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [text, setText] = useState("");
-  const [displayText, setDisplayText] = useState("");
-  const [acceptMedia, setAcceptMedia] = useState(false);
-  const [selectedMediaOption, setSelectedMediaOption] = useState<MediaOption | null>(null);
-  const [variableValue, setVariableValue] = useState("");
+  const [text, setText] = useState(data.text || "");
+  const [displayText, setDisplayText] = useState(data.text || "");
+  const [acceptMedia, setAcceptMedia] = useState(data.acceptMedia || false);
+  const [selectedMediaOption, setSelectedMediaOption] = useState<MediaOption | null>(data.selectedMediaOption || null);
+  const [variables, setvariables] = useState<{ name: string; type: string; }[]>(data.variables || []);
 
   // Handle connection state
   const { isTopHandleConnected, isBottomHandleConnected } = useMemo(() => {
@@ -42,7 +48,7 @@ export default function TextNode({ id, data }: TextNodeProps) {
 
   // Notify parent on data change
   const handleDataChange = () => {
-    data.onDataChange?.({ text, acceptMedia, selectedMediaOption, variableValue });
+    data.onDataChange?.({ text, acceptMedia, selectedMediaOption, variables });
   };
 
   const handleSave = () => {
@@ -54,7 +60,7 @@ export default function TextNode({ id, data }: TextNodeProps) {
   useEffect(() => {
     handleDataChange();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text, acceptMedia, selectedMediaOption, variableValue]);
+  }, [text, acceptMedia, selectedMediaOption, variables]);
 
   return (
     <>
@@ -112,7 +118,7 @@ export default function TextNode({ id, data }: TextNodeProps) {
         {/* Bottom Handle */}
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
           <div className="relative">
-            <CustomHandle type="source" position={Position.Bottom} id={`${id}-bottom`} connectionCount={1}/>
+            <CustomHandle type="source" position={Position.Bottom} id={`${id}-bottom`} connectionCount={1} />
             {!isBottomHandleConnected && data.onAddNodeCallback && (
               <div className="absolute left-[24px] top-1/2 transform -translate-y-1/2">
                 <EdgeAddButton
@@ -135,13 +141,13 @@ export default function TextNode({ id, data }: TextNodeProps) {
         <NodeModal
           isOpen={isModalOpen}
           text={text}
-          variableValue={variableValue}
+          variables={variables ? variables : [] }
           acceptMedia={acceptMedia}
           selectedMediaOption={selectedMediaOption}
           onClose={() => setIsModalOpen(false)}
           onSave={handleSave}
           setText={setText}
-          setVariableValue={setVariableValue}
+          setvariables={setvariables}
           setAcceptMedia={setAcceptMedia}
           setSelectedMediaOption={setSelectedMediaOption}
         />

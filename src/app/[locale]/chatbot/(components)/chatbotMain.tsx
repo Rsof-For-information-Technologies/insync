@@ -37,6 +37,7 @@ import ChatbotSidebar from "./SideBarActionButtons/ChatbotSideBar";
 import DarkAndLightMode from "./SideBarActionButtons/DarkAndLightMode";
 import FocusToStartNode from "./SideBarActionButtons/FocusToStartNode";
 import CustomEdge from "./CustomEdges/CustomEdge";
+import ApiNode from "./CustomNodes/ApiNode";
 
 type NodeTypeKey =
   | "startNode"
@@ -45,7 +46,8 @@ type NodeTypeKey =
   | "videoNode"
   | "documentNode"
   | "audioNode"
-  | "buttonNode";
+  | "buttonNode"
+  | "apiNode";
 
 const nodeTypes = {
   startNode: StartNode,
@@ -55,6 +57,7 @@ const nodeTypes = {
   documentNode: DocumentNode,
   audioNode: AudioNode,
   buttonNode: ButtonNode,
+  apiNode: ApiNode
 };
 
 const edgeTypes = {
@@ -177,6 +180,7 @@ export default function ChatbotMain() {
               source: nodeId,
               target: newNodeId,
               type: "customEdge",
+              animated: true,
               sourceHandle: handleType === "source" ? `${nodeId}-bottom` : `${nodeId}-top`,
               targetHandle: handleType === "source" ? `${newNodeId}-top` : `${newNodeId}-bottom`,
             },
@@ -205,8 +209,8 @@ export default function ChatbotMain() {
           const updatedEdges = prevEdges.filter((e) => e.id !== edgeOrHandleId);
           if (edge.target) {
             updatedEdges.push(
-              { id: generateId(), source: edge.source, target: newNode.id, type: "customEdge", data: { onAddNodeCallback } },
-              { id: generateId(), source: newNode.id, target: edge.target, type: "customEdge", data: { onAddNodeCallback } }
+              { id: generateId(), source: edge.source, target: newNode.id, type: "customEdge", animated: true,  data: { onAddNodeCallback } },
+              { id: generateId(), source: newNode.id, target: edge.target, type: "customEdge", animated: true, data: { onAddNodeCallback } }
             );
           } else {
             updatedEdges.push({
@@ -243,24 +247,25 @@ export default function ChatbotMain() {
   );
 
 
-const onReconnect = useCallback(
-  (oldEdge: Edge, newConnection: Connection) => {
-    console.log("Reconnect called!");
-    console.log("oldEdge:", oldEdge);
-    console.log("newConnection:", newConnection);
+  const onReconnect = useCallback(
+    (oldEdge: Edge, newConnection: Connection) => {
+      console.log("Reconnect called!");
+      console.log("oldEdge:", oldEdge);
+      console.log("newConnection:", newConnection);
 
-    setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
-  },
-  []
-);
+      setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
+    },
+    []
+  );
 
   const onConnect: OnConnect = useCallback(
     (params) =>
       setEdges((eds) => addEdge({
         ...params,
         type: "customEdge",
-        animated: false,
-        data: { onAddNodeCallback },
+        id: generateId(),
+        animated: true,
+        data: {},
       }, eds)),
     [onAddNodeCallback]
   );

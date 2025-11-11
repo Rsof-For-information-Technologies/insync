@@ -8,17 +8,24 @@ import { z, ZodError } from "zod";
 import CustomHandle from "../CustomReactFlowComponents/CustomHandle";
 import EdgeAddButton from "../CustomEdges/addEdgeButton";
 
+interface DocumentNodeData {
+  edges?: Edge[];
+  file?: File | null;
+  url?: string | null;
+  onDelete: (id: string) => void;
+  onDataChange?: (data: { file: File | null; url: string | null }) => void;
+  onAddNodeCallback?: (params: {
+    id: string;
+    type: string;
+    nodeId?: string;
+    handleType?: "source" | "target";
+    isHandle?: boolean;
+  }) => void;
+}
+
 interface DocumentNodeProps {
   id: string;
-  data: {
-    src?: string;
-    edges?: Edge[];
-    onDelete: (id: string) => void;
-    onDataChange?: (data: { file: File | null; url: string | null }) => void;
-    file?: File | null;
-    onAddNodeCallback?: (params: { id: string; type: string; nodeId?: string; handleType?: "source" | "target"; isHandle?: boolean }) => void;
-
-  };
+  data: DocumentNodeData;
 }
 
 const documentValidationSchema = z.object({

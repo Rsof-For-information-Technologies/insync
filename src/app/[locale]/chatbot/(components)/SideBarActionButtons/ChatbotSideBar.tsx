@@ -1,6 +1,6 @@
 "use client";
 
-import { Panel } from "@xyflow/react";
+import { useReactFlow , Panel } from "@xyflow/react";
 import {
     FileText,
     Image as ImageIcon,
@@ -8,7 +8,8 @@ import {
     Save,
     SquareMousePointer,
     Type,
-    Video
+    Video,
+    AppWindow
 } from "lucide-react";
 import React from "react";
 import CustomActionButton from "../CustomReactFlowComponents/CustomActionButton";
@@ -22,7 +23,8 @@ type NodeTypeKey =
     | "videoNode"
     | "documentNode"
     | "audioNode"
-    | "buttonNode";
+    | "buttonNode"
+    | "apiNode";
 
 
 type TypeNodeButton = {
@@ -38,7 +40,7 @@ interface ChatbotSidebarProps {
 }
 
 const ChatbotSidebar = React.memo(({ onLayout }: ChatbotSidebarProps) => {
-    console.log("sidebar rerender")
+    const reactFlowInstance = useReactFlow();
 
     const nodeButtons: TypeNodeButton[] = [
         {
@@ -83,10 +85,18 @@ const ChatbotSidebar = React.memo(({ onLayout }: ChatbotSidebarProps) => {
             hoverColor: "hover:bg-red-500",
             tooltip: "Drag to add an action button node",
         },
+        {
+            type: "apiNode",
+            icon: <AppWindow size={18} />,
+            title: "Api Node",
+            hoverColor: "hover:bg-blue-500",
+            tooltip: "Drag to add an api node",
+        },
     ];
 
     const handleSave = () => {
-        console.log("Chatbot flow save triggered");
+        const flowData = reactFlowInstance.toObject();
+        console.log("🧠 Chatbot flow saved:", JSON.stringify(flowData, null, 2));
     };
 
     return (
